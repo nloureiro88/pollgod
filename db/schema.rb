@@ -10,10 +10,62 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_22_175709) do
+ActiveRecord::Schema.define(version: 2019_03_22_184239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "poll_id"
+    t.integer "points"
+    t.string "answer"
+    t.boolean "f_love", default: false
+    t.boolean "f_funny", default: false
+    t.boolean "f_interest", default: false
+    t.string "status", default: "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["poll_id"], name: "index_answers_on_poll_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.string "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "filters", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "category_id"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_filters_on_category_id"
+    t.index ["user_id"], name: "index_filters_on_user_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "category_id"
+    t.float "rating"
+    t.integer "points"
+    t.string "qtype"
+    t.text "question"
+    t.string "optype"
+    t.text "options", default: [], array: true
+    t.string "tags", default: [], array: true
+    t.string "image"
+    t.time "deadline"
+    t.string "status", default: "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_polls_on_category_id"
+    t.index ["user_id"], name: "index_polls_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -23,8 +75,24 @@ ActiveRecord::Schema.define(version: 2019_03_22_175709) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "photo"
+    t.string "gender"
+    t.date "birthdate"
+    t.text "location"
+    t.string "profession"
+    t.string "hobbies", default: [], array: true
+    t.string "subscription"
+    t.string "status", default: "active"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answers", "polls"
+  add_foreign_key "answers", "users"
+  add_foreign_key "filters", "categories"
+  add_foreign_key "filters", "users"
+  add_foreign_key "polls", "categories"
+  add_foreign_key "polls", "users"
 end
