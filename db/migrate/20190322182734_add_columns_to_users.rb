@@ -8,7 +8,7 @@ class AddColumnsToUsers < ActiveRecord::Migration[5.2]
     add_column :users, :location, :text
     add_column :users, :profession, :string
     add_column :users, :hobbies, :string, array: true, default: []
-    add_column :users, :subscription, :string
+    add_column :users, :subscription, :string, default: 'free'
     add_column :users, :status, :string, default: 'active'
   end
 end

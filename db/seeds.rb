@@ -78,7 +78,7 @@ User.all.each do |user|
     new_poll = Poll.new(user: user,
                         category: Category.all.sample,
                         points: user.subscription == 'free' ? 1 : rand(5..100),
-                        qtype: user.subscription == 'free' ? 'open' : 'sponsored',
+                        qtype: user.subscription == 'free' ? 'open' : 'sponsored', # To test with private in the future
                         question: Faker::GreekPhilosophers.quote.tr(".", "") + "?",
                         optype: 'single choice', # Add other options in the future
                         options: ANSWERS.sample,

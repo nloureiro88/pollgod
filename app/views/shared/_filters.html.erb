@@ -1,0 +1,22 @@
+<div class="filter-list">
+
+  <% Category.all.each do |cat| %>
+
+    <% cat_filter = Filter.find_by(user_id: current_user.id, category_id: cat.id) %>
+    <% status_active = cat_filter.nil? || (!cat_filter.nil? && cat_filter.active) %>
+
+    <% if status_active %>
+      <div class="category cat-active" style="background-color: <%= cat.color %>; border-color: <%= cat.color %>">
+        <%= image_tag("category_white/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} selected") %>
+        <h4 style="color: white"><%= cat.name %></h4>
+      </div>
+    <% else %>
+      <div class="category"">
+        <%= image_tag("category_lgrey/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} not selected") %>
+        <h4><%= cat.name %></h4>
+      </div>
+    <% end %>
+
+  <% end %>
+
+</div>

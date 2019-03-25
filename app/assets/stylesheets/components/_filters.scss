@@ -1,0 +1,37 @@
+.filter-list {
+
+  .category {
+    border-radius: 5px;
+    padding: 0.5rem 0.5rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    border: 0.5px solid rgb(220, 220, 220);
+    cursor: pointer;
+
+    h4 {
+      font-size: 0.75rem;
+      color: rgb(220, 220, 220);
+      margin: 0;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .category:first-child {
+    margin-top: 0;
+  }
+
+  .category:hover {
+    background-color: rgb(120,120,120);
+    transition: all 0.5s ease;
+
+    h4 {
+      color: white;
+    }
+  }
+
+  .cat-active:hover {
+    background-filter: brightness(120%);
+    transition: all 0.5s ease;
+  }
+}

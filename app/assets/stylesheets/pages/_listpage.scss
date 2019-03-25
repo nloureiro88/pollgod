@@ -1,0 +1,25 @@
+.list-page {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+
+  .column {
+    padding: 0 1rem;
+  }
+
+  .left-column {
+    position: sticky;
+    min-width: 300px;
+    background-color: $light-gray;
+  }
+
+  .center-column {
+    min-width: 340px;
+    background-color: $light-gray;
+  }
+
+  .right-column {
+    position: sticky;
+    min-width: 200px;
+  }
+}

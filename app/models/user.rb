@@ -9,4 +9,15 @@ class User < ApplicationRecord
   has_many :answers
   has_many :filters
 
+  # Lists
+  SUBSCRIPTIONS = ['free', 'premium', 'corporate']
+
+  # Validations
+  validates :first_name, presence: true, allow_blank: false
+  validates :last_name, presence: true, allow_blank: false
+  validates :birthdate, presence: true, allow_blank: false
+  validates :gender, presence: true, inclusion: { in: ['male', 'female', 'Male', 'Female'] }
+  validates :location, presence: true, allow_blank: false
+  validates :profession, presence: true, allow_blank: false
+  validates :subscription, presence: true, inclusion: { in: SUBSCRIPTIONS }
 end
