@@ -11,7 +11,7 @@ class CreatePolls < ActiveRecord::Migration[5.2]
       t.text :options, array: true, default: []
       t.string :tags, array: true, default: []
       t.string :image
-      t.time :deadline
+      t.datetime :deadline
       t.string :status, default: "active"
 
       t.timestamps

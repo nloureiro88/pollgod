@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
     t.text "options", default: [], array: true
     t.string "tags", default: [], array: true
     t.string "image"
-    t.time "deadline"
+    t.datetime "deadline"
     t.string "status", default: "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
