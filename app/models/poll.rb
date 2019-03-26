@@ -21,27 +21,26 @@ class Poll < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUS }
   validate :val_options
 
-  def like_count
-    counter = 0
-    answers = self.answers
-    answers.each do |ans|
-      counter += 1 if ans.f_love?
-      counter += 1 if ans.f_funny?
-      counter += 1 if ans.f_interest?
-    end
-    counter
-  end
-
-
   def like_hash
     like_hash = { love: 0, funny: 0, interest: 0 }
-    answers = self.answers
-    answers.each do |ans|
-      like_hash[:love] += 1 if ans.f_love?
-      like_hash[:funny] += 1 if ans.f_funny?
-      like_hash[:interest] += 1 if ans.f_interest?
-    end
+    active_answers = self.answers.where("status != 'deleted'")
+    like_hash[:love] += active_answers.where(f_love: true).count
+    like_hash[:funny] += active_answers.where(f_funny: true).count
+    like_hash[:interest] += active_answers.where(f_interest: true).count
     like_hash
+  end
+
+  # def like_count
+  #   like_hash[:love] + like_hash[:funny] + like_hash[:interest]
+  # end
+
+  def refresh_likes
+    result_hash = like_hash
+    self.t_love = result_hash[:love]
+    self.t_funny = result_hash[:funny]
+    self.t_interest = result_hash[:interest]
+    self.t_likes = result_hash.values.sum
+    self.save!
   end
 
   private

@@ -50,9 +50,7 @@
         </div>
       </div>
 
-      <% poll_count = poll.answers.where(status: 'active').count %>
-      <% poll_likes = poll.like_count %>
-      <% poll_hash = poll.like_hash %>
+      <% poll_acount = poll.answers.where("status != 'deleted'").count %>
 
       <div class="poll-bottom">
         <div class="poll-bottom-left">
@@ -66,14 +64,18 @@
 
         <div class="poll-bottom-right">
           <p>
-            <%= poll_count %> answers
+            <%= poll_acount %> answers
             <span> : </span>
-            <%= poll.like_count %> points
+            <%= poll.t_likes %> points
           </p>
           <p class="lighter">
-            <i class="fas fa-heart"></i> <%= ((poll_hash[:love] / poll_count.to_f).round(2) * 100).to_i %>%
-            <i class="fas fa-grin-squint"></i> <%= ((poll_hash[:funny] / poll_count.to_f).round(2) * 100).to_i %>%
-            <i class="fas fa-graduation-cap"></i> <%= ((poll_hash[:interest] / poll_count.to_f).round(2) * 100).to_i %>%
+
+            <% unless poll_acount.zero? %>
+              <i class="fas fa-heart"></i> <%= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-grin-squint"></i> <%= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-graduation-cap"></i> <%= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
+            <% end %>
+
           </p>
         </div>
       </div>

@@ -3,7 +3,10 @@ class CreatePolls < ActiveRecord::Migration[5.2]
     create_table :polls do |t|
       t.references :user, foreign_key: true
       t.references :category, foreign_key: true
-      t.float :rating
+      t.integer :t_likes
+      t.integer :t_love
+      t.integer :t_funny
+      t.integer :t_interest
       t.integer :points
       t.string :qtype
       t.text :question

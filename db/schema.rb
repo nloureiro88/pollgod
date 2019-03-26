@@ -51,7 +51,10 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
   create_table "polls", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "category_id"
-    t.float "rating"
+    t.integer "t_likes"
+    t.integer "t_love"
+    t.integer "t_funny"
+    t.integer "t_interest"
     t.integer "points"
     t.string "qtype"
     t.text "question"

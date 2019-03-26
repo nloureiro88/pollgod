@@ -1,0 +1,15 @@
+<div class="container list-page">
+
+    <div class="column left-column">
+      <%= render 'shared/sidebar' %>
+    </div>
+
+    <div class="column center-column">
+      <%= render 'shared/pollist', locals: {polls: @polls}  %>
+    </div>
+
+    <div class="column right-column">
+      <%= render 'shared/filters' %>
+    </div>
+
+</div>

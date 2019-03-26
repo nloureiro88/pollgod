@@ -113,6 +113,7 @@ Poll.all.each do |poll|
     end
     answer_users << user
   end
+  poll.refresh_likes
 end
 
 

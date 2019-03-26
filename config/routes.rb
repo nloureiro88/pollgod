@@ -14,8 +14,8 @@ Rails.application.routes.draw do
     end
 
     collection do
-      get :mypolls, to: "polls#management", as: :my
-      get :myanswers, to: "polls#show_answers", as: :answered
+      get :manage, to: "polls#manage", as: :manage
+      get :answered, to: "polls#answered", as: :answered
     end
   end
 
