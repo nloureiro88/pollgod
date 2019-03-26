@@ -8,18 +8,20 @@
   }
 
   .left-column {
-    position: sticky;
+    position: fixed;
     min-width: 300px;
     background-color: $light-gray;
   }
 
   .center-column {
+    margin-left: 340px;
     min-width: 340px;
-    background-color: $light-gray;
+    max-height: calc(100vh - 70px);
   }
 
   .right-column {
-    position: sticky;
+    position: fixed;
+    margin-left: 760px;
     min-width: 200px;
   }
 }

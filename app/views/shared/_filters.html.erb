@@ -6,12 +6,12 @@
     <% status_active = cat_filter.nil? || (!cat_filter.nil? && cat_filter.active) %>
 
     <% if status_active %>
-      <div class="category cat-active" style="background-color: <%= cat.color %>; border-color: <%= cat.color %>">
+      <div class="category cat-active" style="background-color: <%= cat.color %>; border-color: <%= cat.color %>" data-category="<%= cat.id %>">
         <%= image_tag("category_white/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} selected") %>
         <h4 style="color: white"><%= cat.name %></h4>
       </div>
     <% else %>
-      <div class="category"">
+      <div class="category cat-inactive" data-category="<%= cat.id %>">
         <%= image_tag("category_lgrey/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} not selected") %>
         <h4><%= cat.name %></h4>
       </div>

@@ -21,6 +21,29 @@ class Poll < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUS }
   validate :val_options
 
+  def like_count
+    counter = 0
+    answers = self.answers
+    answers.each do |ans|
+      counter += 1 if ans.f_love?
+      counter += 1 if ans.f_funny?
+      counter += 1 if ans.f_interest?
+    end
+    counter
+  end
+
+
+  def like_hash
+    like_hash = { love: 0, funny: 0, interest: 0 }
+    answers = self.answers
+    answers.each do |ans|
+      like_hash[:love] += 1 if ans.f_love?
+      like_hash[:funny] += 1 if ans.f_funny?
+      like_hash[:interest] += 1 if ans.f_interest?
+    end
+    like_hash
+  end
+
   private
 
   def val_options

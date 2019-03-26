@@ -1,8 +1,18 @@
-class PollsPolicy < ApplicationPolicy
+class PollPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+  # Poll creation
+
+  def new?
+    create?
+  end
+
+  def create?
+    true
   end
 
   # Poll detail
@@ -18,16 +28,6 @@ class PollsPolicy < ApplicationPolicy
   end
 
   def result?
-    true
-  end
-
-  # Poll creation
-
-  def new?
-    create?
-  end
-
-  def create?
     true
   end
 

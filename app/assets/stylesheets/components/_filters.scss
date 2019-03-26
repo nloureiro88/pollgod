@@ -13,7 +13,8 @@
       font-size: 0.75rem;
       color: rgb(220, 220, 220);
       margin: 0;
-      margin-left: 0.5rem;
+      margin-left: 0.4rem;
+      margin-right: 0.2rem;
     }
   }
 
@@ -21,17 +22,13 @@
     margin-top: 0;
   }
 
-  .category:hover {
-    background-color: rgb(120,120,120);
-    transition: all 0.5s ease;
-
-    h4 {
-      color: white;
-    }
+  .cat-inactive:hover {
+    filter: brightness(85%);
+    transition: all 0.3s ease-in-out;
   }
 
-  .cat-active:hover {
-    background-filter: brightness(120%);
-    transition: all 0.5s ease;
+  .cat-active:hover {
+    filter: brightness(85%);
+    transition: all 0.3s ease-in-out;
   }
 }
