@@ -31,13 +31,17 @@ class PollPolicy < ApplicationPolicy
     true
   end
 
+  def report?
+    true
+  end
+
   # Poll inactivation
 
   def toggle?
     true
   end
 
-  def delete?
+  def destroy?
     true
   end
 end

@@ -3,19 +3,25 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get :dash, to: "profiles#dash"
-  post :ftoggle, to: "profiles#filter_toggle", as: :ftoggle
+  get :ftoggle, to: "profiles#filter_toggle", as: :ftoggle
 
   resources :polls, except: [:edit, :update] do
     member do
       post :answer, to: "polls#add_answer"
-      post :toggle, to: "polls#toggle"
+      get :toggle, to: "polls#toggle"
       get :result, to: "polls#result"
       get :share, to: "polls#share"
+      get :report, to: "polls#report"
     end
 
     collection do
       get :manage, to: "polls#manage", as: :manage
       get :answered, to: "polls#answered", as: :answered
+      get :sponsored, to: "polls#sponsored", as: :sponsored
+      get :fresh, to: "polls#fresh", as: :fresh
+      get :loved, to: "polls#loved", as: :loved
+      get :funny, to: "polls#funny", as: :funny
+      get :interesting, to: "polls#interesting", as: :interesting
     end
   end
 

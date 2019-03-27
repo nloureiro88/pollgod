@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   width: 340px;
-  height: 380px;
+  height: 390px;
   padding: 1rem;
   margin-bottom: 2rem;
   background-color: white;
@@ -13,12 +13,64 @@
   border: 1px solid rgb(240,240,240);
   position: relative;
 
-  .fa-ellipsis-h {
+  .dropleft {
     position: absolute;
-    top: 0.2rem;
+    top: 0.25rem;
     right: 0.4rem;
     font-size: 1rem;
     color: #C5C5C5;
+
+    a, i {
+      color: #C5C5C5;
+    }
+
+    i:hover {
+      color: $gray;
+    }
+
+    .dropdown-menu {
+      padding: 0;
+      text-align: right;
+      margin-top: -0.15rem;
+    }
+
+    .dropdown-card {
+      flex-direction: row;
+      align-items: center;
+      margin-right: 0.3rem;
+      min-width: 10rem;
+      background-color: inherit;
+      border: none;
+      padding: none;
+
+      &.show {
+        background-color: inherit;
+        border: none;
+        padding: none;
+      }
+
+      .drop-option {
+        padding: 0 0.3rem;
+        font-size: 0.85rem;
+        font-weight: 300;
+
+        i:hover {
+          color: $gray;
+        }
+      }
+    }
+  }
+
+  .dropdown-toggle::before {
+    display: none;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .dropleft-toggle::after {
+    display: none;
   }
 
   .poll-frame {
@@ -26,7 +78,8 @@
     width: 284px;
     padding: 1rem;
     border-radius: 4px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    margin-top: -0.5rem;
     border: 2px solid $light-gray;
     position: relative;
 
@@ -87,11 +140,11 @@
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    bottom: 0.8rem;
+    bottom: 0.7rem;
     width: 80%;
 
     p {
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       margin-bottom: 0.2rem;
       font-weight: 300;
     }

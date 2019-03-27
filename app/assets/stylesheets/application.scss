@@ -18,7 +18,39 @@ html {
   font-size: 18px;
 }
 
+body {
+  background-color: rgb(245,245,245);
+}
+
 h1, h2, h3, h4, h5, h6, p {
   line-height: 1.5;
   letter-spacing: 1px;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.tooltip-inner{
+  font-size: 0.7rem;
+  padding: 0.35rem;
+  background-color: $dark-gray;
+  border: none;
+}
+
+.tooltip.top .tooltip-arrow{ border-top-color: $gray; }
+.tooltip.left .tooltip-arrow{ border-left-color: $gray; }
+.tooltip.bottom .tooltip-arrow{ border-bottom-color: $gray; }
+.tooltip.right .tooltip-arrow{ border-right-color: $gray; }
+
+.wrapper {
+  margin-top: 120px;
 }

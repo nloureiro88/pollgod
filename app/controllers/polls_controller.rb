@@ -1,11 +1,31 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: %i(show add_answer result toggle delete)
-  before_action :active_categories, only: %i(index manage answered)
+  before_action :set_poll, only: %i(show add_answer result report toggle destroy)
+  before_action :active_categories, only: %i(index manage answered sponsored fresh loved funny interesting)
 
   # Listing of polls
 
   def index
     @polls = select_polls.order('t_likes DESC, deadline ASC')
+  end
+
+  def fresh
+    @polls = select_polls.order('created_at DESC, deadline ASC')
+  end
+
+  def loved
+    @polls = select_polls.order('t_likes DESC, deadline ASC')
+  end
+
+  def funny
+    @polls = select_polls.order('t_funny DESC, deadline ASC')
+  end
+
+  def interesting
+    @polls = select_polls.order('t_interest DESC, deadline ASC')
+  end
+
+  def sponsored
+    @polls = select_polls.where(qtype: "sponsored").order('points DESC, deadline ASC')
   end
 
   def manage
@@ -38,12 +58,25 @@ class PollsController < ApplicationController
   def result
   end
 
+  def report
+  end
+
   # Poll inactivation
 
   def toggle
+    if @poll.status == 'active'
+      @poll.status = 'inactive'
+    elsif @poll.status == 'inactive'
+      @poll.status = 'active'
+    end
+    @poll.save!
+    redirect_to({ controller: 'polls', action: params[:origin_action] })
   end
 
-  def delete
+  def destroy
+    @poll.answers.destroy_all
+    @poll.destroy
+    redirect_to({ controller: 'polls', action: params[:origin_action] })
   end
 
   private
@@ -66,4 +99,7 @@ class PollsController < ApplicationController
     @poll = Poll.find(params[:id])
   end
 
+  def poll_params
+    params.require(:poll).permit(:id)
+  end
 end

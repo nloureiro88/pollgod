@@ -1,14 +1,24 @@
 <div class="sidebar">
 
-  <div class="polaroid">
+  <div class="search-bar">
 
   </div>
 
-  <div class="side-menu">
+  <div class="sb-options">
 
-  </div>
+    <div class="sb-opt-public">
+      <%= link_to "Top", polls_path, class: "sb-option" %>
+      <%= link_to "Fresh", fresh_polls_path, class: "sb-option" %>
+      <%= link_to "Loved", loved_polls_path, class: "sb-option" %>
+      <%= link_to "Funny", funny_polls_path, class: "sb-option" %>
+      <%= link_to "Interesting", interesting_polls_path, class: "sb-option" %>
+      <%= link_to "Sponsored", sponsored_polls_path, class: "sb-option" %>
+    </div>
 
-  <div class="side-categories">
+    <div class="sb-opt-private">
+      <%= link_to "Polls", manage_polls_path, class: "sb-option" %>
+      <%= link_to "Answers", answered_polls_path, class: "sb-option" %>
+    </div>
 
   </div>
 

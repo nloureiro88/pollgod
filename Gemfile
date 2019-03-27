@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.3'
 
-gem 'bootsnap', require: false
+# gem 'bootsnap', require: false
 gem 'devise'
 gem 'jbuilder', '~> 2.0'
 gem 'pg', '~> 0.21'
@@ -27,6 +27,7 @@ gem "pg_search"
 gem 'cloudinary', '~> 1.9.1'
 gem "flatpickr"
 gem "chartkick"
+gem 'data-confirm-modal'
 
 # -------------
 
@@ -38,7 +39,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'listen', '~> 3.0.5'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'dotenv-rails'
 end

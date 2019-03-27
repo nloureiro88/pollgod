@@ -16,12 +16,12 @@
   .center-column {
     margin-left: 340px;
     min-width: 340px;
-    max-height: calc(100vh - 70px);
+    max-height: calc(100vh - 100px);
   }
 
   .right-column {
     position: fixed;
     margin-left: 760px;
-    min-width: 200px;
+    min-width: 300px;
   }
 }

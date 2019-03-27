@@ -4,9 +4,38 @@
     <% sponsored = poll.qtype == 'sponsored' %>
     <% cat_color = poll.category.color %>
 
-    <div class="poll-card" style="color: <%= cat_color %>">
+    <div class="poll-card" style="color: <%= cat_color %> <%= '; background-color: rgb(220,220,220)' if poll.status == 'inactive' %>">
 
-      <i class="fas fa-ellipsis-h"></i>
+      <div class="dropleft">
+
+        <%= link_to '<i class="fas fa-ellipsis-h"></i>'.html_safe, "#", class: "dropdown-toggle", role: "button", id: "dropdownMenuLink", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
+
+        <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuButton">
+
+          <% if poll.user == current_user || poll.qtype == 'open' %>
+            <%= link_to '<i class="fas fa-chart-area"></i>'.html_safe, poll_path(poll, origin_action: action_name), class: "drop-option", title: "Stats", data: { toggle: "tooltip" } %>
+          <% end %>
+
+          <% if poll.user == current_user && poll.status == 'active' %>
+            <%= link_to '<i class="fas fa-eye-slash"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Hide", data: { toggle: "tooltip" } %>
+          <% end %>
+
+          <% if poll.user == current_user && poll.status == 'inactive' %>
+            <%= link_to '<i class="fas fa-eye"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Show", data: { toggle: "tooltip" } %>
+          <% end %>
+
+          <% if poll.user == current_user %>
+            <%= link_to '<i class="fas fa-trash-alt"></i>'.html_safe, poll_path(poll, origin_action: action_name), method: :delete, class: "drop-option", title: "Delete", data: { toggle: "tooltip", confirm: "Are you sure you want to permanently delete this poll and all its messages?" } %>
+          <% end %>
+
+          <% unless poll.user == current_user %>
+            <%= link_to '<i class="fas fa-exclamation-circle"></i>'.html_safe, report_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Report Abuse", data: { toggle: "tooltip" } %>
+          <% end %>
+
+        </div>
+
+      </div>
+
 
       <% frame_style = sponsored ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %>
       <div class="poll-frame" style="<%= frame_style %>" >
@@ -16,11 +45,11 @@
           <div class="question-top">
             <div class="question-top-left">
               <% image_type = sponsored ? "category_white" : "category_color" %>
-              <%= image_tag("#{image_type}/#{poll.category.icon}") %>
+              <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
               <p><strong><%= "#{poll.points}" %></strong> <%= "#{poll.points == 1 ? "ticket" : "tickets"}" %></p>
             </div>
             <div class="question-top-right">
-              <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}") %>
+              <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
             </div>
           </div>
 
@@ -71,9 +100,9 @@
           <p class="lighter">
 
             <% unless poll_acount.zero? %>
-              <i class="fas fa-heart"></i> <%= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
-              <i class="fas fa-grin-squint"></i> <%= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
-              <i class="fas fa-graduation-cap"></i> <%= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-heart" title="Love" data-toggle="tooltip"></i> <%= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-grin-squint" title="Funny" data-toggle="tooltip"></i> <%= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-graduation-cap" title="Interesting" data-toggle="tooltip"></i> <%= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
             <% end %>
 
           </p>
