@@ -1,27 +1,78 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+<div class="navbar fixed-top navbar-expand-sm navbar-light navbar-lewagon">
+
   <%= link_to root_path, class: "navbar-brand" do %>
-    <%= image_tag "logo-big-white.png" %>
+    <%= image_tag "logo-big-contrast.png" %>
   <% end %>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="navbar-toggles">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-search fa-sm" style="margin-right: 0.8rem"></i>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarOption" aria-controls="navbarOption" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars fa-sm"></i>
+    </button>
+  </div>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <%= link_to "Home", "#", class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Messages", "#", class: "nav-link" %>
-      </li>
-      <li class="nav-item dropdown">
-        <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+  <div class="collapse navbar-collapse" id="navbarOption">
+    <div class="navbar-cont">
+      <ul class="navbar-nav mr-auto navbar-left">
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'index' %>">
+          <%= link_to "Top", polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
+          <%= link_to "Fresh", fresh_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'loved' %>">
+          <%= link_to "Loved", loved_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'funny' %>">
+          <%= link_to "Funny", funny_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'interesting' %>">
+          <%= link_to "Interesting", interesting_polls_path, class: "nav-link" %>
+        </li>
+      </ul>
+      <ul class="navbar-nav mr-auto navbar-right">
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
+          <%= link_to "Sponsored", sponsored_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'new' %>">
+          <%= link_to "New Poll", new_poll_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'manage' %>">
+          <%= link_to "My Polls", manage_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'answered' %>">
+          <%= link_to " My Answers", answered_polls_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item <%= 'active' if controller_name == 'profiles' %>">
+          <%= link_to "Dashboard", dash_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarSearch">
+    <%= form_tag "#{controller_name}#{action_name}", method: :get, class: "search-form" do %>
+      <%= text_field_tag :query,
+        params[:query],
+        class: "form-control",
+        placeholder: "e.g. #{ current_user.hobbies.count.zero? ? 'Game of thrones' : current_user.hobbies.first.downcase.capitalize }"
+      %>
+      <%#= button_tag(type: 'submit', class: "btn btn-default") do %>
+        <!-- <i class="fas fa-search"></i> -->
+      <%# end %>
+    <% end %>
+  </div>
+
+    <!-- <li class="nav-item dropdown profile">
+        <%= image_tag "#{current_user.photo}", class: "dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <%= link_to "Action", "#", class: "dropdown-item" %>
           <%= link_to "Another action", "#", class: "dropdown-item" %>
         </div>
-      </li>
-    </ul>
-  </div>
+      </li> -->
 </div>

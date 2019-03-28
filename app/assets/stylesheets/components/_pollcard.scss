@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 320px;
-  max-width: 320px;
-  height: 380px;
-  max-height: 380px;
+  width: 300px;
+  max-width: 300px;
+  height: 340px;
+  max-height: 340px;
   padding: 1rem;
   margin: 1rem;
   background-color: white;
@@ -52,7 +52,7 @@
       }
 
       .drop-option {
-        padding: 0 0.3rem;
+        padding: 0 0.5rem;
         font-size: 0.85rem;
         font-weight: 300;
 
@@ -76,8 +76,8 @@
   }
 
   .poll-frame {
-    height: 284px;
-    width: 284px;
+    height: 240px;
+    width: 240px;
     padding: 1rem;
     border-radius: 4px;
     margin-bottom: 1.5rem;
