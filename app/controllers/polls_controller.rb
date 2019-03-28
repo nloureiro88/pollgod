@@ -13,7 +13,7 @@ class PollsController < ApplicationController
   end
 
   def loved
-    @polls = select_polls.order('t_likes DESC, deadline ASC')
+    @polls = select_polls.order('t_love DESC, deadline ASC')
   end
 
   def funny

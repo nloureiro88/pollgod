@@ -40,6 +40,7 @@
 
 
       <% frame_style = sponsored ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %>
+
       <div class="poll-frame" style="<%= frame_style %>" >
 
         <div class="poll-question">
@@ -56,27 +57,29 @@
           </div>
 
           <div class="question-main">
-            <h4><%= poll.question %></h4>
+              <h4><%= poll.question %></h4>
           </div>
 
-          <div class="question-buttons">
-            <% btn_color = sponsored ? 'white' : cat_color %>
-            <% if poll.qtype != "sponsored" && Answer.where(user: current_user, poll: poll, status: 'active').count.zero?  %>
-              <%= link_to "#", class: "btn btn-pg-skip", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
+          <!-- Buttons -->
+
+          <!-- <div class="question-buttons">
+            <%# btn_color = sponsored ? 'white' : cat_color %>
+            <%# if poll.qtype != "sponsored" && Answer.where(user: current_user, poll: poll, status: 'active').count.zero?  %>
+              <%#= link_to "#", class: "btn btn-pg-skip", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
                 <p>Skip</p>
-              <% end %>
-            <% end %>
+              <%# end %>
+            <%# end %>  -->
 
-            <% if Answer.where(user: current_user, poll: poll, status: 'active').count.positive? %>
-              <%= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
-                <p>Results</p>
-              <% end %>
-            <% else %>
-              <%= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{ sponsored ? cat_color : 'white'}; background-color: #{btn_color}" do %>
-                <p>Answer</p>
-              <% end %>
-            <% end %>
-          </div>
+            <%# if Answer.where(user: current_user, poll: poll, status: 'active').count.positive? %>
+              <%#= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
+                <!-- <p>Results</p> -->
+              <%# end %>
+            <%# else %>
+              <%#= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{ sponsored ? cat_color : 'white'}; background-color: #{btn_color}" do %>
+                <!-- <p>Answer</p> -->
+              <%# end %>
+            <%# end %>
+          <!-- </div> -->
 
         </div>
       </div>
@@ -88,9 +91,9 @@
           <p>
             <%= poll.qtype.downcase.capitalize %>
           </p>
-          <p class="lighter">
-            <%= poll.deadline.strftime("%d/%m %H:%M") %>
-          </p>
+          <!-- <p class="lighter">
+            <%#= poll.deadline.strftime("%d/%m %H:%M") %>
+          </p> -->
         </div>
 
         <div class="poll-bottom-right">
@@ -99,19 +102,19 @@
             <span> : </span>
             <%= poll.t_likes %> points
           </p>
-          <p class="lighter">
+          <!-- <p class="lighter">
 
-            <% unless poll_acount.zero? %>
+            <%# unless poll_acount.zero? %>
               <i class="fas fa-heart" title="Love" data-toggle="tooltip"></i> <%= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
               <i class="fas fa-grin-squint" title="Funny" data-toggle="tooltip"></i> <%= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
               <i class="fas fa-graduation-cap" title="Interesting" data-toggle="tooltip"></i> <%= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
-            <% end %>
+            <%# end %>
 
-          </p>
+          </p> -->
         </div>
       </div>
-
     </div>
+
   <% end %>
 
   <div class="filling-empty-space-childs"></div>

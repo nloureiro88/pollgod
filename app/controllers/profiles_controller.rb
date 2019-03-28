@@ -2,6 +2,10 @@ class ProfilesController < ApplicationController
   def dash
   end
 
+  def filters
+
+  end
+
   def filter_toggle
     target_category = Category.find(params[:cat_id])
     target_filter = Filter.find_by(user: current_user, category_id: target_category)
@@ -12,6 +16,7 @@ class ProfilesController < ApplicationController
       target_filter.active = !target_filter.active
       target_filter.save!
     end
-    redirect_to({ controller: 'polls', action: params[:origin_action] })
+
+    redirect_to :filters
   end
 end

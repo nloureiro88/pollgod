@@ -5,8 +5,8 @@
   justify-content: center;
   width: 300px;
   max-width: 300px;
-  height: 340px;
-  max-height: 340px;
+  height: 320px;
+  max-height: 320px;
   padding: 1rem;
   margin: 1rem;
   background-color: white;
@@ -17,8 +17,8 @@
 
   .dropleft {
     position: absolute;
-    top: 0.25rem;
-    right: 0.4rem;
+    top: 0.5rem;
+    right: 0.5rem;
     font-size: 1rem;
     color: #C5C5C5;
 
@@ -52,9 +52,8 @@
       }
 
       .drop-option {
-        padding: 0 0.5rem;
+        padding-right: 1rem;
         font-size: 1rem;
-        font-weight: 300;
 
         i:hover {
           color: $gray;
@@ -79,9 +78,8 @@
     height: 240px;
     width: 240px;
     padding: 1rem;
+    margin-top: -0.2rem;
     border-radius: 4px;
-    margin-bottom: 1.5rem;
-    margin-top: -0.5rem;
     border: 2px solid $light-gray;
     position: relative;
 
@@ -112,7 +110,12 @@
 
     .question-main {
       height: 120px;
-      margin: 1.25rem auto;
+      margin: 2rem auto;
+
+      a {
+        text-decoration: none;
+        color: auto;
+      }
 
       h4 {
         font-size: 1rem;
@@ -142,25 +145,26 @@
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    bottom: 0.7rem;
+    bottom: 0.6rem;
     width: 80%;
 
+
     p {
-      color: $gray;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 400;
       margin-bottom: 0.2rem;
     }
 
     .poll-bottom-right {
       text-align: right;
 
-      .lighter {
-        font-size: 0.6rem;
-      }
-
       i {
         margin-left: 0.25rem;
       }
+    }
+
+    .lighter {
+      font-size: 0.6rem;
     }
   }
 }
