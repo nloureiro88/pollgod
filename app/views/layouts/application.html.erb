@@ -10,7 +10,7 @@
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
   <body>
-    <%= render 'shared/navbar' %>
+    <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" %>
     <%= render 'shared/flashes' %>
     <div class="wrapper">
       <%= yield %>
