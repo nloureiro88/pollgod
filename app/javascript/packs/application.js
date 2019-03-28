@@ -14,3 +14,12 @@ $(document).ready(function(){
       {container:'body', trigger: 'hover', placement:"bottom"}
     );
   });
+
+function isTouchDevice(){
+    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+};
+
+if(isTouchDevice()===false) {
+  $('.drop-option').tooltip({ trigger: "hover" });
+};
+

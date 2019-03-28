@@ -86,9 +86,9 @@
       <div class="poll-bottom">
         <div class="poll-bottom-left">
           <p>
-            <strong><%= poll.qtype.downcase.capitalize %></strong>
+            <%= poll.qtype.downcase.capitalize %>
           </p>
-          <p>
+          <p class="lighter">
             <%= poll.deadline.strftime("%d/%m %H:%M") %>
           </p>
         </div>
