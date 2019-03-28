@@ -3,10 +3,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 340px;
-  height: 390px;
+  width: 320px;
+  max-width: 320px;
+  height: 380px;
+  max-height: 380px;
   padding: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem;
   background-color: white;
   box-shadow: 2px 2px 2px #E6E6E6;
   border-radius: 4px;
