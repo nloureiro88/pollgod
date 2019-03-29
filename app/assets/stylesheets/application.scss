@@ -40,6 +40,14 @@ a {
   }
 }
 
+input, select, textarea {
+  font-size: 16px;
+}
+
+.tooltip {
+  border-color: $dark-gray;
+}
+
 .tooltip-inner{
   font-size: 0.7rem;
   padding: 0.35rem;
@@ -47,18 +55,35 @@ a {
   border: none;
 }
 
-.tooltip.top .tooltip-arrow{ border-top-color: $gray; }
-.tooltip.left .tooltip-arrow{ border-left-color: $gray; }
-.tooltip.bottom .tooltip-arrow{ border-bottom-color: $gray; }
-.tooltip.right .tooltip-arrow{ border-right-color: $gray; }
-
 .wrapper {
-  margin-top: 6rem;
+  margin-top: 8rem;
 }
 
-.filling-empty-space-childs {
-  width: 300px;
-  height: 0;
-  padding: 0 1rem;
-  margin: 0 1rem;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border:none !important;
+  -webkit-text-fill-color: inherit !important;
+  -webkit-box-shadow: 0 0 0px 1000px $light-blue inset;
+  -webkit-filter: brightness(140%);
+  transition: background-color 5000s ease-in-out 0s;
 }
+
+// @media screen and (max-width: 767px) and (orientation: landscape) {
+//   html {
+//     transform: rotate(-90deg);
+//     transform-origin: left top;
+//     width: 100vh;
+//     overflow-x: hidden;
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//   }
+// }

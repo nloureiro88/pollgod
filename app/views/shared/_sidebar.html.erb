@@ -1,27 +1,26 @@
 <div class="sidebar">
 
-  <div class="search-bar">
+  <% Category.all.each do |cat| %>
 
-  </div>
+    <div class="filter-col-desktop col-6 col-sm-4 col-md-3">
 
-  <div class="sb-options">
+      <% cat_filter = Filter.find_by(user_id: current_user.id, category_id: cat.id) %>
+      <% status_active = cat_filter.nil? || (!cat_filter.nil? && cat_filter.active) %>
 
-    <div class="sb-opt-public">
-      <%= link_to "Top", polls_path, class: "sb-option" %>
-      <%= link_to "Fresh", fresh_polls_path, class: "sb-option" %>
-      <%= link_to "Loved", loved_polls_path, class: "sb-option" %>
-      <%= link_to "Funny", funny_polls_path, class: "sb-option" %>
-      <%= link_to "Interesting", interesting_polls_path, class: "sb-option" %>
-      <%= link_to "Sponsored", sponsored_polls_path, class: "sb-option" %>
+      <%= link_to ftoggle_path(cat_id: cat.id, origin_action: action_name) do %>
+        <% if status_active %>
+          <div class="category cat-active" style="border-color: <%= cat.color %>" data-category="<%= cat.id %>">
+            <%= image_tag("category_color/#{cat.icon}", size: "24x24",  title: "#{cat.name}", data: { toggle: "tooltip" },class: "svg-icon", alt: "#{cat.name} selected") %>
+          </div>
+        <% else %>
+          <div class="category cat-inactive" data-category="<%= cat.id %>">
+            <%= image_tag("category_lgrey/#{cat.icon}", size: "24x24", title: "#{cat.name}", data: { toggle: "tooltip" }, class: "svg-icon", alt: "#{cat.name} not selected") %>
+          </div>
+        <% end %>
+      <% end %>
+
     </div>
 
-    <div class="sb-opt-private">
-      <%= link_to "Polls", manage_polls_path, class: "sb-option" %>
-      <%= link_to "Answers", answered_polls_path, class: "sb-option" %>
-    </div>
-
-    <%= render 'shared/filters' %>
-
-  </div>
+  <% end %>
 
 </div>

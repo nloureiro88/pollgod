@@ -4,9 +4,11 @@
   align-items: center;
   justify-content: center;
   width: 300px;
+  min-width: 300px;
   max-width: 300px;
-  height: 320px;
-  max-height: 320px;
+  height: 340px;
+  min-height: 340px;
+  max-height: 340px;
   padding: 1rem;
   margin: 1rem;
   background-color: white;
@@ -17,8 +19,8 @@
 
   .dropleft {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0.75rem;
+    right: 10%;
     font-size: 1rem;
     color: #C5C5C5;
 
@@ -52,7 +54,7 @@
       }
 
       .drop-option {
-        padding-right: 1rem;
+        margin-right: 1rem;
         font-size: 1rem;
 
         i:hover {
@@ -145,9 +147,10 @@
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    bottom: 0.6rem;
+    bottom: 0.75rem;
+    right: 10%;
     width: 80%;
-
+    color: #C5C5C5;
 
     p {
       font-size: 0.75rem;
@@ -157,6 +160,14 @@
 
     .poll-bottom-right {
       text-align: right;
+
+      i {
+        margin-left: 0.25rem;
+      }
+    }
+
+    .poll-bottom-left {
+      text-align: left;
 
       i {
         margin-left: 0.25rem;

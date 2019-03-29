@@ -1,1 +1,24 @@
+<div class="navigator">
 
+  <ul class="navigator-list">
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'index' %>">
+      <%= link_to "Top", polls_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'loved' %>">
+      <%= link_to "Loved", loved_polls_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'funny' %>">
+      <%= link_to "Funny", funny_polls_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'interesting' %>">
+      <%= link_to "Interesting", interesting_polls_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'sponsored' %>">
+      <%= link_to "Sponsored", sponsored_polls_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
+      <%= link_to "Fresh", fresh_polls_path, class: "nav-link" %>
+    </li>
+  </ul>
+
+</div>

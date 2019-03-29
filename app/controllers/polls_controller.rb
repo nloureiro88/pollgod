@@ -5,36 +5,44 @@ class PollsController < ApplicationController
   # Listing of polls
 
   def index
-    @polls = select_polls.order('t_likes DESC, deadline ASC')
+    polls = select_polls.order('t_likes DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def fresh
-    @polls = select_polls.order('created_at DESC, deadline ASC')
+    polls = select_polls.order('created_at DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def loved
-    @polls = select_polls.order('t_love DESC, deadline ASC')
+    polls = select_polls.order('t_love DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def funny
-    @polls = select_polls.order('t_funny DESC, deadline ASC')
+    polls = select_polls.order('t_funny DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def interesting
-    @polls = select_polls.order('t_interest DESC, deadline ASC')
+    polls = select_polls.order('t_interest DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def sponsored
-    @polls = select_polls.where(qtype: "sponsored").order('points DESC, deadline ASC')
+    polls = select_polls.where(qtype: "sponsored").order('points DESC, deadline ASC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def manage
-    @polls = policy_scope(Poll).where("status != 'deleted' AND user_id = ? AND category_id IN (?)", current_user.id, @category_list).order('created_at DESC')
+    polls = policy_scope(Poll).where("status != 'deleted' AND user_id = ? AND category_id IN (?)", current_user.id, @category_list).order('created_at DESC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
   end
 
   def answered
-    polls_answered = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).order('created_at DESC').pluck(:poll_id)
-    @polls = polls_answered.map { |id| Poll.find(id) }.select{ |poll| @category_list.include?(poll.category_id) }
+    polls_answered_ids = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).order('created_at DESC').pluck(:poll_id)
+    polls_answered = Poll.where('id IN (?) AND category_id IN (?)', polls_answered_ids, @category_list)
+    @polls = params[:query].present? ? polls_answered.poll_search(params[:query]) : polls_answered
   end
 
   # Poll creation

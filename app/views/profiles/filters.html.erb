@@ -1,1 +1,33 @@
-filters.html.erb
+<div class="container">
+    <div class="filter-list row">
+
+      <% @categories.each do |cat| %>
+
+      <div class="filter-col col-6 col-sm-4 col-md-3">
+
+        <% cat_filter = Filter.find_by(user_id: current_user.id, category_id: cat.id) %>
+        <% status_active = cat_filter.nil? || (!cat_filter.nil? && cat_filter.active) %>
+
+        <%= link_to ftoggle_path(cat_id: cat.id, origin_action: action_name) do %>
+          <% if status_active %>
+            <div class="category cat-active" style="background-color: <%= cat.color %>; border-color: <%= cat.color %>" data-category="<%= cat.id %>">
+              <%= image_tag("category_white/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} selected") %>
+              <h4 style="color: white"><%= cat.name %></h4>
+            </div>
+          <% else %>
+            <div class="category cat-inactive" data-category="<%= cat.id %>">
+              <%= image_tag("category_lgrey/#{cat.icon}", size: "24x24", class: "svg-icon", alt: "#{cat.name} not selected") %>
+              <h4><%= cat.name %></h4>
+            </div>
+          <% end %>
+        <% end %>
+
+      </div>
+
+      <% end %>
+
+      <div class="filling-empty-space-childs-filters col-6 col-sm-4 col-md-3"></div>
+      <div class="filling-empty-space-childs-filters col-6 col-sm-4 col-md-3"></div>
+
+    </div>
+</div>

@@ -5,6 +5,17 @@ class Poll < ApplicationRecord
   belongs_to :category
   has_many :answers, dependent: :destroy
 
+  include PgSearch
+  pg_search_scope :poll_search,
+    against: [ :question, :tags ],
+    associated_against: {
+      user: [ :first_name, :last_name ],
+      category: [ :name ]
+    },
+    using: {
+      tsearch: { prefix: true }
+    }
+
   # Lists
   QTYPES = ['open', 'private', 'sponsored']
   OTYPES = ['single choice', 'multiple choice'] # To increment in the future

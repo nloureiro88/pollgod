@@ -1,4 +1,4 @@
-<div class="container poll-list">
+<div class="container-fluid poll-list">
   <div class="row poll-list-row">
 
   <% @polls.each do |poll| %>
@@ -48,11 +48,16 @@
           <div class="question-top">
             <div class="question-top-left">
               <% image_type = sponsored ? "category_white" : "category_color" %>
-              <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+
+              <%= link_to ({controller: controller_name, action: action_name, query: poll.category.name}) do %>
+                <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+              <% end %>
               <p><strong><%= "#{poll.points}" %></strong> <%= "#{poll.points == 1 ? "ticket" : "tickets"}" %></p>
             </div>
             <div class="question-top-right">
-              <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+              <%= link_to ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}) do %>
+                <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+              <% end %>
             </div>
           </div>
 
@@ -60,7 +65,7 @@
               <h4><%= poll.question %></h4>
           </div>
 
-          <!-- Buttons -->
+          <!-- Question Buttons -->
 
           <!-- <div class="question-buttons">
             <%# btn_color = sponsored ? 'white' : cat_color %>
@@ -89,25 +94,36 @@
       <div class="poll-bottom">
         <div class="poll-bottom-left">
           <p>
-            <%= poll.qtype.downcase.capitalize %>
+            <% if poll.qtype == "sponsored" %>
+              <i class="fas fa-industry" title="Sponsored Poll" data-toggle="tooltip"></i>
+            <% elsif poll.qtype == "closed" %>
+              <i class="fas fa-lock" title="Closed Poll" data-toggle="tooltip"></i>
+            <% else %>
+              <i class="fas fa-lock-open" title="Open Poll" data-toggle="tooltip"></i>
+            <% end %>
+
+            <!-- <i class="far fa-hourglass" title="Deadline" data-toggle="tooltip"></i> -->
+            <span title="Deadline" data-toggle="tooltip">
+              <%= poll.deadline.strftime("%d/%m") %>
+            </span>
           </p>
-          <!-- <p class="lighter">
-            <%#= poll.deadline.strftime("%d/%m %H:%M") %>
-          </p> -->
         </div>
 
         <div class="poll-bottom-right">
           <p>
-            <%= poll_acount %> answers
-            <span> : </span>
-            <%= poll.t_likes %> points
+            <span title="Answers" data-toggle="tooltip">
+              <i class="far fa-comment-alt"></i> <%= poll_acount %>
+            </span>
+            <span title="Upvotes" data-toggle="tooltip">
+              <i class="far fa-thumbs-up"></i> <%= poll.t_likes %>
+            </span>
           </p>
           <!-- <p class="lighter">
 
             <%# unless poll_acount.zero? %>
-              <i class="fas fa-heart" title="Love" data-toggle="tooltip"></i> <%= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
-              <i class="fas fa-grin-squint" title="Funny" data-toggle="tooltip"></i> <%= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
-              <i class="fas fa-graduation-cap" title="Interesting" data-toggle="tooltip"></i> <%= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-heart" title="Love" data-toggle="tooltip"></i> <%#= ((poll.t_love / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-grin-squint" title="Funny" data-toggle="tooltip"></i> <%#= ((poll.t_funny / poll_acount.to_f).round(2) * 100).to_i %>%
+              <i class="fas fa-graduation-cap" title="Interesting" data-toggle="tooltip"></i> <%#= ((poll.t_interest / poll_acount.to_f).round(2) * 100).to_i %>%
             <%# end %>
 
           </p> -->
@@ -117,8 +133,8 @@
 
   <% end %>
 
-  <div class="filling-empty-space-childs"></div>
-  <div class="filling-empty-space-childs"></div>
+  <div class="filling-empty-space-childs-polls"></div>
+  <div class="filling-empty-space-childs-polls"></div>
 
   </div>
 </div>

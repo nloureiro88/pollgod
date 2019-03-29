@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
   end
 
   def filters
-
+    @categories = Category.all
   end
 
   def filter_toggle
@@ -17,6 +17,10 @@ class ProfilesController < ApplicationController
       target_filter.save!
     end
 
-    redirect_to :filters
+    if params[:origin_action].present? && params[:origin_action] != 'filters'
+      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query]})
+    else
+      redirect_to :filters
+    end
   end
 end

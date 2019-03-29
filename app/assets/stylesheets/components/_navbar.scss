@@ -1,33 +1,7 @@
-.navbar-lewagon  {
-  justify-content: space-between;
-  background: white;
-  min-height: 5rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+.navbar-lewagon {
   background-color: $dark-gray;
   z-index: 2000;
-  // border-top: 2px solid $gray;
   box-shadow: 2px 0 4px $gray;
-
-  button {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-
-    i {
-      color: #DBDADA !important;
-    }
-
-    &:visited {
-      background-color: none;
-      border: none;
-      box-shadow: none;
-      outline: none;
-    }
-  }
 
   .navbar-brand img {
     height: 3rem;
@@ -40,20 +14,123 @@
     }
   }
 
-  .dropdown-menu {
-    border-radius: 4px;
-    background-color: $dark-gray;
+  button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    margin-top: 0.5rem;
 
-    a {
-      color: white;
-      font-size: 1rem;
+    i {
+      color: #DBDADA !important;
+      margin: 0 !important;
+    }
+
+    &:visited {
+      background-color: none;
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
+
+    img {
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 0.3rem;
 
       &:hover {
-        background-color: $light-gray;
-        color: $dark-gray;
+        filter: brightness(95%);
+        transition: all 0.3s ease-in-out;
       }
     }
   }
+
+  .navbarSearch {
+
+    form {
+      display: flex;
+      position: relative;
+      margin: 0.75rem auto;
+
+      input {
+        font-size: 0.9rem;
+        border-radius: 4px;
+        padding-right: 2rem;
+
+        &::placeholder {
+          color: rgb(220,220,220);
+        }
+      }
+
+      #clear-search {
+        color: rgb(220,220,220);
+        position: absolute;
+        top: 0.4rem;
+        right: 1rem;
+        margin: 0;
+
+        &:hover {
+          filter: brightness(85%);
+        }
+      }
+
+      #submit-search {
+        border: none;
+        width: 32px;
+        position: absolute;
+        margin-top: 0.2rem;
+        right: -2.2rem;
+      }
+    }
+  }
+}
+
+.navbar-lewagon-desktop {
+  justify-content: space-between;
+  min-height: 5rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+
+  button {
+    padding-right: 0;
+    float: right;
+  }
+
+  .navbarSearch {
+    flex-grow: 1;
+    max-width: 340px;
+  }
+
+  .navbar-profile-section {
+    width: 153px !important;
+    min-width: 153px !important;
+    max-width: 153px !important;
+    margin-left: 1rem;
+  }
+
+  .dropdown-menu {
+    box-shadow: 1px 1px 1px #E6E6E6;
+    border-radius: 4px;
+    border: 1px solid rgb(240,240,240);
+    background-color: white;
+
+    a {
+      color: $dark-gray;
+      font-size: 0.9rem;
+
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+}
+
+.navbar-lewagon-mobile  {
+  display: none;
+  justify-content: space-between;
+  min-height: 5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   .navbar-collapse {
     flex-grow: 0;
@@ -77,10 +154,12 @@
       justify-content: space-between;
       margin: 0 auto;
       padding: 0.5rem;
-      max-width: 350px;
+      max-width: 340px;
     }
 
     .navbar-left, .navbar-center, .navbar-right {
+      width: 33%;
+
       a, i {
         color: #DBDADA;
         font-size: 0.9rem;
@@ -88,8 +167,9 @@
     }
 
     .nav-item {
-      display: flex;
-      align-items: center;
+      a {
+        text-align: center;
+      }
 
       i {
         margin-right: 0.5rem;
@@ -97,36 +177,36 @@
     }
   }
 
-  #navbarSearch {
+  #navbarSearchMobile {
     form {
-      max-width: 350px;
-      margin: 0.75rem auto;
-      width: 100%;
-
-      input {
-        font-size: 0.9rem;
-        border-radius: 4px;
-        padding-right: 2rem;
-
-        &::placeholder {
-          color: rgb(220,220,220);
-        }
-      }
+      max-width: 340px;
     }
   }
 
-  .profile {
-    img {
-      height: 3rem;
-      width: 3rem;
-      border-radius: 4px;
-      box-shadow: 2px 2px 2px #E6E6E6;
-      cursor: pointer;
+  .navbar-toggler{
+    height: auto;
+    padding: 0.5rem;
+  }
+}
 
-      &:hover {
-        filter: brightness(95%);
-        transition: all 0.3s ease-in-out;
-      }
+@media only screen and (max-width: 768px) {
+  .navbar-lewagon-desktop {
+    display: none;
+  }
+
+  .navbar-lewagon-mobile {
+    display: flex;
+  }
+}
+
+@media only screen and (max-width: 359px) {
+  .navbar-lewagon-mobile {
+    .navbar-brand, .navbar-toggles {
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
     }
+
   }
 }
