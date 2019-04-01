@@ -1,24 +1,119 @@
 <div class="navigator">
 
-  <ul class="navigator-list">
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'index' %>">
-      <%= link_to "Top", polls_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'loved' %>">
-      <%= link_to "Loved", loved_polls_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'funny' %>">
-      <%= link_to "Funny", funny_polls_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'interesting' %>">
-      <%= link_to "Interesting", interesting_polls_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'sponsored' %>">
-      <%= link_to "Sponsored", sponsored_polls_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
-      <%= link_to "Fresh", fresh_polls_path, class: "nav-link" %>
+  <ul class="navigator-create">
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'new' %>">
+      <%= link_to new_poll_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-plus-square"></i>
+        </div>
+        <span>New Poll</span>
+      <% end %>
     </li>
   </ul>
+
+  <ul class="navigation-mine">
+    <li class="nav-item <%= 'active' if controller_name == 'profiles' && action_name == 'dash' %>">
+      <%= link_to dash_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <span>Dashboard</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'manage' %>">
+      <%= link_to manage_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-comment-alt"></i>
+        </div>
+        <span>My Polls</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'answered' %>">
+      <%= link_to answered_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-vote-yea"></i>
+        </div>
+        <span>My Answers</span>
+      <% end %>
+    </li>
+  </ul>
+
+  <ul class="navigator-list">
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'index' %>">
+      <%= link_to polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <span>Top</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'loved' %>">
+      <%= link_to loved_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-heart"></i>
+        </div>
+        <span>Loved</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'funny' %>">
+      <%= link_to funny_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-grin-squint"></i>
+        </div>
+        <span>Funny</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'interesting' %>">
+      <%= link_to interesting_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span>Interesting</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'sponsored' %>">
+      <%= link_to sponsored_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <span>Sponsored</span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
+      <%= link_to fresh_polls_path, class: "nav-link" do %>
+        <div class="icon-container">
+          <i class="fas fa-paint-roller"></i>
+        </div>
+        <span>Fresh</span>
+      <% end %>
+    </li>
+  </ul>
+
+  <% quicksearch_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh'] %>
+  <% if controller_name == 'polls' && quicksearch_actions.include?(action_name) %>
+
+    <ul class="quick-searches">
+
+      <li class="nav-item">
+        <%= link_to "#", class: "nav-link quick-go" do %>
+          <div class="icon-container">
+            <i class="fas fa-tags"></i>
+          </div>
+          <span>Quick Search</span>
+          <span class="float-right"><i class="fas fa-chevron-right" style="font-size: 0.8rem;"></i></span>
+        <% end %>
+      </li>
+
+      <div id="quick-search">
+        <ul>
+          <% @quick_links.take(20).each do |quick_link| %>
+            <li class="quick-link"><%= link_to quick_link, ({controller: controller_name, action: action_name, query: quick_link}), class: "nav-link" %></li>
+          <% end %>
+        </ul>
+      </div>
+
+    </ul>
+
+  <% end %>
 
 </div>

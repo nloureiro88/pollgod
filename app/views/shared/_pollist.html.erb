@@ -6,7 +6,7 @@
     <% sponsored = poll.qtype == 'sponsored' %>
     <% cat_color = poll.category.color %>
 
-    <div class="poll-card col-xs-12 col-sm-6 col-md-4" style="color: <%= cat_color %> <%= '; background-color: rgb(220,220,220)' if poll.status == 'inactive' %>">
+    <div class="poll-card col-xs-12 col-sm-6 col-md-4" style="color: <%= cat_color %> <%= '; filter: brightness(85%);' if poll.status == 'inactive' %>">
 
       <div class="dropleft">
 

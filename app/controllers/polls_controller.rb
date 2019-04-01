@@ -1,6 +1,7 @@
 class PollsController < ApplicationController
   before_action :set_poll, only: %i(show add_answer result report toggle destroy)
   before_action :active_categories, only: %i(index manage answered sponsored fresh loved funny interesting)
+  before_action :quick_links, only: %i(index manage answered sponsored fresh loved funny interesting)
 
   # Listing of polls
 
@@ -101,6 +102,19 @@ class PollsController < ApplicationController
     Category.all.each do |cat|
       @category_list << cat.id if Filter.find_by(category: cat, user: current_user).active || Filter.find_by(category: cat, user: current_user).nil?
     end
+  end
+
+  def quick_links
+    @quick_links = current_user.hobbies.map { |hob| @quick_links << hob.downcase.capitalize }
+    all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
+    hot_tags = Hash.new(0)
+    all_tags.each do |tag|
+      hot_tags[tag.downcase.capitalize] += 1
+    end
+    hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
+      @quick_links << tag
+    end
+    @quick_links
   end
 
   def set_poll

@@ -23,4 +23,24 @@ class ProfilesController < ApplicationController
       redirect_to :filters
     end
   end
+
+  def filter_all
+    Category.all.each do |category|
+      Filter.where(user: current_user, category_id: category).each do |filter|
+        if filter.nil?
+          new_filter = Filter.new(user: current_user, category: target_category, active: params[:active] == "true")
+          new_filter.save!
+        else
+          filter.active = params[:active] == "true"
+          filter.save!
+        end
+      end
+    end
+
+    if params[:origin_action].present? && params[:origin_action] != 'filters'
+      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query]})
+    else
+      redirect_to :filters
+    end
+  end
 end

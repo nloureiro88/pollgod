@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get :dash, to: "profiles#dash"
   get :ftoggle, to: "profiles#filter_toggle", as: :ftoggle
   get :filters, to: "profiles#filters", as: :filters
+  get :filterall, to: "profiles#filter_all", as: :filterall
 
   resources :polls, except: [:edit, :update] do
     member do

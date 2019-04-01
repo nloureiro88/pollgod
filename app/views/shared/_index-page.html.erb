@@ -1,14 +1,33 @@
 <div class="container list-page">
 
-    <div class="column left-column"></div>
-
     <div class="column center-column">
+
+      <div class="page-header">
+        <% if controller_name == 'polls' && action_name == 'index'  %>
+          <h2><i class="fas fa-trophy"></i> Top</h2>
+        <% elsif controller_name == 'polls' && action_name == 'loved' %>
+          <h2><i class="fas fa-heart"></i> Loved</h2>
+        <% elsif controller_name == 'polls' && action_name == 'funny' %>
+          <h2><i class="fas fa-grin-squint"></i> Funny</h2>
+        <% elsif controller_name == 'polls' && action_name == 'interesting' %>
+          <h2><i class="fas fa-trophy"></i> Interesting</h2>
+        <% elsif controller_name == 'polls' && action_name == 'sponsored' %>
+          <h2><i class="fas fa-wallet"></i> Sponsored</h2>
+        <% elsif controller_name == 'polls' && action_name == 'fresh' %>
+          <h2><i class="fas fa-paint-roller"></i> Fresh</h2>
+        <% elsif controller_name == 'polls' && action_name == 'manage' %>
+          <h2><i class="fas fa-comment-alt"></i> My Polls</h2>
+        <% elsif controller_name == 'polls' && action_name == 'answered' %>
+          <h2><i class="fas fa-trophy"></i> My Answers</h2>
+        <% end %>
+
+        <% if @polls.size.zero? || @polls.nil? %>
+          <h3> No results found, try to<br>adjust your search and filters...</h3>
+        <% end %>
+      </div>
+
       <%= render 'shared/pollist', locals: {polls: @polls}  %>
     </div>
 
-    <div class="column right-column"></div>
-
-    <%= render 'shared/navigator' %>
-    <%= render 'shared/sidebar' %>
-
+    <%= render 'shared/filter-sidebar'  %>
 </div>
