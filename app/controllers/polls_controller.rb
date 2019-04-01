@@ -105,16 +105,18 @@ class PollsController < ApplicationController
   end
 
   def quick_links
-    @quick_links = current_user.hobbies.map { |hob| hob.downcase.capitalize } unless hobbies.size.zero?
-    all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
-    hot_tags = Hash.new(0)
-    all_tags.each do |tag|
-      hot_tags[tag.downcase.capitalize] += 1
+    unless current_user.nil?
+      @quick_links = current_user.hobbies.map { |hob| hob.downcase.capitalize } unless hobbies.size.zero?
+      all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
+      hot_tags = Hash.new(0)
+      all_tags.each do |tag|
+        hot_tags[tag.downcase.capitalize] += 1
+      end
+      hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
+        @quick_links << tag
+      end
+      @quick_links
     end
-    hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
-      @quick_links << tag
-    end
-    @quick_links
   end
 
   def set_poll
