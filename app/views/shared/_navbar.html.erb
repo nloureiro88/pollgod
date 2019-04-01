@@ -1,4 +1,5 @@
 <% searcheable_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh', 'manage', 'answered'] %>
+<% outer_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh'] %>
 
 <!-- NAVBAR DESKTOP -->
 
@@ -60,7 +61,7 @@
       <% end %>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarOption" aria-controls="navbarOption" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-poll"></i>
+        <i class="fas fa-poll" style= "<%= 'color: #9FCDD0 !important' if outer_actions.include?(action_name) %>"></i>
       </button>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarProfile" aria-controls="navbarProfile" aria-expanded="false" aria-label="Toggle navigation">
         <%= image_tag "#{current_user.photo}", size: "32x32" %>
@@ -79,10 +80,10 @@
         </ul>
         <ul class="navbar-nav mr-auto navbar-center">
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'manage' %>">
-            <%= link_to "My Polls", manage_polls_path, class: "nav-link" %>
+            <%= link_to "My Polls", manage_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'answered' %>">
-            <%= link_to "My Answers", answered_polls_path, class: "nav-link" %>
+            <%= link_to "My Answers", answered_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
         </ul>
         <ul class="navbar-nav mr-auto navbar-right">
@@ -100,26 +101,26 @@
       <div class="navbar-cont">
         <ul class="navbar-nav mr-auto navbar-left">
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'index' %>">
-            <%= link_to "Top", polls_path, class: "nav-link" %>
+            <%= link_to "Top", polls_path(query: params[:query]), class: "nav-link" %>
           </li>
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'loved' %>">
-            <%= link_to "Loved", loved_polls_path, class: "nav-link" %>
+            <%= link_to "Loved", loved_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
         </ul>
         <ul class="navbar-nav mr-auto navbar-center">
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'funny' %>">
-            <%= link_to "Funny", funny_polls_path, class: "nav-link" %>
+            <%= link_to "Funny", funny_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'interesting' %>">
-            <%= link_to "Interesting", interesting_polls_path, class: "nav-link" %>
+            <%= link_to "Interesting", interesting_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
         </ul>
         <ul class="navbar-nav mr-auto navbar-right">
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'sponsored' %>">
-            <%= link_to "Sponsored", sponsored_polls_path, class: "nav-link" %>
+            <%= link_to "Sponsored", sponsored_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
           <li class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'fresh' %>">
-            <%= link_to "Fresh", fresh_polls_path, class: "nav-link" %>
+            <%= link_to "Fresh", fresh_polls_path(query: params[:query]), class: "nav-link" %>
           </li>
         </ul>
       </div>

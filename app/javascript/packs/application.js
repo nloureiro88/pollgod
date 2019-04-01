@@ -16,3 +16,8 @@ if(isTouchDevice()===false) {
   $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
   $('[data-toggle="tooltip-bottom"]').tooltip({ trigger: "hover" });
 };
+
+$("a[href='#go-top']").click(function() {
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+});

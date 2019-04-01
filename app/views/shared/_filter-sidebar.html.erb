@@ -7,7 +7,7 @@
       <% cat_filter = Filter.find_by(user_id: current_user.id, category_id: cat.id) %>
       <% status_active = cat_filter.nil? || (!cat_filter.nil? && cat_filter.active) %>
 
-      <%= link_to ftoggle_path(cat_id: cat.id, origin_action: action_name) do %>
+      <%= link_to ftoggle_path(cat_id: cat.id, origin_action: action_name, query: params[:query]) do %>
         <% if status_active %>
           <div class="category cat-active" style="border: none; background-color: transparent;" data-category="<%= cat.id %>">
             <%= image_tag("category_color/#{cat.icon}", size: "40x40",  title: "#{cat.name}", data: { toggle: "tooltip" },class: "svg-icon", alt: "#{cat.name} selected") %>
@@ -24,7 +24,7 @@
   <% end %>
 
   <div class="filter-col-desktop col-6 col-sm-4 col-md-3">
-    <%= link_to filterall_path(active: true, origin_action: action_name) do %>
+    <%= link_to filterall_path(active: true, origin_action: action_name, query: params[:query]) do %>
       <div class="category cat-inactive" style="border: none; background-color: transparent;">
         <%= image_tag("category_lgrey/all.svg", size: "40x40", title: "Select All", data: { toggle: "tooltip" }, class: "svg-icon", alt: "Select all") %>
       </div>
@@ -32,7 +32,7 @@
   </div>
 
   <div class="filter-col-desktop col-6 col-sm-4 col-md-3">
-    <%= link_to filterall_path(active: false, origin_action: action_name) do %>
+    <%= link_to filterall_path(active: false, origin_action: action_name, query: params[:query]) do %>
       <div class="category cat-inactive" style="border: none; background-color: transparent;">
         <%= image_tag("category_lgrey/none.svg", size: "40x40", title: "Remove All", data: { toggle: "tooltip" }, class: "svg-icon", alt: "Select all") %>
       </div>

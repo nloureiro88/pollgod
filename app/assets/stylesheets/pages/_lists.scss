@@ -14,6 +14,9 @@
 
   h3 {
     padding: 1rem;
+    width: 60%;
+    max-width: 400px;
+    margin: 0 auto;
     margin-top: 2rem;
     letter-spacing: 2px;
     text-align: center;
@@ -52,7 +55,7 @@
 .filter-sidebar {
     position: fixed;
     overflow-y: scroll;
-    height: 100%;
+    height: 77.5%;
     right: 2rem;
 
     .category:first-child {
