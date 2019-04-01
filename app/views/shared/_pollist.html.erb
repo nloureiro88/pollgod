@@ -95,11 +95,11 @@
         <div class="poll-bottom-left">
           <p>
             <% if poll.qtype == "sponsored" %>
-              <i class="fas fa-industry" title="Sponsored Poll" data-toggle="tooltip"></i>
+              <i class="fas fa-industry" title="Sponsored Poll" data-toggle="tooltip-all"></i>
             <% elsif poll.qtype == "closed" %>
-              <i class="fas fa-lock" title="Closed Poll" data-toggle="tooltip"></i>
+              <i class="fas fa-lock" title="Closed Poll" data-toggle="tooltip-all"></i>
             <% else %>
-              <i class="fas fa-lock-open" title="Open Poll" data-toggle="tooltip"></i>
+              <i class="fas fa-lock-open" title="Open Poll" data-toggle="tooltip-all"></i>
             <% end %>
 
             <!-- <i class="far fa-hourglass" title="Deadline" data-toggle="tooltip"></i> -->
@@ -111,10 +111,10 @@
 
         <div class="poll-bottom-right">
           <p>
-            <span title="Answers" data-toggle="tooltip">
+            <span title="Answers" data-toggle="tooltip-all">
               <i class="far fa-comment-alt"></i> <%= poll_acount %>
             </span>
-            <span title="Upvotes" data-toggle="tooltip">
+            <span title="Upvotes" data-toggle="tooltip-all">
               <i class="far fa-thumbs-up"></i> <%= poll.t_likes %>
             </span>
           </p>

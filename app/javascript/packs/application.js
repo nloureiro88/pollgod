@@ -15,6 +15,12 @@ import "bootstrap";
 //     );
 //   });
 
+$(document).ready(function(){
+    $('[data-toggle="tooltip-all"]').tooltip(
+      {container:'body', trigger: 'hover', placement:"top"}
+    );
+  });
+
 function isTouchDevice(){
     return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
 };
