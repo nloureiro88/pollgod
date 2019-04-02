@@ -106,7 +106,7 @@ class PollsController < ApplicationController
 
   def quick_links
     unless current_user.nil?
-      @quick_links = current_user.hobbies.map { |hob| hob.downcase.capitalize } unless hobbies.size.zero?
+      @quick_links = current_user.hobbies.size.zero? ? [] : current_user.hobbies.map { |hob| hob.downcase.capitalize }
       all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
       hot_tags = Hash.new(0)
       all_tags.each do |tag|
