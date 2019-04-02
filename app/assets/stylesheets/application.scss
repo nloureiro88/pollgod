@@ -64,12 +64,6 @@ input, select, textarea {
   margin-top: 8rem;
   margin-bottom: 2rem !important;
   min-height: 82vh;
-  // position: absolute;
-  // top: 0px;
-  // left: 200px;
-  // right: 0;
-  // bottom: 0px;
-  // width: calc(100% - 200px);
 }
 
 input:-webkit-autofill,
@@ -88,15 +82,3 @@ select:-webkit-autofill:focus {
   -webkit-filter: brightness(140%);
   transition: background-color 5000s ease-in-out 0s;
 }
-
-// @media screen and (max-width: 767px) and (orientation: landscape) {
-//   html {
-//     transform: rotate(-90deg);
-//     transform-origin: left top;
-//     width: 100vh;
-//     overflow-x: hidden;
-//     position: absolute;
-//     top: 100%;
-//     left: 0;
-//   }
-// }

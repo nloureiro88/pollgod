@@ -62,6 +62,8 @@ class PollsController < ApplicationController
   # Poll answer workflow
 
   def add_answer
+    byebug
+    render layout: false
   end
 
   def result
