@@ -17,12 +17,40 @@
   border: 1px solid rgb(240,240,240);
   position: relative;
 
+  .poll-frame {
+    height: 240px;
+    width: 240px;
+    padding: 1rem;
+    margin-top: -0.2rem;
+    border-radius: 4px;
+    border: 2px solid $light-gray;
+    position: relative;
+  }
+
+  .answer-button {
+    text-decoration: none;
+    text-align: inherit;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    background-color: none !important;
+  }
+
+  .go-back{
+    position: absolute;
+    top: 1rem;
+    left: 12%;
+    cursor: pointer;
+  }
+
   .dropleft {
     position: absolute;
     top: 0.75rem;
     right: 10%;
     font-size: 1rem;
     color: #C5C5C5;
+    z-index: 5;
 
     a, i {
       color: #C5C5C5;
@@ -30,6 +58,10 @@
 
     i:hover {
       color: $gray;
+    }
+
+    .more-info {
+      // padding-bottom: 0.5rem;
     }
 
     .dropdown-menu {
@@ -76,17 +108,11 @@
     display: none;
   }
 
+  // FRONT OF CARD
+
   .poll-card-front {
-    display: none;
 
     .poll-frame {
-      height: 240px;
-      width: 240px;
-      padding: 1rem;
-      margin-top: -0.2rem;
-      border-radius: 4px;
-      border: 2px solid $light-gray;
-      position: relative;
 
       .question-top {
         display: flex;
@@ -130,16 +156,14 @@
 
       .question-buttons{
 
-        .btn-pg-skip {
+        .btn-pg-skip, .btn-pg-click {
           position: absolute;
-          bottom: 1rem;
-          left: 1rem;
-        }
-
-        .btn-pg-click {
-          position: absolute;
-          bottom: 1rem;
-          right: 1rem;
+          bottom: 0.5rem;
+          right: 0.5rem;
+          height: 30px;
+          width: 60px;
+          font-size: 0.85rem;
+          font-weight: 500;
         }
       }
     }
@@ -182,22 +206,11 @@
     }
   }
 
+  // BACK OF CARD
+
   .poll-card-back {
 
-    .go-back{
-      position: absolute;
-      top: 1rem;
-      left: 12%;
-    }
-
     .poll-frame {
-      height: 240px;
-      width: 240px;
-      padding: 1rem;
-      margin-top: -0.2rem;
-      border-radius: 4px;
-      border: 2px solid $light-gray;
-      position: relative;
 
       .answer-top {
         margin: 0.2rem auto;
@@ -317,5 +330,58 @@
         font-size: 0.6rem;
       }
     }
+  }
+
+  // STATS OF CARD
+
+  .poll-card-stats {
+
+    .poll-frame {
+    }
+
+    .poll-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+      bottom: 0.75rem;
+      right: 10%;
+      width: 80%;
+      color: #C5C5C5;
+
+      p {
+        font-size: 0.75rem;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+
+      .poll-bottom-right {
+        text-align: right;
+        display: flex;
+        align-items: flex-start;
+
+        i {
+          margin: 0 0.3rem;
+        }
+      }
+
+      .poll-bottom-left {
+        text-align: left;
+
+        i {
+          margin-left: 0.25rem;
+        }
+      }
+
+      .lighter {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  // UNFLIPPED
+
+  .unflipped {
+    display: none;
   }
 }

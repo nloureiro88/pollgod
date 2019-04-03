@@ -41,10 +41,6 @@ class Poll < ApplicationRecord
     like_hash
   end
 
-  # def like_count
-  #   like_hash[:love] + like_hash[:funny] + like_hash[:interest]
-  # end
-
   def refresh_likes
     result_hash = like_hash
     self.t_love = result_hash[:love]
@@ -52,6 +48,26 @@ class Poll < ApplicationRecord
     self.t_interest = result_hash[:interest]
     self.t_likes = result_hash.values.sum
     self.save!
+  end
+
+  def count_answers
+    self.answers.where("status != 'deleted'").count
+  end
+
+  def answer(user)
+    self.answers.where("status != 'deleted' AND user_id = ?", user.id)
+  end
+
+  def answered?(user)
+    self.answer(user).count.positive?
+  end
+
+  def results
+    result_hash = Hash.new(0)
+    self.options.each_with_index do |_opt, index|
+      result_hash[index] += Answer.where("status != 'deleted' AND poll_id = ? AND answer = ?", self.id, index.to_s).count
+    end
+    result_hash
   end
 
   private

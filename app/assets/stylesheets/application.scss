@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  background-color: rgb(250,250,250);
+  background-color: rgb(245,245,245);
 }
 
 html,
@@ -64,6 +64,10 @@ input, select, textarea {
   margin-top: 8rem;
   margin-bottom: 2rem !important;
   min-height: 82vh;
+}
+
+.hidden {
+  display: none !important;
 }
 
 input:-webkit-autofill,

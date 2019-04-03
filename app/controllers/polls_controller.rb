@@ -62,11 +62,23 @@ class PollsController < ApplicationController
   # Poll answer workflow
 
   def add_answer
-    byebug
-    render layout: false
+    if params["poll-id-#{@poll.id}"].present?
+      new_answer = Answer.new(user: current_user,
+                              poll: @poll,
+                              points: @poll.points,
+                              answer: params["poll-id-#{@poll.id}"],
+                              f_love: params["icon-love-#{@poll.id}"] == "on",
+                              f_funny: params["icon-funny-#{@poll.id}"] == "on",
+                              f_interest: params["icon-interesting-#{@poll.id}"] == "on")
+      new_answer.save!
+    else
+      flash[:alert] = "No valid answer selected for the poll."
+    end
   end
 
   def result
+    @options = @poll.options
+    @results = @poll.results
   end
 
   def report
@@ -107,18 +119,17 @@ class PollsController < ApplicationController
   end
 
   def quick_links
-    unless current_user.nil?
-      @quick_links = current_user.hobbies.size.zero? ? [] : current_user.hobbies.map { |hob| hob.downcase.capitalize }
-      all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
-      hot_tags = Hash.new(0)
-      all_tags.each do |tag|
-        hot_tags[tag.downcase.capitalize] += 1
-      end
-      hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
-        @quick_links << tag
-      end
-      @quick_links
+    return if current_user.nil?
+    @quick_links = current_user.hobbies.size.zero? ? [] : current_user.hobbies.map { |hob| hob.downcase.capitalize }
+    all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
+    hot_tags = Hash.new(0)
+    all_tags.each do |tag|
+      hot_tags[tag.downcase.capitalize] += 1
     end
+    hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
+      @quick_links << tag
+    end
+    @quick_links
   end
 
   def set_poll

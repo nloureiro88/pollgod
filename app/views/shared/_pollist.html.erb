@@ -8,93 +8,44 @@
 
     <div class="poll-card col-xs-12 col-sm-6 col-md-4" style="color: <%= cat_color %> <%= '; filter: brightness(85%);' if poll.status == 'inactive' %>">
 
-      <!-- Front of Card! -->
+    <!-- FRONT OF CARD -->
 
-      <div class="poll-card-front">
+      <div class="poll-card-front" id="poll-card-front-<%= poll.id %>" data-answered="<%= poll.answered?(current_user) %>">
 
-        <div class="dropleft">
+        <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
 
-          <%= link_to '<i class="fas fa-ellipsis-h"></i>'.html_safe, "#", class: "dropdown-toggle", role: "button", id: "dropdownMenuLink", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
+        <button class="answer-button" data-poll="<%= poll.id %>">
 
-          <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuButton">
+          <% frame_style = sponsored ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %>
 
-            <% if poll.user == current_user || poll.qtype == 'open' %>
-              <%= link_to '<i class="fas fa-chart-area"></i>'.html_safe, poll_path(poll, origin_action: action_name), class: "drop-option", title: "Stats", data: { toggle: "tooltip" } %>
-            <% end %>
+          <div class="poll-frame poll-frame-front" style="<%= frame_style %>" >
 
-            <% if poll.user == current_user && poll.status == 'active' %>
-              <%= link_to '<i class="fas fa-eye-slash"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Hide", data: { toggle: "tooltip" } %>
-            <% end %>
+            <div class="poll-question">
 
-            <% if poll.user == current_user && poll.status == 'inactive' %>
-              <%= link_to '<i class="fas fa-eye"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Show", data: { toggle: "tooltip" } %>
-            <% end %>
+              <div class="question-top">
+                <div class="question-top-left">
+                  <% image_type = sponsored ? "category_white" : "category_color" %>
 
-            <% if poll.user == current_user %>
-              <%= link_to '<i class="fas fa-trash-alt"></i>'.html_safe, poll_path(poll, origin_action: action_name), method: :delete, class: "drop-option", title: "Delete", data: { toggle: "tooltip", confirm: "Are you sure you want to permanently delete this poll and all its messages?" } %>
-            <% end %>
+                  <%= link_to ({controller: controller_name, action: action_name, query: poll.category.name}) do %>
+                    <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+                  <% end %>
+                  <p><strong><%= "#{poll.points}" %></strong> <%= "#{poll.points == 1 ? "ticket" : "tickets"}" %></p>
+                </div>
+                <div class="question-top-right">
+                  <%= link_to ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}) do %>
+                    <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
+                  <% end %>
+                </div>
+              </div>
 
-            <% unless poll.user == current_user %>
-              <%= link_to '<i class="fas fa-exclamation-circle"></i>'.html_safe, report_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Report Abuse", data: { toggle: "tooltip" } %>
-            <% end %>
+              <div class="question-main">
+                  <h4><%= poll.question %></h4>
+              </div>
 
+            </div>
           </div>
 
-        </div>
-
-        <% frame_style = sponsored ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %>
-
-        <!-- Front of Card! -->
-
-        <div class="poll-frame poll-frame-front" style="<%= frame_style %>" >
-
-          <div class="poll-question">
-
-            <div class="question-top">
-              <div class="question-top-left">
-                <% image_type = sponsored ? "category_white" : "category_color" %>
-
-                <%= link_to ({controller: controller_name, action: action_name, query: poll.category.name}) do %>
-                  <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
-                <% end %>
-                <p><strong><%= "#{poll.points}" %></strong> <%= "#{poll.points == 1 ? "ticket" : "tickets"}" %></p>
-              </div>
-              <div class="question-top-right">
-                <%= link_to ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}) do %>
-                  <%= image_tag("#{poll.user.photo}", size: "36x36", class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="question-main">
-                <h4><%= poll.question %></h4>
-            </div>
-
-            <!-- Question Buttons -->
-
-            <!-- <div class="question-buttons">
-              <%# btn_color = sponsored ? 'white' : cat_color %>
-              <%# if poll.qtype != "sponsored" && Answer.where(user: current_user, poll: poll, status: 'active').count.zero?  %>
-                <%#= link_to "#", class: "btn btn-pg-skip", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
-                  <p>Skip</p>
-                <%# end %>
-              <%# end %>  -->
-
-              <%# if Answer.where(user: current_user, poll: poll, status: 'active').count.positive? %>
-                <%#= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{btn_color}" do %>
-                  <!-- <p>Results</p> -->
-                <%# end %>
-              <%# else %>
-                <%#= link_to "#", class: "btn btn-pg-click", style: "border-color: #{btn_color}; color: #{ sponsored ? cat_color : 'white'}; background-color: #{btn_color}" do %>
-                  <!-- <p>Answer</p> -->
-                <%# end %>
-              <%# end %>
-            <!-- </div> -->
-
-          </div>
-        </div>
-
-        <% poll_acount = poll.answers.where("status != 'deleted'").count %>
+        </button>
 
         <div class="poll-bottom">
           <div class="poll-bottom-left">
@@ -107,8 +58,12 @@
                 <i class="fas fa-lock-open" title="Open Poll" data-toggle="tooltip-all"></i>
               <% end %>
 
-              <span title="Deadline" data-toggle="tooltip">
-                <%= poll.deadline.strftime("%d/%m") %>
+              <span title="Deadline" data-toggle="tooltip-all">
+                <% if poll.deadline > Time.now %>
+                  <%= poll.deadline.strftime("%d/%m") %>
+                <% else %>
+                  Closed
+                <% end %>
               </span>
             </p>
           </div>
@@ -116,7 +71,7 @@
           <div class="poll-bottom-right">
             <p>
               <span title="Answers" data-toggle="tooltip-all">
-                <i class="far fa-comment-alt"></i> <%= poll_acount %>
+                <i class="far fa-comment-alt"></i> <%= poll.count_answers %>
               </span>
               <span title="Upvotes" data-toggle="tooltip-all">
                 <i class="far fa-thumbs-up"></i> <%= poll.t_likes %>
@@ -126,39 +81,12 @@
         </div>
       </div>
 
-      <div class="poll-card-back">
+    <!-- BACK OF CARD -->
 
-        <i class="fas fa-arrow-left go-back" id="go-back-<%= poll.id %>" style="color: #C5C5C5"></i>
+      <div class="poll-card-back unflipped" id="poll-card-back-<%= poll.id %>">
 
-        <div class="dropleft">
-
-          <%= link_to '<i class="fas fa-ellipsis-h"></i>'.html_safe, "#", class: "dropdown-toggle", role: "button", id: "dropdownMenuLink", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
-
-          <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuButton">
-
-            <% if poll.user == current_user || poll.qtype == 'open' %>
-              <%= link_to '<i class="fas fa-chart-area"></i>'.html_safe, poll_path(poll, origin_action: action_name), class: "drop-option", title: "Stats", data: { toggle: "tooltip" } %>
-            <% end %>
-
-            <% if poll.user == current_user && poll.status == 'active' %>
-              <%= link_to '<i class="fas fa-eye-slash"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Hide", data: { toggle: "tooltip" } %>
-            <% end %>
-
-            <% if poll.user == current_user && poll.status == 'inactive' %>
-              <%= link_to '<i class="fas fa-eye"></i>'.html_safe, toggle_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Show", data: { toggle: "tooltip" } %>
-            <% end %>
-
-            <% if poll.user == current_user %>
-              <%= link_to '<i class="fas fa-trash-alt"></i>'.html_safe, poll_path(poll, origin_action: action_name), method: :delete, class: "drop-option", title: "Delete", data: { toggle: "tooltip", confirm: "Are you sure you want to permanently delete this poll and all its messages?" } %>
-            <% end %>
-
-            <% unless poll.user == current_user %>
-              <%= link_to '<i class="fas fa-exclamation-circle"></i>'.html_safe, report_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Report Abuse", data: { toggle: "tooltip" } %>
-            <% end %>
-
-          </div>
-
-        </div>
+        <%= render 'shared/poll_components/backarrow', object: {poll: poll}  %>
+        <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
 
         <%= form_tag({controller: "polls", action: "add_answer", id: poll.id}, class: "answer-form") do %>
 
@@ -171,13 +99,12 @@
             </div> -->
 
             <% poll_options = poll.options.map(&:capitalize) %>
-
             <% button_style = "border-color: white; background-color: #{cat_color};" %>
 
             <div class="answer-main">
               <% poll_options.each_with_index do |po, opt| %>
               <div class="answer-option">
-                <input class="form-radio" type="radio" id="poll-id-<%= poll.id %>-<%= opt %>" name="poll-id-<%= poll.id %>" value="<%= opt %>" style="<%= button_style %>">
+                <input class="form-radio" type="radio" id="poll-id-<%= poll.id %>-<%= opt %>" name="poll-id-<%= poll.id %>" value="<%= opt %>" style="<%= button_style %>" data-poll="<%= poll.id %>">
                 <label for="poll-id-<%= poll.id %>-<%= opt %>"><%= po.capitalize %></label>
                 <br>
               </div>
@@ -186,7 +113,7 @@
           </div>
         </div>
 
-        <div class="answer-bottom">
+        <div class="answer-bottom hidden" id="answer-bottom-<%= poll.id %>">
           <div class="poll-bottom-left">
             <div class="checkbox-cont">
               <input type="checkbox" id="icon-love-<%= poll.id %>" name="icon-love-<%= poll.id %>">
@@ -205,13 +132,110 @@
           </div>
 
           <div class="poll-bottom-right">
-            <input type="submit" value="Submit" class="btn btn-send" style="<%= "border-color: #{cat_color}; color: #{cat_color}" %>" >
+            <input type="submit" value="Submit" class="btn btn-send" style="<%= "border-color: #{cat_color}; color: #{cat_color}" %>" data-poll="<%= poll.id %>" >
           </div>
         </div>
 
         <% end %>
 
       </div>
+
+      <!-- STATS OF CARD -->
+
+      <div class="poll-card-stats unflipped" id="poll-card-stats-<%= poll.id %>">
+
+        <%= render 'shared/poll_components/backarrow', object: {poll: poll}  %>
+        <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
+
+        <div class="poll-frame poll-frame-stats" style="<%= "border-color: #{cat_color}; background-color: #{cat_color}; color: white;" %>" >
+          <canvas id="myChart-<%= poll.id %>" ></canvas>
+          <script>
+            var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        // borderColor: [
+                        //     'rgba(255, 99, 132, 1)',
+                        //     'rgba(54, 162, 235, 1)',
+                        //     'rgba(255, 206, 86, 1)',
+                        //     'rgba(75, 192, 192, 1)',
+                        //     'rgba(153, 102, 255, 1)',
+                        //     'rgba(255, 159, 64, 1)'
+                        // ],
+                        borderWidth: 0
+                    }]
+                },
+                animation:{
+                  duration: 1
+                },
+                options: {
+                  legend: {
+                    display: false
+                  },
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                              display: false
+                          },
+                          gridLines: {
+                            drawBorder: false,
+                              display:false
+                          }
+                      }],
+                      xAxes: [{
+                          gridLines: {
+                              display:false
+                          }
+                      }]
+                  }
+                }
+            });
+          </script>
+        </div>
+
+
+
+        <%# my_answer = poll.answer(current_user).last %>
+
+        <!-- <div class="poll-bottom">
+          <div class="poll-bottom-left">
+            <p title="Answered On" data-toggle="tooltip-all">
+              <i class="far fa-calendar-check"></i>
+              <%#= my_answer.created_at.strftime("%d/%m %H:%M") %>
+            </p>
+          </div>
+
+          <div class="poll-bottom-right">
+            <span title="Loved" data-toggle="tooltip-all">
+              <i class="fas fa-heart fa-sm" style="color: <%#= my_answer.f_love == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+            </span>
+
+            <span title="Funny" data-toggle="tooltip-all">
+              <i class="fas fa-grin-squint fa-sm" style="color: <%#= my_answer.f_funny == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+            </span>
+
+            <span title="Interesting" data-toggle="tooltip-all">
+              <i class="fas fa-graduation-cap fa-sm" style="color: <%#= my_answer.f_interest == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+            </span>
+          </div>
+        </div> -->
+      </div>
+
     </div>
 
   <% end %>

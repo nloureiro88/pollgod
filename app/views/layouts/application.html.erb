@@ -11,6 +11,8 @@
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
   <body>
+    <%#= javascript_include_tag 'chart' %>
+    <%= javascript_pack_tag 'chart' %>
     <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" %>
     <%= render 'shared/flashes' %>
     <div class="wrapper">
