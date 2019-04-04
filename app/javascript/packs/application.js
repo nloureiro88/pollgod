@@ -1,6 +1,7 @@
 //= require data-confirm-modal
 
 import "bootstrap";
+import hexToRgba from 'hex-to-rgba';
 
 // Tooltips
 
