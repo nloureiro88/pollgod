@@ -12,11 +12,19 @@
 
       <div class="poll-card-front" id="poll-card-front-<%= poll.id %>" data-answered="<%= poll.answered?(current_user) %>">
 
+        <% if poll.created_at > Time.now - 60 * 60 * 24  %>
+          <div class="new-poll-alert">
+            <i class="fas fa-certificate"></i>
+            <i></i><span> New</span>
+          </div>
+        <% end %>
+
         <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
 
-        <button class="answer-button" data-poll="<%= poll.id %>">
+        <%#= button_to result_poll_path(poll.id), remote: true, class: "answer-button" do %>
+        <%= button_tag(type: "button", class: "answer-button", data: {poll: poll.id}) do %>
 
-          <% frame_style = sponsored ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %>
+          <% frame_style = true ? "border-color: #{cat_color}; background-color: #{cat_color}; color: white" : "border-color: #{cat_color}" %> <!-- Replace true by 'sponsored' for open to have a dark background. -->
 
           <div class="poll-frame poll-frame-front" style="<%= frame_style %>" >
 
@@ -24,7 +32,7 @@
 
               <div class="question-top">
                 <div class="question-top-left">
-                  <% image_type = sponsored ? "category_white" : "category_color" %>
+                  <% image_type = true ? "category_white" : "category_color" %> <!-- Replace true by 'sponsored' for open to have a dark background. -->
 
                   <%= link_to ({controller: controller_name, action: action_name, query: poll.category.name}) do %>
                     <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
@@ -45,7 +53,7 @@
             </div>
           </div>
 
-        </button>
+        <% end %>
 
         <div class="poll-bottom">
           <div class="poll-bottom-left">
@@ -147,135 +155,10 @@
         <%= render 'shared/poll_components/backarrow', object: {poll: poll}  %>
         <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
 
-        <div class="poll-frame poll-frame-stats" style="<%= "border-color: #{cat_color}; background-color: #{cat_color}; color: white;" %>" >
-          <canvas id="myChart-<%= poll.id %>" ></canvas>
-
-          <% poll_options = poll.options.map { |option| option.length > 10 ? "#{option.capitalize[0,10]}.." : option.capitalize } %>
-
-          <% my_answer = poll.answers.last %> <!-- poll.answer(current_user).last -->
-          <% answer_index = my_answer.answer.to_i %>
-          <% bar_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.2)') %>
-          <% bar_colors[answer_index] = 'rgba(240, 240, 240, 1)' %>
-          <% bar_line_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.6)') %>
-
-          <% if poll.options.count > 3 %>
-
-            <!-- Bar Chart -->
-              <script>
-                Chart.defaults.global.defaultFontColor = 'rgba(240, 240, 240, 1)';
-                Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
-                Chart.defaults.global.defaultFontSize = 12;
-
-                var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: <%= poll_options.to_json.html_safe %>,
-                        fillOpacity: .8,
-                        datasets: [{
-                            label: '',
-                            data: <%= poll.results.values.to_json.html_safe %>,
-                            backgroundColor: <%= bar_colors.to_json.html_safe %>,
-                            borderColor: <%= bar_line_colors.to_json.html_safe %>,
-                            borderWidth: 1
-                        }]
-                    },
-                    animation:{
-                      duration: 1
-                    },
-                    options: {
-                      legend: {
-                        display: false
-                      },
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      scales: {
-                          yAxes: [{
-                              ticks: {
-                                  beginAtZero: true,
-                                  display: false
-                              },
-                              gridLines: {
-                                  drawBorder: false,
-                                  display:false
-                              }
-                          }],
-                          xAxes: [{
-                              gridLines: {
-                                  display:false,
-                                  color: 'rgba(240, 240, 240, 1)'
-                              },
-                          }]
-                      }
-                    }
-                });
-              </script>
-            <!--  -->
-
-            <% else %>
-
-            <!-- Pie Chart -->
-              <script>
-                Chart.defaults.global.defaultFontColor = 'rgba(240, 240, 240, 1)';
-                Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
-                Chart.defaults.global.defaultFontSize = 12;
-
-                var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: <%= poll_options.to_json.html_safe %>,
-                        datasets: [{
-                            label: '',
-                            data: <%= poll.results.values.to_json.html_safe %>,
-                            backgroundColor: <%= [
-                                "#{answer_index == 0 ? 'rgba(240, 240, 240, 1)' : 'rgba(210, 210, 210, 0.5)'}",
-                                "#{answer_index == 1 ? 'rgba(240, 240, 240, 1)' : 'rgba(160, 160, 160, 0.5)'}",
-                                "#{answer_index == 2 ? 'rgba(240, 240, 240, 1)' : 'rgba(110, 110, 110, 0.5)'}"
-                            ].take(poll.options.length).to_json.html_safe %> ,
-                            borderColor: <%= Array.new(poll.options.length, 'rgba(240, 240, 240, 1)').to_json.html_safe %>,
-                            borderWidth: 1
-                        }]
-                    },
-                    animation:{
-                      duration: 1
-                    },
-                    options: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                      responsive: true,
-                      maintainAspectRatio: false
-                    }
-                });
-              </script>
-            <!--  -->
-
-            <% end %>
+        <div id="chart-area-<%= poll.id %>">
+          <%= render 'shared/poll_components/chart', object: {poll_id: poll.id} %>
         </div>
 
-        <div class="poll-bottom">
-          <div class="poll-bottom-left">
-            <p title="Answered On" data-toggle="tooltip-all">
-              <i class="far fa-calendar-check"></i>
-              <%= my_answer.created_at.strftime("%d/%m %H:%M") %>
-            </p>
-          </div>
-
-          <div class="poll-bottom-right">
-            <span title="Loved" data-toggle="tooltip-all">
-              <i class="fas fa-heart fa-sm" style="color: <%= my_answer.f_love == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
-            </span>
-
-            <span title="Funny" data-toggle="tooltip-all">
-              <i class="fas fa-grin-squint fa-sm" style="color: <%= my_answer.f_funny == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
-            </span>
-
-            <span title="Interesting" data-toggle="tooltip-all">
-              <i class="fas fa-graduation-cap fa-sm" style="color: <%= my_answer.f_interest == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
-            </span>
-          </div>
-        </div>
       </div>
 
     </div>

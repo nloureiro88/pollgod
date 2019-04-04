@@ -1,0 +1,134 @@
+<% poll = Poll.find(object[:poll_id]) %>
+<% cat_color = poll.category.color %>
+
+<div class="poll-frame poll-frame-stats" style="<%= "border-color: #{cat_color}; background-color: #{cat_color}; color: white;" %>" id="myChart-area-<%= poll.id %>">
+
+  <canvas id="myChart-<%= poll.id %>" ></canvas>
+
+  <% poll_options = poll.options.map { |option| option.length > 10 ? "#{option.capitalize[0,10]}.." : option.capitalize } %>
+
+  <% my_answer = poll.answers.last %> <!-- poll.answer(current_user).last -->
+  <% answer_index = my_answer.answer.to_i %>
+  <% bar_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.2)') %>
+  <% bar_colors[answer_index] = 'rgba(240, 240, 240, 1)' %>
+  <% bar_line_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.6)') %>
+
+  <% if poll.options.count > 3 %>
+
+  <!-- Bar Chart -->
+    <script>
+      Chart.defaults.global.defaultFontColor = 'rgba(240, 240, 240, 1)';
+      Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+      Chart.defaults.global.defaultFontSize = 12;
+
+      var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: <%= poll_options.to_json.html_safe %>,
+              fillOpacity: .8,
+              datasets: [{
+                  label: '',
+                  data: <%= poll.results.values.to_json.html_safe %>,
+                  backgroundColor: <%= bar_colors.to_json.html_safe %>,
+                  borderColor: <%= bar_line_colors.to_json.html_safe %>,
+                  borderWidth: 1
+              }]
+          },
+          animation:{
+            duration: 1
+          },
+          options: {
+            legend: {
+              display: false
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        display: false
+                    },
+                    gridLines: {
+                        drawBorder: false,
+                        display:false
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display:false,
+                        color: 'rgba(240, 240, 240, 1)'
+                    },
+                }]
+            }
+          }
+      });
+    </script>
+  <!--  -->
+
+  <% else %>
+
+  <!-- Pie Chart -->
+    <script>
+      Chart.defaults.global.defaultFontColor = 'rgba(240, 240, 240, 1)';
+      Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+      Chart.defaults.global.defaultFontSize = 12;
+
+      var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: <%= poll_options.to_json.html_safe %>,
+              datasets: [{
+                  label: '',
+                  data: <%= poll.results.values.to_json.html_safe %>,
+                  backgroundColor: <%= [
+                      "#{answer_index == 0 ? 'rgba(240, 240, 240, 1)' : 'rgba(210, 210, 210, 0.5)'}",
+                      "#{answer_index == 1 ? 'rgba(240, 240, 240, 1)' : 'rgba(160, 160, 160, 0.5)'}",
+                      "#{answer_index == 2 ? 'rgba(240, 240, 240, 1)' : 'rgba(110, 110, 110, 0.5)'}"
+                  ].take(poll.options.length).to_json.html_safe %> ,
+                  borderColor: <%= Array.new(poll.options.length, 'rgba(240, 240, 240, 1)').to_json.html_safe %>,
+                  borderWidth: 1
+              }]
+          },
+          animation:{
+            duration: 1
+          },
+          options: {
+            legend: {
+              position: 'bottom',
+            },
+            responsive: true,
+            maintainAspectRatio: false
+          }
+      });
+    </script>
+  <!--  -->
+
+  <% end %>
+
+</div>
+
+<div class="poll-bottom">
+  <div class="poll-bottom-left">
+    <p title="Answered On" data-toggle="tooltip-all">
+      <i class="far fa-calendar-check"></i>
+      <%= my_answer.created_at.strftime("%d/%m %H:%M") %>
+    </p>
+  </div>
+
+  <div class="poll-bottom-right">
+    <span title="Loved" data-toggle="tooltip-all">
+      <i class="fas fa-heart fa-sm" style="color: <%= my_answer.f_love == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+    </span>
+
+    <span title="Funny" data-toggle="tooltip-all">
+      <i class="fas fa-grin-squint fa-sm" style="color: <%= my_answer.f_funny == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+    </span>
+
+    <span title="Interesting" data-toggle="tooltip-all">
+      <i class="fas fa-graduation-cap fa-sm" style="color: <%= my_answer.f_interest == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+    </span>
+  </div>
+</div>

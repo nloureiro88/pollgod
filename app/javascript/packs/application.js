@@ -47,12 +47,14 @@ const flipCard = (id) => {
   const cardFront = document.querySelector(`#poll-card-front-${id}`);
   const cardBack = document.querySelector(`#poll-card-back-${id}`);
   const cardStats = document.querySelector(`#poll-card-stats-${id}`);
-  cardFront.classList.add("unflipped");
-  if (cardFront.dataset.answered === 'false') {
-    cardBack.classList.remove("unflipped");
-  } else {
-    cardStats.classList.remove("unflipped");
-  }
+  setTimeout(function() {
+    cardFront.classList.add("unflipped");
+    if (cardFront.dataset.answered === 'false') {
+      cardBack.classList.remove("unflipped");
+    } else {
+      cardStats.classList.remove("unflipped");
+    }
+  }, (400));
 };
 
 // Add event for showing the poll answer options

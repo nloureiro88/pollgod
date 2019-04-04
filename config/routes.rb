@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     member do
       post :answer, to: "polls#add_answer"
       get :toggle, to: "polls#toggle"
-      get :result, to: "polls#result"
+      post :result, to: "polls#result"
       get :share, to: "polls#share"
       get :report, to: "polls#report"
     end

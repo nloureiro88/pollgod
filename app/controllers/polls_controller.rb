@@ -77,8 +77,13 @@ class PollsController < ApplicationController
   end
 
   def result
-    @options = @poll.options
     @results = @poll.results
+    @answer = @poll.answer(current_user)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def report
