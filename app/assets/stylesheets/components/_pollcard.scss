@@ -18,7 +18,7 @@
   position: relative;
 
   button {
-    background-color: inherit !important;
+    background-color: none;
   }
 
   .poll-frame {
@@ -31,11 +31,11 @@
     position: relative;
 
     &:active {
-      background-color: inherit;
+      background-color: none;
     }
 
     &:visited {
-      background-color: inherit;
+      background-color: none;
     }
   }
 
@@ -47,7 +47,7 @@
     box-shadow: none;
     outline: none;
     padding: 0;
-    background-color: none !important;
+    background-color: inherit !important;
   }
 
   .go-back{

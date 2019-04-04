@@ -88,7 +88,7 @@
         <%= render 'shared/poll_components/backarrow', object: {poll: poll}  %>
         <%= render 'shared/poll_components/dropleft', object: {poll: poll}  %>
 
-        <%= form_tag({controller: "polls", action: "add_answer", id: poll.id}, class: "answer-form") do %>
+        <%= form_tag({controller: "polls", action: "add_answer", id: poll.id}, class: "answer-form", remote: true) do %>
 
         <div class="poll-frame poll-frame-back" style="<%= "border-color: #{cat_color}; background-color: #{cat_color}; color: white;" %>" >
 
@@ -152,7 +152,8 @@
 
           <% poll_options = poll.options.map { |option| option.length > 10 ? "#{option.capitalize[0,10]}.." : option.capitalize } %>
 
-          <% answer_index = 0 %>
+          <% my_answer = poll.answers.last %> <!-- poll.answer(current_user).last -->
+          <% answer_index = my_answer.answer.to_i %>
           <% bar_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.2)') %>
           <% bar_colors[answer_index] = 'rgba(240, 240, 240, 1)' %>
           <% bar_line_colors = Array.new(poll.options.length, 'rgba(240, 240, 240, 0.6)') %>
@@ -201,7 +202,8 @@
                           }],
                           xAxes: [{
                               gridLines: {
-                                  display:false
+                                  display:false,
+                                  color: 'rgba(240, 240, 240, 1)'
                               },
                           }]
                       }
@@ -252,32 +254,28 @@
             <% end %>
         </div>
 
-
-
-        <%# my_answer = poll.answer(current_user).last %>
-
-        <!-- <div class="poll-bottom">
+        <div class="poll-bottom">
           <div class="poll-bottom-left">
             <p title="Answered On" data-toggle="tooltip-all">
               <i class="far fa-calendar-check"></i>
-              <%#= my_answer.created_at.strftime("%d/%m %H:%M") %>
+              <%= my_answer.created_at.strftime("%d/%m %H:%M") %>
             </p>
           </div>
 
           <div class="poll-bottom-right">
             <span title="Loved" data-toggle="tooltip-all">
-              <i class="fas fa-heart fa-sm" style="color: <%#= my_answer.f_love == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+              <i class="fas fa-heart fa-sm" style="color: <%= my_answer.f_love == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
             </span>
 
             <span title="Funny" data-toggle="tooltip-all">
-              <i class="fas fa-grin-squint fa-sm" style="color: <%#= my_answer.f_funny == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+              <i class="fas fa-grin-squint fa-sm" style="color: <%= my_answer.f_funny == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
             </span>
 
             <span title="Interesting" data-toggle="tooltip-all">
-              <i class="fas fa-graduation-cap fa-sm" style="color: <%#= my_answer.f_interest == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+              <i class="fas fa-graduation-cap fa-sm" style="color: <%= my_answer.f_interest == 'true' ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
             </span>
           </div>
-        </div> -->
+        </div>
       </div>
 
     </div>

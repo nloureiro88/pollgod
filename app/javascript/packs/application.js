@@ -20,56 +20,15 @@ $(document).ready(function(){
     );
   });
 
-// Go Up Arrow
+// Go up arrow
 
 $("a[href='#go-top']").click(function() {
   $("html, body").animate({ scrollTop: 0 }, "slow");
   return false;
 });
 
-// Render summary chart on card
+// Mobile navbar collapsing
 
-const renderChart = (id, label_list, value_list) => {
-  console.log(id, label_list, value_list)
-  var Chart = require('chart.js');
-  var ctx = document.getElementById(`myChart-${id}`).getContext('2d');
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: label_list,
-          datasets: [{
-              label: '# of Votes',
-              data: value_list,
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              // borderColor: [
-              //     'rgba(255, 99, 132, 1)',
-              //     'rgba(54, 162, 235, 1)',
-              //     'rgba(255, 206, 86, 1)',
-              //     'rgba(75, 192, 192, 1)',
-              //     'rgba(153, 102, 255, 1)',
-              //     'rgba(255, 159, 64, 1)'
-              // ],
-              borderWidth: 0
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
-      }
-});
-}
 
 // Function to reset all cards flipped
 
@@ -93,8 +52,6 @@ const flipCard = (id) => {
     cardBack.classList.remove("unflipped");
   } else {
     cardStats.classList.remove("unflipped");
-    // $.ajax(`/polls/${id}/results`)
-    // renderChart(id, @options, @results)
   }
 };
 
