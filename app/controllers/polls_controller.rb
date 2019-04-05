@@ -119,13 +119,17 @@ class PollsController < ApplicationController
   def active_categories
     @category_list = []
     Category.all.each do |cat|
-      @category_list << cat.id if Filter.find_by(category: cat, user: current_user).active || Filter.find_by(category: cat, user: current_user).nil?
+      if Filter.find_by(category: cat, user: current_user).nil?
+        @category_list << cat.id
+      elsif Filter.find_by(category: cat, user: current_user).active
+        @category_list << cat.id
+      end
     end
   end
 
   def quick_links
     return if current_user.nil?
-    @quick_links = current_user.hobbies.size.zero? ? [] : current_user.hobbies.map { |hob| hob.downcase.capitalize }
+    @quick_links = current_user.hobbies.empty? ? [] : current_user.hobbies.split(", ").map { |hob| hob.downcase.capitalize }
     all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
     hot_tags = Hash.new(0)
     all_tags.each do |tag|

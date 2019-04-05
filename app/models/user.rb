@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # # Photo
+  mount_uploader :photo, PhotoUploader
+
   # Relationships
   has_many :polls
   has_many :answers
@@ -16,7 +19,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true, allow_blank: false
   validates :last_name, presence: true, allow_blank: false
   validates :birthdate, presence: true, allow_blank: false
-  validates :gender, presence: true, inclusion: { in: ['male', 'female', 'Male', 'Female'] }
+  validates :gender, presence: true, inclusion: { in: ['Male', 'Female'] }
   validates :location, presence: true, allow_blank: false
   validates :profession, presence: true, allow_blank: false
   validates :subscription, presence: true, inclusion: { in: SUBSCRIPTIONS }

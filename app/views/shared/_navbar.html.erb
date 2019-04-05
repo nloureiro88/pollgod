@@ -14,7 +14,7 @@
         <%= text_field_tag :query,
           params[:query],
           class: "form-control",
-          placeholder: "e.g. #{ current_user.hobbies.count.zero? ? 'Game of thrones' : current_user.hobbies.first.downcase.capitalize }"
+          placeholder: "e.g. #{ current_user.hobbies.empty? ? 'Game of thrones' : current_user.hobbies.split(", ").first.downcase.capitalize }"
         %>
         <%= button_tag(type: 'submit', class: "btn btn-default", id: "submit-search") do %>
           <i class="fas fa-search"></i>
@@ -28,14 +28,18 @@
     <div class="dropleft">
       <div class="navbar-profile-section" style="width: 153px">
         <button id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= image_tag "#{current_user.photo}", size: "48x48" %>
+          <% if current_user.photo.file.nil? %>
+            <%= image_tag "avatar/#{User.last.birthdate.day}.svg", size: "48x48" %>
+          <% else %>
+            <%= cl_image_tag "#{current_user.photo}", size: "48x48", crop: :thumb, gravity: :face %>
+          <% end %>
         </button>
         <div class="dropdown-menu" style="right: 55px; top: 5px">
           <%= link_to "Dashboard", dash_path, class: "nav-link" %>
           <%= link_to "My Polls", manage_polls_path, class: "nav-link" %>
           <%= link_to "My Answers", answered_polls_path, class: "nav-link" %>
           <div class="dropdown-divider"></div>
-          <%= link_to "Edit Profile", answered_polls_path, class: "nav-link" %>
+          <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %>
           <div class="dropdown-divider"></div>
           <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
         </div>
@@ -64,7 +68,11 @@
         <i class="fas fa-poll" style= "<%= 'color: #9FCDD0 !important' if outer_actions.include?(action_name) %>"></i>
       </button>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarProfile" aria-controls="navbarProfile" aria-expanded="false" aria-label="Toggle navigation">
-        <%= image_tag "#{current_user.photo}", size: "32x32" %>
+        <% if current_user.photo.file.nil? %>
+          <%= image_tag "avatar/#{User.last.birthdate.day}.svg", size: "32x32" %>
+        <% else %>
+          <%= cl_image_tag "#{current_user.photo}", size: "32x32", crop: :thumb, gravity: :face %>
+        <% end %>
       </button>
     </div>
 
@@ -133,7 +141,7 @@
           <%= text_field_tag :query,
             params[:query],
             class: "form-control",
-            placeholder: "e.g. #{ current_user.hobbies.count.zero? ? 'Game of thrones' : current_user.hobbies.first.downcase.capitalize }"
+            placeholder: "e.g. #{ current_user.hobbies.empty? ? 'Game of thrones' : current_user.hobbies.split(", ").first.downcase.capitalize }"
           %>
           <%= link_to ({controller: controller_name, action: action_name}), id: "clear-search" do %>
             <i class="fas fa-times"></i>

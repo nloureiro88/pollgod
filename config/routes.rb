@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
 
+  as :user do
+    get 'users', to: "profiles#dash", as: :user_root
+  end
+
   get :dash, to: "profiles#dash"
   get :ftoggle, to: "profiles#filter_toggle", as: :ftoggle
   get :filters, to: "profiles#filters", as: :filters

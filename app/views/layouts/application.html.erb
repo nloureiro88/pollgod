@@ -8,17 +8,17 @@
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= favicon_link_tag 'logo.ico' %>
-    <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
   <body>
     <%= javascript_pack_tag 'chart' %>
-    <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" %>
+    <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && action_name == "edit") %>
     <%= render 'shared/flashes' %>
     <div class="wrapper">
       <%= yield %>
     </div>
-    <%= render 'shared/navigator' unless controller_name == "pages" %>
-    <%= render 'shared/footer' %>
+    <%= render 'shared/navigator' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && action_name == "edit") %>
+    <%= render 'shared/footer' if controller_name == "polls" || controller_name == "profiles" || controller_name == "pages" %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'application' %>
   </body>

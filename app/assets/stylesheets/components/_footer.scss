@@ -8,7 +8,7 @@ footer {
   margin: 0 auto;
   width: 980px;
   // border-top: 1px solid rgb(220,220,220);
-  color: rgb(220,220,220);
+  color: $gray;
   font-size: 0.85rem;
 
   div {
@@ -20,10 +20,10 @@ footer {
   }
 
   a {
-    color: rgb(220,220,220);
+    color: $gray;
 
     &:visited {
-      color: rgb(220,220,220);
+      color: $gray;
     }
 
     &:hover {

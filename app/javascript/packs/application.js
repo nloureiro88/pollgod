@@ -1,7 +1,21 @@
 //= require data-confirm-modal
 
 import "bootstrap";
-import hexToRgba from 'hex-to-rgba';
+
+// Flatpickr setup
+import flatpickr from 'flatpickr';
+
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = currentDate.getMonth() + 1;
+const day = currentDate.getDate();
+
+flatpickr('.date-picker', {
+ altInput: true,
+ time_24hr: true,
+ dateFormat: 'Y-m-d',
+ MaxDate: `${year}-${month}-${day}`
+});
 
 // Tooltips
 

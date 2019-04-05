@@ -83,9 +83,9 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
     t.string "photo"
     t.string "gender"
     t.date "birthdate"
-    t.text "location"
+    t.string "location"
     t.string "profession"
-    t.string "hobbies", default: [], array: true
+    t.string "hobbies"
     t.string "subscription", default: "free"
     t.string "status", default: "active"
     t.index ["email"], name: "index_users_on_email", unique: true

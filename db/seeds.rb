@@ -42,13 +42,13 @@ CSV.foreach(filepath_users, csv_options) do |row|
                       email: new_user_email,
                       first_name: row[0],
                       last_name: row[1],
-                      photo: row[3],
-                      gender: row[4],
+                      gender: row[4].capitalize,
                       birthdate: Faker::Date.birthday(21, 50),
                       location: row[2],
                       profession: Faker::Job.title,
-                      hobbies: HOBBIES.sample(new_user_hobbies),
+                      hobbies: HOBBIES.sample(new_user_hobbies).join(", "),
                       subscription: ['free', 'premium', 'corporate'].sample)
+  new_user.remote_photo_url = row[3]
   new_user.save!
 end
 

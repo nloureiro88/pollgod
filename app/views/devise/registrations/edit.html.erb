@@ -1,35 +1,152 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% prof_list = ['Student',
+                'Teacher',
+                'Actor',
+                'Clergy',
+                'Musician',
+                'Philosopher',
+                'Visual Artist',
+                'Writer',
+                'Audiologist',
+                'Chiropractor',
+                'Dentist',
+                'Dietitian',
+                'Doctor',
+                'Medical Laboratory Scientist',
+                'Midwive',
+                'Nurse',
+                'Occupational Therapist',
+                'Optometrist',
+                'Pathologist',
+                'Pharmacist',
+                'Physical Therapist',
+                'Physician',
+                'Psychologist',
+                'Speech-Language Pathologist',
+                'Accountant',
+                'Actuary',
+                'Agriculturist',
+                'Architect',
+                'Economist',
+                'Consultant',
+                'Manager',
+                'Engineer',
+                'Interpreter',
+                'Attorney',
+                'Advocate',
+                'Solicitor',
+                'Librarian',
+                'Statistician',
+                'Surveyor',
+                'Urban Planner',
+                'Firefighter',
+                'Judge',
+                'Military',
+                'Police',
+                'Air Traffic Controller',
+                'Aircraft Pilots',
+                'Sea Captain',
+                'Scientist',
+                'Astronomer',
+                'Biologist',
+                'Botanist',
+                'Ecologist',
+                'Geneticist',
+                'Immunologist',
+                'Pharmacologist',
+                'Virologist',
+                'Zoologist',
+                'Chemist',
+                'Geologist',
+                'Meteorologist',
+                'Oceanographer',
+                'Physicist',
+                'Programmer',
+                'Web Developer',
+                'Product Designer',
+                'Graphic Designer',
+                'Web Designer',
+                'Other'].sort %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+<div class="form-main with-nav form-main-deskwrap">
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= f.error_notification %>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-    <% end %>
+    <div class="form-inputs">
 
-    <%= f.input :password,
-                hint: "leave it blank if you don't want to change it",
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
+      <div class="inputs-left">
+        <%= f.input :first_name,
+                    required: true,
+                    autofocus: true,
+                    input_html: { autocomplete: "first_name" }%>
+        <%= f.input :last_name,
+                    required: true,
+                    autofocus: true,
+                    input_html: { autocomplete: "last_name" }%>
+        <%= f.input :email, required: true, autofocus: true %>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <% end %>
+
+        <%= f.input :password,
+                    hint: "leave it blank if you don't want to change it",
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation,
+                    required: false,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+
+      <div class="inputs-right">
+        <div class="radio-buttons">
+        <%= f.collection_radio_buttons :gender,
+                                      [['Female', 'Female'] ,['Male', 'Male']],
+                                      :first,
+                                      :last,
+                                      required: true,
+                                      autofocus: true,
+                                      input_html: { autocomplete: "gender" }%>
+        </div>
+        <%= f.input :photo,
+                    required: false,
+                    input_html: { autocomplete: "photo" } %>
+        <%= f.input :photo_cache, as: :hidden %>
+        <%= f.input :birthdate,
+                    required: true,
+                    as: :string,
+                    input_html: { autocomplete: "birthdate", class: "date-picker"} %>
+        <%= f.input :location,
+                    label: "Country",
+                    as: :country,
+                    required: true,
+                    input_html: { autocomplete: "location" } %>
+        <%= f.input :profession, collection: prof_list,
+                    tooltip: "Select your profession",
+                    required: true,
+                    input_html: { autocomplete: "profession" } %>
+        <%= f.input :hobbies,
+                    hint: "e.g. Football, Cinema, Travel",
+                    required: false,
+                    input_html: { autocomplete: "hobbies" } %>
+      </div>
+    </div>
+
     <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
-                required: true,
-                input_html: { autocomplete: "current-password" } %>
+                  hint: "we need your current password to confirm your changes",
+                  required: true,
+                  input_html: { autocomplete: "current-password" } %>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Update" %>
+    </div>
+  <% end %>
+
+  <!-- <h3>Cancel my account</h3>
+
+  <p>Unhappy? <%#= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p> -->
+  <div class="dev-links desktop-hide">
+    <%= link_to "Back", :back %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+</div>

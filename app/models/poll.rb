@@ -5,6 +5,7 @@ class Poll < ApplicationRecord
   belongs_to :category
   has_many :answers, dependent: :destroy
 
+  # Search
   include PgSearch
   pg_search_scope :poll_search,
     against: [ :question, :tags ],

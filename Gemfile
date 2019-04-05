@@ -28,6 +28,7 @@ gem 'cloudinary', '~> 1.9.1'
 gem "flatpickr"
 gem "chartkick"
 gem 'data-confirm-modal'
+gem 'country_select'
 
 # -------------
 
