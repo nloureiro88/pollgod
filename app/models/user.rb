@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :filters
 
   # Lists
-  SUBSCRIPTIONS = ['free', 'premium', 'corporate']
+  SUBSCRIPTIONS = ['free', 'premium', 'pro']
 
   # Validations
   validates :first_name, presence: true, allow_blank: false

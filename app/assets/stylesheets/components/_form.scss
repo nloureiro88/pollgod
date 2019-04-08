@@ -7,14 +7,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: $gray;
+    color: white;
     padding: 2rem;
     margin: 2rem auto;
     width: 350px;
     max-width: 80%;
     border-radius: 4px;
-    font-weight: lighter;
-    background-color: white;
+    background-color: $dark-blue;
     box-shadow: 2px 2px 2px rgb(230,230,230);
 
     small {
@@ -22,6 +21,7 @@
     }
 
     #user_photo {
+      color: $dark-blue;
       background-color: white;
       border: none;
       border-radius: 4px;
@@ -32,8 +32,11 @@
        text-align: center;
        padding: 0.2rem 0.4rem;
        margin-bottom: 1.5rem;
-       background-color: $light-blue !important;
-       color: white !important;
+       background-color: $light-gray !important;
+       color: $dark-blue !important;
+       border: none;
+       font-size: 0.9rem;
+       font-weight: 400;
 
        &:checked {
         background-color: $light-blue !important;
@@ -47,15 +50,14 @@
 
     .btn {
       margin: 0 auto;
-      padding: 0.4rem;
-      background-color: $gray !important;
-      color: white;
-      border: none;
+      padding: 0.4rem 0.8rem;
+      background-color: $dark-gray !important;
+      color: white !important;
       width: auto;
       height: auto;
 
       &:hover {
-        background-color: $dark-gray !important;
+        background-color: $gray !important;
         transition: all 0.3s ease-in-out;
       }
     }
@@ -68,6 +70,16 @@
           margin-left: 0.2rem;
         }
       }
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+      box-shadow: none !important;
+    }
+
+    input[type="file"] {
+      min-height: 2.2rem !important;
+      padding-top: 6px;
+      padding-left: 6px;
     }
   }
 
@@ -99,20 +111,24 @@
   }
 
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: $light-gray;
-    font-size: 0.85rem;
+    color: $gray;
+    font-size: 0.7rem;
   }
   ::-moz-placeholder { /* Firefox 19+ */
-    color: $light-gray;
-    font-size: 0.85rem;
+    color: $gray;
+    font-size: 0.7rem;
   }
   :-ms-input-placeholder { /* IE 10+ */
-    color: $light-gray;
-    font-size: 0.85rem;
+    color: $gray;
+    font-size: 0.7rem;
   }
   :-moz-placeholder { /* Firefox 18- */
-    color: $light-gray;
-    font-size: 0.85rem;
+    color: $gray;
+    font-size: 0.7rem;
+  }
+
+  textarea:focus, input:focus{
+    outline-color: $light-gray;
   }
 
   input:-webkit-autofill,
@@ -126,9 +142,23 @@
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
     border:none !important;
-    -webkit-text-fill-color: white !important;
-    -webkit-box-shadow: 0 0 0px 1000px $light-blue inset;
+    -webkit-text-fill-color: $dark-blue !important;
+    -webkit-box-shadow: 0 0 0px 1000px $light-gray inset;
     transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input[disabled], select[disabled] {
+   background-color: rgb(200,200,200) !important;
+  }
+
+  input:visited,
+  input:hover,
+  select:visited,
+  select:hover,
+  textarea:visited,
+  textarea:hover,
+  {
+    outline: none;
   }
 }
 
@@ -154,7 +184,6 @@
     }
 
     #user_current_password {
-      border-top: 1px solid $light-gray;
       margin: 0 auto;
       margin-bottom: 1.5rem;
       max-width: 40%;

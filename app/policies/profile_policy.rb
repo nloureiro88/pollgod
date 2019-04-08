@@ -9,7 +9,19 @@ class ProfilePolicy < ApplicationPolicy
     true
   end
 
+  def go_pro?
+    true
+  end
+
+  def go_premium?
+    true
+  end
+
   def filter_toggle?
+    true
+  end
+
+  def filter_all?
     true
   end
 end

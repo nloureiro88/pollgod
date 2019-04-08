@@ -49,6 +49,8 @@ class PollsController < ApplicationController
   # Poll creation
 
   def new
+    authorize Poll
+    @poll = Poll.new()
   end
 
   def create
@@ -112,25 +114,22 @@ class PollsController < ApplicationController
   def select_polls
     polls_answered = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).pluck(:poll_id)
     polls_fetch = policy_scope(Poll).where("status = 'active' AND user_id != ? AND deadline > ? AND category_id IN (?)", current_user.id, Time.now, @category_list)
-    polls_selection = polls_fetch.where("id NOT IN (?)", polls_answered)
+    polls_selection = polls_answered.size.zero? ? polls_fetch : polls_fetch.where("id NOT IN (?)", polls_answered)
     polls_selection
   end
 
   def active_categories
     @category_list = []
     Category.all.each do |cat|
-      if Filter.find_by(category: cat, user: current_user).nil?
-        @category_list << cat.id
-      elsif Filter.find_by(category: cat, user: current_user).active
-        @category_list << cat.id
-      end
+      filter = Filter.find_by(category: cat, user: current_user)
+      @category_list << cat.id if filter.nil? || filter.active
     end
   end
 
   def quick_links
     return if current_user.nil?
     @quick_links = current_user.hobbies.empty? ? [] : current_user.hobbies.split(", ").map { |hob| hob.downcase.capitalize }
-    all_tags = Poll.where('status = ? AND  deadline > ?', 'active', Time.now).pluck(:tags).flatten
+    all_tags = Poll.where('status = ? AND deadline > ?', 'active', Time.now).pluck(:tags).flatten
     hot_tags = Hash.new(0)
     all_tags.each do |tag|
       hot_tags[tag.downcase.capitalize] += 1

@@ -22,12 +22,18 @@
         <% end %>
 
         <% if @polls.size.zero? || @polls.nil? %>
-          <h3> No results found <i class="far fa-sad-tear"></i>, please try to adjust your search and filters...</h3>
+          <% if action_name == 'manage' && Poll.where(user: current_user).count.zero? %>
+            <h3> No results found <i class="far fa-sad-tear"></i>, create your first poll and you'll see it in this page!</h3>
+          <% elsif action_name == 'answered' && Answer.where(user: current_user).count.zero? %>
+            <h3> No results found <i class="far fa-sad-tear"></i>, answer your first poll and you'll see it in this page!</h3>
+          <% else %>
+            <h3> No results found <i class="far fa-sad-tear"></i>, please try to adjust your search and filters...</h3>
+          <% end %>
         <% end %>
       </div>
 
       <%= render 'shared/pollist', locals: {polls: @polls}  %>
     </div>
 
-    <%= render 'shared/filter-sidebar'  %>
+    <%= render 'shared/filter-sidebar' %>
 </div>

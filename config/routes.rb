@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   end
 
   get :dash, to: "profiles#dash"
+  get :go_premium, to: "profiles#go_premium", as: :go_premium
+  get :go_pro, to: "profiles#go_pro", as: :go_pro
   get :ftoggle, to: "profiles#filter_toggle", as: :ftoggle
   get :filters, to: "profiles#filters", as: :filters
   get :filterall, to: "profiles#filter_all", as: :filterall

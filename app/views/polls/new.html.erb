@@ -1,2 +1,134 @@
-<h1>Polls#new</h1>
-<p>Find me in app/views/polls/new.html.erb</p>
+<div class="form-main with-nav new-poll">
+
+  <div class="page-header">
+    <h2><i class="fas fa-plus-square"></i> New Poll</h2>
+  </div>
+
+  <form action="polls/create" method="post">
+
+    <div class="form-inputs">
+
+      <div class="form-group row">
+        <label for="np-question" class="col-xs-12 col-md-2 col-form-label">Question</label>
+        <div class="col-xs-12 col-md-10">
+          <textarea id="np-question" name="np-question" placeholder="What is your question?" minlength="10" maxlength="60" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="np-tags" class="col-xs-12 col-md-2 col-form-label col-form-label">Tags</label>
+        <div class="col-xs-12 col-md-10">
+          <input type="text" id="np-tags" name="np-tags" placeholder="Series, GoT, GoT Season 8" maxlength="30">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="np-category" class="col-xs-12 col-md-2 col-form-label col-form-label">Category</label>
+        <div class="col-xs-12 col-md-6">
+          <select id="np-category" name="np-category" placeholder="Main category" required>
+            <option value="" class="placeholder-fm" disabled selected>Select from list...</option>
+            <% Category.all.each do |cat| %>
+              <option value="<%= cat.id %>">
+                <%= cat.name %><%= image_tag("category_white/#{cat.icon}") %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="np-answers" class="col-xs-6 col-md-2 col-form-label col-form-label">Options</label>
+        <div class="col-xs-6 col-md-2">
+          <input type="number" value="2" min="2" max="5" id="np-answers" name="np-answers" class="text-center" required>
+        </div>
+
+        <div class="col-xs-12 col-md-4 hidden">
+          <select id="np-option-type" name="np-option-type" placeholder="option type" required value="SCP" disabled>
+            <option value="SCP">Single Choice</option>
+            <option value="MCP">Multiple Choice</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="np-options">
+
+        <div class="form-group row np-opt-group">
+          <label for="np-opt-1" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
+          <div class="col-xs-12 col-md-10">
+            <input type="text" class="np-opt" id="np-opt-1" name="np-opt-1" data-op="1" placeholder="Option 1" minlength="1" maxlength="30" required>
+          </div>
+        </div>
+
+        <div class="form-group row np-opt-group">
+          <label for="np-opt-2" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
+          <div class="col-xs-12 col-md-10">
+            <input type="text" class="np-opt" id="np-opt-2" name="np-opt-2" data-op="2" placeholder="Option 2" minlength="1" maxlength="30" required>
+          </div>
+        </div>
+
+        <div class="form-group row np-opt-group hidden">
+          <label for="np-opt-3" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
+          <div class="col-xs-12 col-md-10">
+            <input type="text" class="np-opt hidden" id="np-opt-3" name="np-opt-3" data-op="3" placeholder="Option 3" minlength="1" maxlength="30" required>
+          </div>
+        </div>
+
+        <div class="form-group row np-opt-group hidden">
+          <label for="np-opt-4" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
+          <div class="col-xs-12 col-md-10">
+            <input type="text" class="np-opt hidden" id="np-opt-4" name="np-opt-4" data-op="4" placeholder="Option 4" minlength="1" maxlength="30" required>
+          </div>
+        </div>
+
+        <div class="form-group row np-opt-group hidden">
+          <label for="np-opt-5" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
+          <div class="col-xs-12 col-md-10">
+            <input type="text" class="np-opt hidden" id="np-opt-5" name="np-opt-5" data-op="5" placeholder="Option 5" minlength="1" maxlength="30" required>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <label for="np-qtype" class="col-xs-hidden col-md-2 col-form-label col-form-label">Type</label>
+        <div class="col-xs-12 col-md-4">
+          <select id="np-qtype" name="np-qtype" required <%= 'disabled' if current_user.subscription == 'free' %>>
+            <option value="open">Open</option>
+            <option value="closed" disabled="<%= current_user.subscription == 'free' %>">Closed</option>
+            <option value="pro" disabled="<%= current_user.subscription != 'pro' %>">Sponsored</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="np-deadline" class="col-xs-12 col-md-2 col-form-label col-form-label">Deadline</label>
+        <div class="col-xs-12 col-md-4">
+          <input class="text-center" type="text" id="np-deadline" name="np-deadline" class="form-picker" value="<%= Date.today + 8 %>" required <%= 'disabled' if current_user.subscription == 'free' %>>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="np-tickets" class="col-xs-12 col-md-2 col-form-label col-form-label">Tickets</label>
+        <div class="col-xs-12 col-md-2 text-center">
+          <input class="text-center" type="number" id="np-tickets" name="np-tickets" value="1" min="1" max="99" required <%= 'disabled' if current_user.subscription != 'pro' %>>
+        </div>
+        <p id="poll-price"></p>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <% if current_user.subscription == 'free' %>
+        <%= link_to go_premium_path, class:"btn btn-clear" do %>
+          Upgrade to Premium
+        <% end %>
+      <% elsif current_user.subscription == 'premium' %>
+        <%= link_to go_pro_path, class:"btn btn-clear" do %>
+          Upgrade to Pro
+        <% end %>
+      <% end %>
+      <input type="submit" class="btn">
+    </div>
+
+  </form>
+
+</div>

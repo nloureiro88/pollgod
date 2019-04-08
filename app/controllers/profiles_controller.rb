@@ -2,13 +2,27 @@ class ProfilesController < ApplicationController
   def dash
   end
 
+  def go_premium
+    user = current_user
+    user.subscription = "premium"
+    user.save!
+    redirect_to({controller: 'profiles', action: 'dash'})
+  end
+
+  def go_pro
+    user = current_user
+    user.subscription = "pro"
+    user.save!
+    redirect_to({controller: 'profiles', action: 'dash'})
+  end
+
   def filters
     @categories = Category.all
   end
 
   def filter_toggle
     target_category = Category.find(params[:cat_id])
-    target_filter = Filter.find_by(user: current_user, category_id: target_category)
+    target_filter = Filter.find_by(user: current_user, category: target_category)
     if target_filter.nil?
       new_filter = Filter.new(user: current_user, category: target_category, active: false)
       new_filter.save!
@@ -26,14 +40,13 @@ class ProfilesController < ApplicationController
 
   def filter_all
     Category.all.each do |category|
-      Filter.where(user: current_user, category_id: category).each do |filter|
-        if filter.nil?
-          new_filter = Filter.new(user: current_user, category: target_category, active: params[:active] == "true")
-          new_filter.save!
-        else
-          filter.active = params[:active] == "true"
-          filter.save!
-        end
+      filter = Filter.find_by(user: current_user, category: category)
+      if filter.nil?
+        new_filter = Filter.new(user: current_user, category: category, active: params[:active] == "true")
+        new_filter.save!
+      else
+        filter.active = params[:active] == "true"
+        filter.save!
       end
     end
 
