@@ -55,38 +55,43 @@ import "bootstrap";
 
 // HANDLE NEW POLL FORM
 
+  const title = document.querySelector('h2').textContent
+  if (title === " New Poll") {
+
   // Event for resetting number of answers
 
-  const counter = document.querySelector('#np-answers')
-  const options = document.querySelectorAll('.np-opt')
+    const counter = document.querySelector('#np-answers')
+    const options = document.querySelectorAll('.np-opt')
 
-  counter.addEventListener("input", (event) => {
-    const option_count = parseInt(counter.value, 10);
-    options.forEach((option) => {
-      if (parseInt(option.dataset.op, 10) <= option_count) {
-        option.closest('.np-opt-group').classList.remove("hidden");
-        option.classList.remove("hidden");
-      } else {
-        option.closest('.np-opt-group').classList.add("hidden");
-        option.classList.add("hidden");
-        option.value = "";
+    counter.addEventListener("input", (event) => {
+      const option_count = parseInt(counter.value, 10);
+      options.forEach((option) => {
+        if (parseInt(option.dataset.op, 10) <= option_count) {
+          option.closest('.np-opt-group').classList.remove("hidden");
+          option.classList.remove("hidden");
+        } else {
+          option.closest('.np-opt-group').classList.add("hidden");
+          option.classList.add("hidden");
+          option.value = "";
+        }
+      })
+    });
+
+    // Event for calculating price
+
+    const ticket = document.querySelector('#np-tickets')
+    const target = document.querySelector('#poll-price')
+
+    ticket.addEventListener("input", (event) => {
+      target.innerHTML = ""
+      const amount = parseInt(ticket.value, 10)
+      if (amount > 1) {
+        let text = `€ ${parseFloat(0.8 * amount - 0.8).toFixed(2)} will be charged per each answer received`
+        target.insertAdjacentHTML('beforeEnd', text)
       }
-    })
-  });
+    });
 
-  // Event for calculating price
-
-  const ticket = document.querySelector('#np-tickets')
-  const target = document.querySelector('#poll-price')
-
-  ticket.addEventListener("input", (event) => {
-    target.innerHTML = ""
-    const amount = parseInt(ticket.value, 10)
-    if (amount > 1) {
-      let text = `€ ${parseFloat(0.8 * amount - 0.8).toFixed(2)} will be charged per each answer received`
-      target.insertAdjacentHTML('beforeEnd', text)
-    }
-  });
+  }
 
 // HANDLE CARDS
 
