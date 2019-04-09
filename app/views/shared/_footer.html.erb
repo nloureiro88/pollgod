@@ -10,10 +10,53 @@
 
   <div class="footer-right">
     <p>
-      <span><a href="#">About</a></span>
-      <span><a href="#">Terms & Conditions</a></span>
+      <span><a href="#" data-toggle="modal" data-target="#aboutModal">About</a></span>
+      <span><a href="#" data-toggle="modal" data-target="#tcModal">Terms & Conditions</a></span>
       <span><a href="#go-top">Up <i class="fas fa-caret-up"></i></a></span>
     </p>
   </div>
+
+  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="aboutModalLabel">About</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>PollGod is a training project by Nuno Loureiro right after concluding the 9-week Le Wagon coding bootcamp focused on web development and, more specifically, Ruby on Rails.</p> <br>
+        <p>This project was developed over the course of 2 weeks with the goal of prototyping the core features of the PollGod concept with desktop and mobile interfaces.</p> <br>
+        <p>If you are interesting in knowing more about this project, my portfolio or my career, do not hesitate to contact me through <a href="https://github.com/nloureiro88">Github</a> or <a href="https://www.linkedin.com/in/nuno-loureiro-95815a5a/">LinkedIn</a>.</p>
+      </div>
+      <div class="modal-footer">
+        <a class="button btn btn-secondary" href="mailto:nunoloureiro88@gmail.com">E-mail</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tcModal" tabindex="-1" role="dialog" aria-labelledby="tcModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tcModalLabel">Terms & Conditions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>PollGod is a training project not meant for profit at this stage and, as such, there is no guarantee of user support, bug fixing, new releases or any other type of ongoing activity or responsability.</p> <br>
+        <p>All the data added to the app, including personal data, is subject to standard Rails protection; however, considering the project context and scope (see 'About' section), the information is provided by the users at their own risk and without any safeguards guaranteed.</p> <br>
+        <p>All of the features and underlying code are protected throught standard intellectual property and copyright laws and regulation.</p> <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </footer>

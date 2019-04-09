@@ -35,6 +35,14 @@ footer {
   span {
     margin-left: 1rem;
   }
+
+  .modal {
+    p { color: $dark-gray !important; }
+
+    button, a {
+      border: none;
+    }
+  }
 }
 
 @media screen and (max-width: 1300px) {

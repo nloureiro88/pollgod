@@ -89,6 +89,9 @@ class PollsController < ApplicationController
   end
 
   def report
+    new_report = Report.new(user: current_user, poll: @poll)
+    new_report.save!
+    redirect_to(controller: 'polls', action: params[:origin_action])
   end
 
   # Poll inactivation
@@ -100,22 +103,23 @@ class PollsController < ApplicationController
       @poll.status = 'active'
     end
     @poll.save!
-    redirect_to({ controller: 'polls', action: params[:origin_action] })
+    redirect_to(controller: 'polls', action: params[:origin_action])
   end
 
   def destroy
     @poll.answers.destroy_all
     @poll.destroy
-    redirect_to({ controller: 'polls', action: params[:origin_action] })
+    redirect_to(controller: 'polls', action: params[:origin_action])
   end
 
   private
 
   def select_polls
     polls_answered = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).pluck(:poll_id)
+    polls_reported = Report.where("status != 'deleted' AND user_id = ?", current_user.id).pluck(:poll_id)
     polls_fetch = policy_scope(Poll).where("status = 'active' AND user_id != ? AND deadline > ? AND category_id IN (?)", current_user.id, Time.now, @category_list)
     polls_selection = polls_answered.size.zero? ? polls_fetch : polls_fetch.where("id NOT IN (?)", polls_answered)
-    polls_selection
+    polls = polls_reported.size.zero? ? polls_selection : polls_selection.where("id NOT IN (?)", polls_reported)
   end
 
   def active_categories
@@ -128,15 +132,12 @@ class PollsController < ApplicationController
 
   def quick_links
     return if current_user.nil?
+
     @quick_links = current_user.hobbies.empty? ? [] : current_user.hobbies.split(", ").map { |hob| hob.downcase.capitalize }
     all_tags = Poll.where('status = ? AND deadline > ?', 'active', Time.now).pluck(:tags).flatten
     hot_tags = Hash.new(0)
-    all_tags.each do |tag|
-      hot_tags[tag.downcase.capitalize] += 1
-    end
-    hot_tags.sort_by {|_tag, value| value}.each do |tag, _value|
-      @quick_links << tag
-    end
+    all_tags.each { |tag| hot_tags[tag.downcase.capitalize] += 1 }
+    hot_tags.sort_by { |_tag, value| value }.each { |tag, _value| @quick_links << tag }
     @quick_links
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_22_184239) do
+ActiveRecord::Schema.define(version: 2019_04_09_100834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,10 +51,10 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
   create_table "polls", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "category_id"
-    t.integer "t_likes"
-    t.integer "t_love"
-    t.integer "t_funny"
-    t.integer "t_interest"
+    t.integer "t_likes", default: 0
+    t.integer "t_love", default: 0
+    t.integer "t_funny", default: 0
+    t.integer "t_interest", default: 0
     t.integer "points"
     t.string "qtype"
     t.text "question"
@@ -68,6 +68,17 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_polls_on_category_id"
     t.index ["user_id"], name: "index_polls_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "poll_id"
+    t.string "motive", default: "improper content"
+    t.string "status", default: "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["poll_id"], name: "index_reports_on_poll_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,4 +109,6 @@ ActiveRecord::Schema.define(version: 2019_03_22_184239) do
   add_foreign_key "filters", "users"
   add_foreign_key "polls", "categories"
   add_foreign_key "polls", "users"
+  add_foreign_key "reports", "polls"
+  add_foreign_key "reports", "users"
 end

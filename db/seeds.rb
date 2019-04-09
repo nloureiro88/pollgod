@@ -2,11 +2,15 @@ require 'csv'
 
 puts "Destroying all previous data..."
 
+Report.destroy_all
 Answer.destroy_all
 Poll.destroy_all
 Filter.destroy_all
 Category.destroy_all
 User.destroy_all
+
+puts 'Cleaning up Cloudinary via API...'
+Cloudinary::Api.delete_all_resources
 
 filepath_users = './db/files/users.csv'
 
@@ -47,7 +51,7 @@ CSV.foreach(filepath_users, csv_options) do |row|
                       location: row[2],
                       profession: Faker::Job.title,
                       hobbies: HOBBIES.sample(new_user_hobbies).join(", "),
-                      subscription: ['free', 'premium', 'corporate'].sample)
+                      subscription: ['free', 'premium', 'pro'].sample)
   new_user.remote_photo_url = row[3]
   new_user.save!
 end

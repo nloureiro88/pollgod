@@ -12,6 +12,11 @@
 
       <div class="poll-card-front" id="poll-card-front-<%= poll.id %>" data-answered="<%= poll.answered?(current_user) %>">
 
+        <%# if poll.answered?(current_user) %>
+          <!-- <div class="new-poll-alert">
+            <i class="fas fa-certificate"></i>
+            <i></i><span> Answered</span>
+          </div> -->
         <% if poll.created_at > Time.now - 60 * 60 * 24  %>
           <div class="new-poll-alert">
             <i class="fas fa-certificate"></i>

@@ -23,7 +23,7 @@
     <% end %>
 
     <% unless poll.user == current_user %>
-      <%= link_to '<i class="fas fa-exclamation-circle"></i>'.html_safe, report_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Report Abuse", data: { toggle: "tooltip" } %>
+      <%= link_to '<i class="fas fa-exclamation-circle"></i>'.html_safe, report_poll_path(poll, origin_action: action_name), class: "drop-option", title: "Report Abuse", data: { toggle: "tooltip", confirm: "Are you sure you want to report this poll and its user?" } %>
     <% end %>
 
   </div>
