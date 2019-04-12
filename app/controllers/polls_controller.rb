@@ -55,20 +55,20 @@ class PollsController < ApplicationController
 
   def create
     authorize Poll
-    question = params["np-question"].last == "?" ? params["np-question"].humanize : params["np-question"].humanize + "?"
+    question = params["np-question"].last == "?" ? params["np-question"].sub(/\S/, &:upcase) : params["np-question"].sub(/\S/, &:upcase) + "?"
     @poll = Poll.new(user: current_user,
                     category_id: params["np-category"].to_i,
                     points: params["np-tickets"].to_i,
                     qtype: params["np-qtype"],
                     question: question,
                     optype: "SCP",
-                    options: [params["np-opt-1"].humanize,
-                              params["np-opt-2"].humanize,
-                              params["np-opt-3"].humanize,
-                              params["np-opt-4"].humanize,
-                              params["np-opt-5"].humanize]
+                    options: [params["np-opt-1"].sub(/\S/, &:upcase),
+                              params["np-opt-2"].sub(/\S/, &:upcase),
+                              params["np-opt-3"].sub(/\S/, &:upcase),
+                              params["np-opt-4"].sub(/\S/, &:upcase),
+                              params["np-opt-5"].sub(/\S/, &:upcase)]
                               .reject! { |s| s.nil? || s.strip.empty? },
-                    tags: params["np-tags"].gsub(/, /,",").split(",").each { |t| t.humanize },
+                    tags: params["np-tags"].gsub(/, /,",").split(",").each { |t| t.sub(/\S/, &:upcase) },
                     deadline: Time.parse(params["np-deadline"]))
     if @poll.save
       redirect_to manage_polls_path

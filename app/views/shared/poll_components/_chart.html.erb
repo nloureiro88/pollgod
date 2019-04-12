@@ -5,7 +5,7 @@
 
   <canvas id="myChart-<%= poll.id %>" ></canvas>
 
-  <% poll_options = poll.options.map { |option| option.length > 10 ? "#{option.capitalize[0,10]}.." : option.capitalize } %>
+  <% poll_options = poll.options.map { |option| option.length > 15 ? "#{option[0,15]}.." : option } %>
 
   <% unless poll.answers.count.zero? %>
 
