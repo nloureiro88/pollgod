@@ -17,6 +17,13 @@
   border: 1px solid rgb(240,240,240);
   position: relative;
 
+  &:hover {
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease-in-out;
+    transition-delay: 0.3s;
+  }
+
   button {
     background-color: none;
   }

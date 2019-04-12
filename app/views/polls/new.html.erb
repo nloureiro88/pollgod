@@ -4,7 +4,8 @@
     <h2><i class="fas fa-plus-square"></i> New Poll</h2>
   </div>
 
-  <form action="polls/create" method="post">
+  <form action="/polls" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 
     <div class="form-inputs">
 
@@ -69,21 +70,21 @@
         <div class="form-group row np-opt-group hidden">
           <label for="np-opt-3" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
           <div class="col-xs-12 col-md-10">
-            <input type="text" class="np-opt hidden" id="np-opt-3" name="np-opt-3" data-op="3" placeholder="Option 3" minlength="1" maxlength="30" required>
+            <input type="text" class="np-opt hidden" id="np-opt-3" name="np-opt-3" data-op="3" placeholder="Option 3" minlength="1" maxlength="30">
           </div>
         </div>
 
         <div class="form-group row np-opt-group hidden">
           <label for="np-opt-4" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
           <div class="col-xs-12 col-md-10">
-            <input type="text" class="np-opt hidden" id="np-opt-4" name="np-opt-4" data-op="4" placeholder="Option 4" minlength="1" maxlength="30" required>
+            <input type="text" class="np-opt hidden" id="np-opt-4" name="np-opt-4" data-op="4" placeholder="Option 4" minlength="1" maxlength="30">
           </div>
         </div>
 
         <div class="form-group row np-opt-group hidden">
           <label for="np-opt-5" class="col-xs-12 col-md-2 col-form-label col-form-label"></label>
           <div class="col-xs-12 col-md-10">
-            <input type="text" class="np-opt hidden" id="np-opt-5" name="np-opt-5" data-op="5" placeholder="Option 5" minlength="1" maxlength="30" required>
+            <input type="text" class="np-opt hidden" id="np-opt-5" name="np-opt-5" data-op="5" placeholder="Option 5" minlength="1" maxlength="30">
           </div>
         </div>
 
@@ -94,8 +95,8 @@
         <div class="col-xs-12 col-md-4">
           <select id="np-qtype" name="np-qtype" required <%= 'disabled' if current_user.subscription == 'free' %>>
             <option value="open">Open</option>
-            <option value="closed" disabled="<%= current_user.subscription == 'free' %>">Closed</option>
-            <option value="pro" disabled="<%= current_user.subscription != 'pro' %>">Sponsored</option>
+            <option value="closed" <%= 'disabled' if current_user.subscription == 'free' %>>Closed</option>
+            <option value="pro" <%= 'disabled' if current_user.subscription != 'pro' %>>Sponsored</option>
           </select>
         </div>
       </div>
@@ -103,7 +104,7 @@
       <div class="form-group row">
         <label for="np-deadline" class="col-xs-12 col-md-2 col-form-label col-form-label">Deadline</label>
         <div class="col-xs-12 col-md-4">
-          <input class="text-center" type="text" id="np-deadline" name="np-deadline" class="form-picker" value="<%= Date.today + 8 %>" required <%= 'disabled' if current_user.subscription == 'free' %>>
+          <input class="text-center form-picker" type="text" id="np-deadline" name="np-deadline" value="<%= Date.today + 8 %>" required <%= 'disabled' if current_user.subscription == 'free' %>>
         </div>
       </div>
 
@@ -126,7 +127,7 @@
           Upgrade to Pro
         <% end %>
       <% end %>
-      <input type="submit" class="btn">
+      <button type="submit" class="btn">Create</button>
     </div>
 
   </form>

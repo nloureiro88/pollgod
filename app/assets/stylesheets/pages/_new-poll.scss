@@ -62,11 +62,12 @@
 
       .btn-clear {
         background-color: transparent !important;
-        border: 1px solid $light-gray;
+        border: 1px solid $light-gray !important;
         color: $light-gray !important;
       }
 
       .btn {
+        border: none;
         margin: 1rem;
       }
     }

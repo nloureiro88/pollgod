@@ -18,8 +18,8 @@ class Poll < ApplicationRecord
     }
 
   # Lists
-  QTYPES = ['open', 'private', 'sponsored']
-  OTYPES = ['single choice', 'multiple choice'] # To increment in the future
+  QTYPES = ['open', 'closed', 'sponsored']
+  OTYPES = ['SCP', 'MCP'] # To increment in the future
   STATUS = ['active', 'inactive', 'deleted']
 
   # Validations

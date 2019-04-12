@@ -12,12 +12,12 @@
   </head>
   <body>
     <%= javascript_pack_tag 'chart' %>
-    <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && action_name == "edit") %>
+    <%= render 'shared/navbar' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && (action_name == "edit" || action_name == "update")) %>
     <%= render 'shared/flashes' %>
     <div class="wrapper">
       <%= yield %>
     </div>
-    <%= render 'shared/navigator' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && action_name == "edit") %>
+    <%= render 'shared/navigator' if controller_name == "polls" || controller_name == "profiles" || (controller_name == "registrations" && (action_name == "edit" || action_name == "update")) %>
     <%= render 'shared/footer' if controller_name == "polls" || controller_name == "profiles" || controller_name == "pages" %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'application' %>

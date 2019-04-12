@@ -15,16 +15,18 @@ import "bootstrap";
    altInput: true,
    time_24hr: true,
    dateFormat: 'Y-m-d',
-   MinDate: `${year - 90}-${1}-${1}`,
-   MaxDate: `${year - 14}-${1}-${1}`
+   defaultDate: `2000-1-1`,
+   minDate: `${year - 90}-1-1`,
+   maxDate: `${year - 14}-12-31`
   });
 
   flatpickr('.form-picker', {
    altInput: true,
    time_24hr: true,
    dateFormat: 'Y-m-d',
-   MinDate: new Date().fp_incr(5),
-   MaxDate: new Date().fp_incr(90)
+   defaultDate: currentDate.fp_incr(8),
+   minDate: currentDate.fp_incr(8),
+   maxDate: currentDate.fp_incr(90)
   });
 
 // Tooltips

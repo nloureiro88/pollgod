@@ -82,9 +82,9 @@ User.all.each do |user|
     new_poll = Poll.new(user: user,
                         category: Category.all.sample,
                         points: user.subscription == 'free' ? 1 : rand(5..100),
-                        qtype: user.subscription == 'free' ? 'open' : 'sponsored', # To test with private in the future
+                        qtype: user.subscription == 'free' ? 'open' : ['closed', 'sponsored'].sample, # To test with private in the future
                         question: Faker::GreekPhilosophers.quote.tr(".", "") + "?",
-                        optype: 'single choice', # Add other options in the future
+                        optype: 'SCP', # Add other options in the future
                         options: ANSWERS.sample,
                         tags: HOBBIES.sample(new_poll_tags),
                         image: Faker::Placeholdit.image('280x280', 'jpeg', :random),

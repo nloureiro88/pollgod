@@ -17,10 +17,12 @@
     box-shadow: 2px 2px 2px rgb(230,230,230);
 
     .invalid-feedback {
+      margin: 0 auto;
       margin-top: -1rem;
       z-index: 10;
       background-color: $dark-gray;
       border-radius: 4px;
+      max-width: 350px;
     }
 
     small {
@@ -135,7 +137,7 @@
     font-size: 0.7rem;
   }
 
-  textarea:focus, input:focus{
+  textarea:focus, input:focus, select:focus{
     outline-color: $light-gray;
   }
 
