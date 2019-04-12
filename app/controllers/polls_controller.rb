@@ -55,20 +55,20 @@ class PollsController < ApplicationController
 
   def create
     authorize Poll
-    question = params["np-question"].last == "?" ? params["np-question"].titlecase : params["np-question"].titlecase + "?"
+    question = params["np-question"].last == "?" ? params["np-question"].humanize : params["np-question"].humanize + "?"
     @poll = Poll.new(user: current_user,
                     category_id: params["np-category"].to_i,
                     points: params["np-tickets"].to_i,
                     qtype: params["np-qtype"],
                     question: question,
                     optype: "SCP",
-                    options: [params["np-opt-1"].titlecase,
-                              params["np-opt-2"].titlecase,
-                              params["np-opt-3"].titlecase,
-                              params["np-opt-4"].titlecase,
-                              params["np-opt-5"].titlecase]
+                    options: [params["np-opt-1"].humanize,
+                              params["np-opt-2"].humanize,
+                              params["np-opt-3"].humanize,
+                              params["np-opt-4"].humanize,
+                              params["np-opt-5"].humanize]
                               .reject! { |s| s.nil? || s.strip.empty? },
-                    tags: params["np-tags"].gsub(/, /,",").split(",").each { |t| t.titlecase },
+                    tags: params["np-tags"].gsub(/, /,",").split(",").each { |t| t.humanize },
                     deadline: Time.parse(params["np-deadline"]))
     if @poll.save
       redirect_to manage_polls_path
