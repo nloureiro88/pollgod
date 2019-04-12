@@ -32,7 +32,7 @@ class ProfilesController < ApplicationController
     end
 
     if params[:origin_action].present? && params[:origin_action] != 'filters'
-      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query]})
+      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query], friend_id: params[:friend_id]})
     else
       redirect_to :filters
     end
@@ -51,7 +51,7 @@ class ProfilesController < ApplicationController
     end
 
     if params[:origin_action].present? && params[:origin_action] != 'filters'
-      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query]})
+      redirect_to ({controller: 'polls', action: params[:origin_action], query: params[:query], friend_id: params[:friend_id]})
     else
       redirect_to :filters
     end

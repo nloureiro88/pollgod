@@ -1,10 +1,10 @@
 <% poll = object[:poll] %>
 
-<div class="dropleft">
+<div class="dropleft dropleft-options">
 
   <%= link_to '<i class="fas fa-ellipsis-h more-info"></i>'.html_safe, "#", class: "dropdown-toggle", role: "button", id: "dropdownMenuLink", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
 
-  <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuButton">
+  <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuLink">
 
     <% if poll.user == current_user || poll.qtype == 'open' %>
       <%= link_to '<i class="fas fa-chart-area"></i>'.html_safe, poll_path(poll, origin_action: action_name), class: "drop-option", title: "Stats", data: { toggle: "tooltip" } %>

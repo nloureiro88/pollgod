@@ -30,7 +30,12 @@ Rails.application.routes.draw do
       get :loved, to: "polls#loved", as: :loved
       get :funny, to: "polls#funny", as: :funny
       get :interesting, to: "polls#interesting", as: :interesting
+      get :friend, to: "polls#friend", as: :friend
     end
   end
 
+  resources :friends, only: :index do
+    get :add, to: "friends#add", as: :add
+    get :remove, to: "friends#remove", as: :remove
+  end
 end

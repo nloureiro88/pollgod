@@ -1,7 +1,7 @@
 class PollsController < ApplicationController
   before_action :set_poll, only: %i(show add_answer result report toggle destroy)
-  before_action :active_categories, only: %i(index manage answered sponsored fresh loved funny interesting)
-  before_action :quick_links, only: %i(index manage answered sponsored fresh loved funny interesting)
+  before_action :active_categories, only: %i(index manage answered sponsored fresh loved funny interesting friend)
+  before_action :quick_links, only: %i(index manage answered sponsored fresh loved funny interesting friend)
 
   # Listing of polls
 
@@ -46,6 +46,11 @@ class PollsController < ApplicationController
     @polls = params[:query].present? ? polls_answered.poll_search(params[:query]) : polls_answered
   end
 
+  def friend
+    polls = policy_scope(Poll).where("status = 'active' AND user_id = ? AND category_id IN (?)", params[:friend_id].to_i, @category_list).order('created_at DESC')
+    @polls = params[:query].present? ? polls.poll_search(params[:query]) : polls
+  end
+
   # Poll creation
 
   def new
@@ -68,7 +73,7 @@ class PollsController < ApplicationController
                               params["np-opt-4"].sub(/\S/, &:upcase),
                               params["np-opt-5"].sub(/\S/, &:upcase)]
                               .reject! { |s| s.nil? || s.strip.empty? },
-                    tags: params["np-tags"].gsub(/, /,",").split(",").each { |t| t.sub(/\S/, &:upcase) },
+                    tags: params["np-tags"].gsub(/, /, ",").split(",").each { |t| t.sub(/\S/, &:upcase) },
                     deadline: Time.parse(params["np-deadline"]))
     if @poll.save
       redirect_to manage_polls_path

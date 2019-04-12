@@ -4,6 +4,8 @@ class Poll < ApplicationRecord
   belongs_to :user
   belongs_to :category
   has_many :answers, dependent: :destroy
+  has_many :active_users, class_name: "User", foreign_key: :active_user_id
+  has_many :follow_users, class_name: "User", foreign_key: :follow_user_id
 
   # Search
   include PgSearch
@@ -28,7 +30,7 @@ class Poll < ApplicationRecord
   validates :points, presence: true, numericality: { only_integer: true, greater_then: 0 }
   validates :qtype, presence: true, inclusion: { in: QTYPES }
   validates :optype, presence: true, inclusion: { in: OTYPES }
-  validates :question, presence: true, length: { maximum: 60 } # Consider uniqueness: true for real data
+  validates :question, presence: true, length: { maximum: 80 } # Consider uniqueness: true for real data
   validates :deadline, presence: true, allow_blank: false
   validates :status, presence: true, inclusion: { in: STATUS }
   validates :tags, length: { maximum: 45 }

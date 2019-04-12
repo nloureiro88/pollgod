@@ -18,10 +18,8 @@
   position: relative;
 
   &:hover {
-    margin-bottom: 1.25rem;
-    margin-top: 0.25rem;
+    box-shadow: 4px 4px 4px $gray;
     transition: all 0.3s ease;
-    transition-delay: 0.3s;
   }
 
   button {
@@ -64,7 +62,7 @@
     cursor: pointer;
   }
 
-  .dropleft {
+  .dropleft-options {
     position: absolute;
     top: 0.75rem;
     right: 10%;
@@ -122,6 +120,32 @@
 
   .dropleft-toggle::after {
     display: none;
+  }
+
+  .avatar-drop:hover .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-avatar {
+    font-size: 0.75rem;
+    color: white;
+    background-color: $dark-gray;
+    opacity: 0.9;
+    padding: 0.4rem 0.2rem;
+    margin-right: 0;
+    border-radius: 4px;
+    text-align: center;
+
+    i {
+      font-size: 0.85rem !important;
+      padding: 0.2rem;
+      color: white;
+      margin: 0 0.5rem;
+
+      &:hover {
+        color: $light-blue;
+      }
+    }
   }
 
   // FRONT OF CARD

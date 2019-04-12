@@ -7,6 +7,7 @@ Answer.destroy_all
 Poll.destroy_all
 Filter.destroy_all
 Category.destroy_all
+Friend.destroy_all
 User.destroy_all
 
 puts 'Cleaning up Cloudinary via API...'

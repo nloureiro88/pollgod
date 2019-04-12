@@ -1,0 +1,33 @@
+<% poll = object[:poll] %>
+
+<div class="avatar-drop dropleft">
+
+  <% if poll.user.photo.file.nil? %>
+    <%= image_tag "avatar/#{User.last.birthdate.day}.svg", size: "36x36", class: "dropdown-toggle", alt: "#{poll.user.first_name} #{poll.user.last_name}", role: "button", id: "dropdownMenuUser", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
+  <% else %>
+    <%= cl_image_tag("#{poll.user.photo}", size: "36x36", crop: :thumb, gravity: :face, class: "svg-icon dropdown-toggle", alt: "#{poll.user.first_name} #{poll.user.last_name}", role: "button", id: "dropdownMenuUser", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false) %>
+  <% end %>
+
+  <% unless action_name == "friend" || action_name == "manage" %>
+
+    <div class="dropdown-menu dropdown-avatar" aria-labelledby="dropdownMenuUser">
+      <%= poll.user.first_name %> <%= poll.user.last_name %>
+      <div class="options">
+
+        <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: poll.user.id).last %>
+
+        <% if poll.user == current_user %>
+        <% elsif rs.nil? || rs.status == 'inactive' %>
+          <%= link_to '<i class="fas fa-user-plus"></i>'.html_safe, friend_add_path(poll.user.id), class: "drop-option", title: "Follow", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
+        <% elsif controller_name != 'friends' %>
+          <%= link_to '<i class="fas fa-poll-h"></i>'.html_safe, friend_polls_path(friend_id: poll.user.id), class: "drop-option", title: "All Polls", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
+          <%#= link_to '<i class="fas fa-user-minus"></i>'.html_safe, friend_remove_path(poll.user.id), class: "drop-option", title: "Remove", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
+        <% end %>
+
+        <%= link_to '<i class="fas fa-search"></i>'.html_safe, ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}), class: "drop-option", title: "Filter", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

@@ -1,4 +1,4 @@
-<% searcheable_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh', 'manage', 'answered'] %>
+<% searcheable_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh', 'manage', 'answered', 'friend'] %>
 <% outer_actions = ['index', 'loved', 'funny', 'interesting', 'sponsored', 'fresh'] %>
 
 <!-- NAVBAR DESKTOP -->
@@ -36,6 +36,7 @@
         </button>
         <div class="dropdown-menu" style="right: 55px; top: 5px">
           <%= link_to "Dashboard", dash_path, class: "nav-link" %>
+          <%= link_to "Following", friends_path, class: "nav-link" %>
           <%= link_to "My Polls", manage_polls_path, class: "nav-link" %>
           <%= link_to "My Answers", answered_polls_path, class: "nav-link" %>
           <div class="dropdown-divider"></div>
@@ -82,8 +83,8 @@
           <li class="nav-item <%= 'active' if controller_name == 'profiles' && action_name == 'dash' %>">
             <%= link_to "Dashboard", dash_path, class: "nav-link" %>
           </li>
-          <li style="color: white" class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'new' %>">
-            <%= link_to "New Poll", new_poll_path, class: "nav-link" %>
+          <li style="color: white" class="nav-item <%= 'active' if ((controller_name == 'polls' && action_name == 'friend') || controller_name == 'friends') %>">
+            <%= link_to "Following", friends_path, class: "nav-link" %>
           </li>
         </ul>
         <ul class="navbar-nav mr-auto navbar-center">
@@ -95,12 +96,15 @@
           </li>
         </ul>
         <ul class="navbar-nav mr-auto navbar-right">
+          <li style="color: white" class="nav-item <%= 'active' if controller_name == 'polls' && action_name == 'new' %>">
+            <%= link_to "New Poll", new_poll_path, class: "nav-link" %>
+          </li>
           <li class="nav-item <%= 'active' if controller_name == 'profiles' && action_name == 'filters' %>">
             <%= link_to "Filters", filters_path, class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
-          </li>
+          <!-- <li class="nav-item">
+            <%#= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+          </li> -->
         </ul>
       </div>
     </div>

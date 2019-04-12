@@ -36,22 +36,19 @@
             <div class="poll-question">
 
               <div class="question-top">
+
                 <div class="question-top-left">
                   <% image_type = true ? "category_white" : "category_color" %> <!-- Replace true by 'sponsored' for open to have a dark background. -->
-
                   <%= link_to ({controller: controller_name, action: action_name, query: poll.category.name}) do %>
                     <%= image_tag("#{image_type}/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
                   <% end %>
                   <p><strong><%= "#{poll.points}" %></strong> <%= "#{poll.points == 1 ? "ticket" : "tickets"}" %></p>
                 </div>
+
                 <div class="question-top-right">
-                  <%= link_to ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}) do %>
-                  <% if poll.user.photo.file.nil? %>
-                    <%= image_tag "avatar/#{User.last.birthdate.day}.svg", size: "36x36", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
-                  <% else %>
-                    <%= cl_image_tag("#{poll.user.photo}", size: "36x36", crop: :thumb, gravity: :face, class: "svg-icon", alt: "#{poll.user.first_name} #{poll.user.last_name}", title: "#{poll.user.first_name} #{poll.user.last_name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %>
-                  <% end %>
-                  <% end %>
+                  <%#= link_to ({controller: controller_name, action: action_name, query: "#{poll.user.first_name} #{poll.user.last_name}"}) do %>
+                  <%= render 'shared/poll_components/avatar', object: {poll: poll}  %>
+                  <%# end %>
                 </div>
               </div>
 
