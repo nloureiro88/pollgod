@@ -31,10 +31,22 @@ class User < ApplicationRecord
 
   def stats
     user_stats = Hash.new(0)
-    user_stats[:followers] = Friend.where(status: 'active', active_user_id: self.id).count
-    user_stats[:polls] = Poll.where(status: 'active', user_id: self).count
-    user_stats[:answers] = Answer.where(status: 'active', user_id: self).count
-    user_stats[:tickets] = 10000
+    user_stats[:followers] = Friend.where(status: 'active', follow_user_id: self.id).count
+    user_stats[:polls] = Poll.where("status != 'deleted' AND user_id = ?", self.id).count
+    user_stats[:answers] = Answer.where("status != 'deleted' AND user_id = ?", self.id).count
+    user_stats[:tickets] = self.tickets.values.sum
     user_stats
+  end
+
+  def tickets
+    user_tickets = Hash.new(0)
+    user_polls = Poll.where("user_id = ? AND status != 'deleted'", self.id)
+    user_polls.each do |poll|
+      user_tickets[:polls_answered] += poll.count_answers * 3
+      user_tickets[:polls_liked] += poll.like_hash.values.sum * 3
+    end
+    user_tickets[:answers] += Answer.where("user_id = ? AND status != 'deleted'", self.id).pluck(:points).sum
+    user_tickets[:followers] += Friend.where("follow_user_id = ? AND status = 'active'", self.id).count * 5
+    user_tickets
   end
 end
