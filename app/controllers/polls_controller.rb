@@ -99,6 +99,7 @@ class PollsController < ApplicationController
                               f_funny: params["icon-funny-#{@poll.id}"] == "on",
                               f_interest: params["icon-interesting-#{@poll.id}"] == "on")
       new_answer.save!
+      @poll.refresh_likes
     else
       flash[:alert] = "No valid answer selected for the poll."
     end

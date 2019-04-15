@@ -6,6 +6,13 @@
         <h2><i class="fas fa-users"></i> Following</h2>
       </div>
 
+      <% if @friends.size.zero? || @friends.nil? %>
+        <h3> No results found <i class="far fa-sad-tear"></i>, add your first friend and you'll see it in this page!</h3>
+      <% end %>
+
+      <%= render 'shared/friendlist', locals: {friends: @friends}  %>
+    </div>
+
     </div>
 
 </div>

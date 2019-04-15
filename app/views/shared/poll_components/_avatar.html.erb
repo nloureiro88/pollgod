@@ -3,7 +3,7 @@
 <div class="avatar-drop dropleft">
 
   <% if poll.user.photo.file.nil? %>
-    <%= image_tag "avatar/#{User.last.birthdate.day}.svg", size: "36x36", class: "dropdown-toggle", alt: "#{poll.user.first_name} #{poll.user.last_name}", role: "button", id: "dropdownMenuUser", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
+    <%= image_tag "avatar/#{poll.user.birthdate.day}.svg", size: "36x36", class: "dropdown-toggle", alt: "#{poll.user.first_name} #{poll.user.last_name}", role: "button", id: "dropdownMenuUser", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
   <% else %>
     <%= cl_image_tag("#{poll.user.photo}", size: "36x36", crop: :thumb, gravity: :face, class: "svg-icon dropdown-toggle", alt: "#{poll.user.first_name} #{poll.user.last_name}", role: "button", id: "dropdownMenuUser", data: {toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false) %>
   <% end %>

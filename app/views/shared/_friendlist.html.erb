@@ -1,0 +1,55 @@
+<div class="container-fluid friend-list">
+  <div class="row friend-list-row">
+
+  <% @friends.each do |friend| %>
+
+    <%= link_to friend_polls_path(friend_id: friend.id) do %>
+
+      <div class="friend-card">
+
+        <div class="friend-card-content">
+
+          <div class="friend-card-left">
+            <% if friend.photo.file.nil? %>
+              <%= image_tag "avatar/#{friend.birthdate.day}.svg", size: "50x50", class: "avatar-xl" %>
+            <% else %>
+              <%= cl_image_tag("#{friend.photo}", size: "50x50", crop: :thumb, gravity: :face, class: "avatar-xl") %>
+            <% end %>
+
+            <% friend_stats = friend.stats %>
+            <ul class="friend-stats">
+              <li title="Followers" data-toggle="tooltip"><i class="fas fa-users"></i> <%= friend_stats[:followers] %></li>
+              <li title="Polls" data-toggle="tooltip"><i class="fas fa-comment-alt"></i> <%= friend_stats[:polls] %></li>
+              <li title="Answers" data-toggle="tooltip"><i class="fas fa-vote-yea"></i> <%= friend_stats[:answers] %></li>
+              <li title="Tickets" data-toggle="tooltip"><i class="fas fa-ticket-alt"></i> <%= number_with_delimiter(friend_stats[:tickets], delimiter: '.') %></li>
+            </ul>
+          </div>
+
+          <div class="friend-card-right">
+              <p><%= friend.first_name %> <strong><%= friend.last_name %></strong></p>
+
+              <ul class="friend-info">
+                <li><strong><%= friend.subscription.capitalize %></strong></li>
+                <li><%= friend.gender.capitalize %>, <%= friend.age %></li>
+                <li><%= friend.profession %></li>
+                <li><%= friend.location %></li>
+              </ul>
+          </div>
+
+          <%= link_to friend_remove_path(friend.id), class: "delete-link" do %>
+            <i class="fas fa-user-minus fa-sm" title="Remove Follow" data-toggle="tooltip"></i>
+          <% end %>
+
+        </div>
+
+      </div>
+
+    <% end %>
+
+  <% end %>
+
+  <div class="filling-empty-space-childs-polls"></div>
+  <div class="filling-empty-space-childs-polls"></div>
+
+  </div>
+</div>

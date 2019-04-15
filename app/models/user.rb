@@ -23,4 +23,18 @@ class User < ApplicationRecord
   validates :location, presence: true, allow_blank: false
   validates :profession, presence: true, allow_blank: false
   validates :subscription, presence: true, inclusion: { in: SUBSCRIPTIONS }
+
+  def age
+    now = Time.now.utc.to_date
+    now.year - self.birthdate.year - ((now.month > self.birthdate.month || (now.month == self.birthdate.month && now.day >= self.birthdate.day)) ? 0 : 1)
+  end
+
+  def stats
+    user_stats = Hash.new(0)
+    user_stats[:followers] = Friend.where(status: 'active', active_user_id: self.id).count
+    user_stats[:polls] = Poll.where(status: 'active', user_id: self).count
+    user_stats[:answers] = Answer.where(status: 'active', user_id: self).count
+    user_stats[:tickets] = 10000
+    user_stats
+  end
 end

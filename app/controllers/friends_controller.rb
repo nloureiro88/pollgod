@@ -1,6 +1,8 @@
 class FriendsController < ApplicationController
 
   def index
+    friend_rs = Friend.where(active_user_id: current_user.id, status: 'active')
+    @friends = friend_rs.map { |rs| User.find(rs.follow_user_id) }.sort_by { |fr| fr.last_name }
   end
 
   def add
@@ -15,7 +17,7 @@ class FriendsController < ApplicationController
       rel.save!
     end
 
-    redirect_to friend_polls_path(friend_id: friend_id)
+    redirect_to friends_path
   end
 
   def remove
