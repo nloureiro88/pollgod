@@ -1,0 +1,24 @@
+.dash-container {
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px rgb(220,220,220);
+  border: 1px solid rgb(240,240,240);
+  padding: 1rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+
+  .dash-row {
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .dash-comp {
+    border: 1px solid $gray;
+    min-height: 300px;
+    max-height: 300px;
+    height: 300px;
+    padding: 0.5rem;
+  }
+}

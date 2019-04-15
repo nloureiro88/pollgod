@@ -43,10 +43,10 @@ class User < ApplicationRecord
     user_polls = Poll.where("user_id = ? AND status != 'deleted'", self.id)
     user_polls.each do |poll|
       user_tickets[:polls_answered] += poll.count_answers * 3
-      user_tickets[:polls_liked] += poll.like_hash.values.sum * 3
+      user_tickets[:polls_liked] += poll.like_hash.values.sum
     end
     user_tickets[:answers] += Answer.where("user_id = ? AND status != 'deleted'", self.id).pluck(:points).sum
-    user_tickets[:followers] += Friend.where("follow_user_id = ? AND status = 'active'", self.id).count * 5
+    user_tickets[:followers] += Friend.where("follow_user_id = ? AND status = 'active'", self.id).count * 3
     user_tickets
   end
 end
