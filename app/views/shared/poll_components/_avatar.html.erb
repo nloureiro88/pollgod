@@ -19,7 +19,7 @@
         <% if poll.user == current_user %>
         <% elsif rs.nil? || rs.status == 'inactive' %>
           <%= link_to '<i class="fas fa-user-plus"></i>'.html_safe, friend_add_path(poll.user.id), class: "drop-option", title: "Follow", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
-        <% elsif controller_name != 'friends' %>
+        <% elsif controller_name != 'friends' && rs.status != 'blocked' %>
           <%= link_to '<i class="fas fa-poll-h"></i>'.html_safe, friend_polls_path(friend_id: poll.user.id), class: "drop-option", title: "All Polls", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
           <%#= link_to '<i class="fas fa-user-minus"></i>'.html_safe, friend_remove_path(poll.user.id), class: "drop-option", title: "Remove", data: { toggle: "tooltip-bottom", placement: "bottom" } %>
         <% end %>

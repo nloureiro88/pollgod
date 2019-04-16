@@ -1,0 +1,63 @@
+<% user = User.find(object[:user_id].to_i) %>
+<% type = object[:type] %>
+
+<% today_month = Date.today.month %>
+<% today_year = Date.today.year %>
+<% data = user.evolution(today_month, today_year, type) %>
+
+<canvas id="progressChart-<%= type %>" class="dash-chart"></canvas>
+
+<script>
+  Chart.defaults.global.defaultFontColor = 'rgba(141,179,181,0.6)';
+  Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+  Chart.defaults.global.defaultFontSize = 11;
+
+  var ctx = document.getElementById(`progressChart-<%= type %>`).getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: <%= data.keys.to_json.html_safe %>,
+          fillOpacity: .8,
+          datasets: [{
+              label: '',
+              data: <%= data.values.to_json.html_safe %>,
+              backgroundColor: 'rgba(141,179,181,0.6)',
+              borderColor: 'rgba(141,179,181,0.6)',
+              borderWidth: 1
+          }]
+      },
+      animation:{
+        duration: 1
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    min: 0, // it is for ignoring negative step.
+                    callback: function(value, index, values) {
+                        if (Math.floor(value) === value) {
+                            return value;
+                        }
+                    }
+                },
+                gridLines: {
+                    display:false,
+                    color: 'rgba(141,179,181,0.6)'
+                }
+            }],
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                    color: 'rgba(141,179,181,0.6)'
+                },
+            }]
+        }
+      }
+  });
+</script>

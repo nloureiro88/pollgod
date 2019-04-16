@@ -23,7 +23,18 @@
           <h2><i class="fas fa-trophy"></i> Following</h2>
         <% elsif controller_name == 'polls' && action_name == 'friend' %>
           <h2><i class="fas fa-users"></i> <%= User.find(params[:friend_id]).first_name %> <%= User.find(params[:friend_id]).last_name %> </h2>
-          <%= link_to ' Back '.html_safe, friends_path, class: "btn btn-back" %>
+          <div class="friend-btn" style="display:flex; max-width: 400px; margin: 1rem auto;">
+            <%= link_to ' All Friends '.html_safe, friends_path, class: "btn btn-back" %>
+            <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: params[:friend_id].to_i).last %>
+            <% rs2 = Friend.where(follow_user_id: current_user.id, active_user_id: params[:friend_id].to_i).last %>
+
+            <% if rs.nil? || rs.status == 'inactive' %>
+              <%= link_to ' Follow '.html_safe, friend_add_path(params[:friend_id].to_i, origin_action: action_name, origin_controller: controller_name), class: "btn btn-back btn-follow" %>
+            <% end %>
+            <% if !rs2.nil? && rs2.status == 'active' %>
+              <%= link_to ' Block '.html_safe, friend_block_path(params[:friend_id].to_i, origin_action: action_name, origin_controller: controller_name), class: "btn btn-back btn-block" %>
+            <% end %>
+          </div>
         <% end %>
 
         <% if @polls.size.zero? || @polls.nil? %>

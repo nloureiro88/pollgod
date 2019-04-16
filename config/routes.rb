@@ -37,5 +37,6 @@ Rails.application.routes.draw do
   resources :friends, only: :index do
     get :add, to: "friends#add", as: :add
     get :remove, to: "friends#remove", as: :remove
+    get :block, to: "friends#block", as: :block
   end
 end

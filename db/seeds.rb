@@ -1,5 +1,74 @@
 require 'csv'
 
+JOBS = ['Student',
+        'Teacher',
+        'Actor',
+        'Clergy',
+        'Musician',
+        'Philosopher',
+        'Visual Artist',
+        'Writer',
+        'Audiologist',
+        'Chiropractor',
+        'Dentist',
+        'Dietitian',
+        'Doctor',
+        'Medical Laboratory Scientist',
+        'Midwive',
+        'Nurse',
+        'Occupational Therapist',
+        'Optometrist',
+        'Pathologist',
+        'Pharmacist',
+        'Physical Therapist',
+        'Physician',
+        'Psychologist',
+        'Speech-Language Pathologist',
+        'Accountant',
+        'Actuary',
+        'Agriculturist',
+        'Architect',
+        'Economist',
+        'Consultant',
+        'Manager',
+        'Engineer',
+        'Interpreter',
+        'Attorney',
+        'Advocate',
+        'Solicitor',
+        'Librarian',
+        'Statistician',
+        'Surveyor',
+        'Urban Planner',
+        'Firefighter',
+        'Judge',
+        'Military',
+        'Police',
+        'Air Traffic Controller',
+        'Aircraft Pilots',
+        'Sea Captain',
+        'Scientist',
+        'Astronomer',
+        'Biologist',
+        'Botanist',
+        'Ecologist',
+        'Geneticist',
+        'Immunologist',
+        'Pharmacologist',
+        'Virologist',
+        'Zoologist',
+        'Chemist',
+        'Geologist',
+        'Meteorologist',
+        'Oceanographer',
+        'Physicist',
+        'Programmer',
+        'Web Developer',
+        'Product Designer',
+        'Graphic Designer',
+        'Web Designer',
+        'Other'].sort
+
 puts "Destroying all previous data..."
 
 Report.destroy_all
@@ -50,7 +119,7 @@ CSV.foreach(filepath_users, csv_options) do |row|
                       gender: row[4].capitalize,
                       birthdate: Faker::Date.birthday(21, 50),
                       location: row[2],
-                      profession: Faker::Job.title,
+                      profession: JOBS.sample,
                       hobbies: HOBBIES.sample(new_user_hobbies).join(", "),
                       subscription: ['free', 'premium', 'pro'].sample)
   new_user.remote_photo_url = row[3]
@@ -90,9 +159,17 @@ User.all.each do |user|
                         tags: HOBBIES.sample(new_poll_tags),
                         image: Faker::Placeholdit.image('280x280', 'jpeg', :random),
                         deadline: Faker::Time.between(Date.today + 1, Date.today + random_date, :all))
-  new_poll.created_at = Faker::Time.between(7.days.ago, Date.today - 1, :all)
+  new_poll.created_at = Faker::Time.between(12.months.ago, Date.today - 1, :all)
   new_poll.save!
   end
+end
+
+puts "Creating friendships... :)"
+
+200.times do
+  friends = User.all.sample(2)
+  rs = Friend.new(active_user_id: friends[0].id, follow_user_id: friends[1].id, status: 'active')
+  rs.save! if rs.valid?
 end
 
 puts "Creating answers..."

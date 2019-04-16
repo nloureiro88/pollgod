@@ -15,7 +15,7 @@ import "bootstrap";
    altInput: true,
    time_24hr: true,
    dateFormat: 'Y-m-d',
-   defaultDate: `2000-1-1`,
+   // defaultDate: `2000-1-1`,
    minDate: `${year - 90}-1-1`,
    maxDate: `${year - 14}-12-31`
   });

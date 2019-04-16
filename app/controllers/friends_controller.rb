@@ -27,7 +27,27 @@ class FriendsController < ApplicationController
     rs.status = 'inactive'
     rs.save!
 
-    redirect_to friends_path
+    redirect_to(controller: params[:origin_controller], action: params[:origin_action])
+  end
+
+  def block
+    authorize Friend
+    friend_id = params[:friend_id]
+
+    rs = Friend.where(follow_user_id: current_user.id, active_user_id: friend_id).last
+    rs.status = 'blocked'
+    rs.save!
+
+    rs2 = Friend.where(active_user_id: current_user.id, follow_user_id: friend_id)
+    if rs2.empty?
+      Friend.create(active_user_id: current_user.id, follow_user_id: friend_id, status: 'blocked')
+    else
+      rel = rs2.last
+      rel.status = 'blocked'
+      rel.save!
+    end
+
+    redirect_to dash_path
   end
 
   private

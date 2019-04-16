@@ -1,0 +1,41 @@
+<% user = User.find(object[:user_id].to_i) %>
+<% type = object[:type] %>
+
+<% data = user.cat_stat(type) %>
+
+<canvas id="categoryChart-<%= type %>" class="dash-chart dash-chart-pie"></canvas>
+
+<script>
+  Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+  Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+  Chart.defaults.global.defaultFontSize = 11;
+
+  var ctx = document.getElementById(`categoryChart-<%= type %>`).getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+          labels: <%= Category.all.pluck(:name).to_json.html_safe %>,
+          datasets: [{
+              label: '',
+              data: <%= data.values.to_json.html_safe %>,
+              backgroundColor: <%= Category.all.pluck(:color).to_json.html_safe %> ,
+              borderColor: <%= Category.all.pluck(:color).to_json.html_safe %>,
+              borderWidth: 1
+          }]
+      },
+      animation:{
+        duration: 1
+      },
+      options: {
+        legend: {
+          display: false,
+          position: 'bottom',
+          labels: {
+            boxWidth: 2
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false
+      }
+  });
+</script>

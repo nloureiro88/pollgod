@@ -12,4 +12,8 @@ class FriendPolicy < ApplicationPolicy
   def remove?
     true
   end
+
+  def block?
+    true
+  end
 end
