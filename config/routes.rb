@@ -38,5 +38,6 @@ Rails.application.routes.draw do
     get :add, to: "friends#add", as: :add
     get :remove, to: "friends#remove", as: :remove
     get :block, to: "friends#block", as: :block
+    get :dash, to: "friends#dash", as: :fdash
   end
 end

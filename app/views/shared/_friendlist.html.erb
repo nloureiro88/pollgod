@@ -3,7 +3,7 @@
 
   <% @friends.each do |friend| %>
 
-    <%= link_to friend_polls_path(friend_id: friend.id) do %>
+    <%= link_to friend_fdash_path(friend_id: friend.id) do %>
 
       <div class="friend-card">
 
@@ -38,6 +38,10 @@
 
           <%= link_to friend_remove_path(friend.id, origin_action: action_name, origin_controller: controller_name), class: "delete-link" do %>
             <i class="fas fa-user-minus fa-sm" title="Remove Follow" data-toggle="tooltip"></i>
+          <% end %>
+
+          <%= link_to friend_polls_path(friend_id: friend.id, origin_action: action_name, origin_controller: controller_name), class: "go-poll-link" do %>
+            <i class="fas fa-poll-h fa-sm" title="See Polls" data-toggle="tooltip"></i>
           <% end %>
 
         </div>

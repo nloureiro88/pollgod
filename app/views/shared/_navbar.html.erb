@@ -10,17 +10,19 @@
     <% end %>
 
     <div class="navbarSearch" id="navbarSearchDesktop">
-      <%= form_tag ({controller: controller_name, action: action_name}), method: :get, class: "search-form" do %>
-        <%= text_field_tag :query,
-          params[:query],
-          class: "form-control",
-          placeholder: "e.g. #{ current_user.hobbies.empty? ? 'Game of thrones' : current_user.hobbies.split(", ").first.downcase.capitalize }"
-        %>
-        <%= button_tag(type: 'submit', class: "btn btn-default", id: "submit-search") do %>
-          <i class="fas fa-search"></i>
-        <% end %>
-        <%= link_to ({controller: controller_name, action: action_name}), id: "clear-search" do %>
-          <i class="fas fa-times"></i>
+      <% if controller_name == 'polls' && searcheable_actions.include?(action_name) %>
+        <%= form_tag ({controller: controller_name, action: action_name}), method: :get, class: "search-form" do %>
+          <%= text_field_tag :query,
+            params[:query],
+            class: "form-control",
+            placeholder: "e.g. #{ current_user.hobbies.empty? ? 'Game of thrones' : current_user.hobbies.split(", ").first.downcase.capitalize }"
+          %>
+          <%= button_tag(type: 'submit', class: "btn btn-default", id: "submit-search") do %>
+            <i class="fas fa-search"></i>
+          <% end %>
+          <%= link_to ({controller: controller_name, action: action_name}), id: "clear-search" do %>
+            <i class="fas fa-times"></i>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -59,7 +61,7 @@
 
     <div class="navbar-toggles">
 
-       <% if controller_name == 'polls' && searcheable_actions.include?(action_name) %>
+      <% if controller_name == 'polls' && searcheable_actions.include?(action_name) %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSearchMobile" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-search" style= "<%= 'color: #9FCDD0 !important' if params[:query].present? %>"></i>
         </button>

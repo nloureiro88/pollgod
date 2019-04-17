@@ -5,6 +5,11 @@ class FriendsController < ApplicationController
     @friends = friend_rs.map { |rs| User.find(rs.follow_user_id) }.sort_by { |fr| fr.last_name }
   end
 
+  def dash
+    friend_id = params[:friend_id]
+    @friend = User.find(friend_id)
+  end
+
   def add
     authorize Friend
     friend_id = params[:friend_id]
@@ -27,7 +32,8 @@ class FriendsController < ApplicationController
     rs.status = 'inactive'
     rs.save!
 
-    redirect_to(controller: params[:origin_controller], action: params[:origin_action])
+    # redirect_to(controller: params[:origin_controller], action: params[:origin_action])
+    redirect_to friends_path
   end
 
   def block

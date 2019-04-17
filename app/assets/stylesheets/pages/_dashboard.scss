@@ -54,6 +54,10 @@
     font-size: 0.85rem;
   }
 
+  small {
+    font-size: 0.6rem !important;
+  }
+
   .dash-profile {
 
     .buttons {
@@ -61,7 +65,7 @@
 
       .btn-up {
         font-size: 0.75rem;
-        min-width: 70px;
+        min-width: 60px;
         height: auto;
         margin: 0 0.3rem;
         padding: 0.2rem !important;
@@ -71,6 +75,12 @@
 
         &:first-child {
           margin-left: 0;
+        }
+
+        &.btn-fill {
+          color: $light-gray;
+          background-color: $light-blue;
+          border: 1px solid $light-blue;
         }
       }
     }
@@ -127,6 +137,12 @@
         img {
           border-radius: 4px;
         }
+      }
+    }
+
+    .adjust-r {
+      i, small {
+        font-size: 0.7rem !important;
       }
     }
   }

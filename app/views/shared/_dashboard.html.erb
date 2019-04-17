@@ -1,0 +1,255 @@
+<div class="container list-page dashboard">
+
+    <div class="column center-column">
+
+      <% if user == current_user %>
+        <div class="page-header">
+          <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        </div>
+      <% else %>
+        <div class="page-header">
+          <h2><i class="fas fa-users"></i> <%= user.first_name %> <%= user.last_name %></h2>
+          <div class="friend-btn" style="display:flex; max-width: 400px; margin: 1rem auto;">
+            <%= link_to ' My Follows '.html_safe, friends_path, class: "btn btn-back" %>
+            <%= link_to ' Polls '.html_safe, friend_polls_path(friend_id: params[:friend_id]), class: "btn btn-back" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="dash-container container-fluid">
+
+        <div class="dash-row row">
+          <div class="dash-comp dash-profile col-12 col-lg-4">
+
+            <div class="dash-profile-head">
+              <% if user.photo.file.nil? %>
+                <%= image_tag "avatar/#{user.birthdate.day}.svg", size: "50x50", class: "avatar-xl" %>
+              <% else %>
+                <%= cl_image_tag("#{user.photo}", size: "50x50", crop: :thumb, gravity: :face, class: "avatar-xl") %>
+              <% end %>
+              <div>
+                <p><%= user.first_name %></p>
+                <p><strong><%= user.last_name %></strong></p>
+              </div>
+            </div>
+
+            <ul class="dash-profile-info">
+              <li>Age: <strong><%= user.age %></strong></li>
+              <li>Gender: <strong><%= user.gender.capitalize %></strong></li>
+              <li>Location: <strong><%= user.location %></strong></li>
+              <li>Profession: <strong><%= user.profession %></strong></li>
+              <li>Hobbies: <strong><%= user.hobbies.split(", ").take(3).map { |hob| hob.downcase.capitalize }.join(", ") %><%="..." if user.hobbies.split(", ").length > 3 %><%="-" if user.hobbies.split(", ").length.zero? %></strong></li>
+              <li>Subscription: <strong><%= user.subscription.capitalize %></strong></li>
+            </ul>
+
+            <div class="buttons">
+              <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: user.id).last %>
+              <% rs2 = Friend.where(follow_user_id: current_user.id, active_user_id: user.id).last %>
+
+              <% if user == current_user %>
+                <% if user.subscription == "free" %>
+                  <%= link_to "Upgrade", go_premium_path, class:"btn btn-up btn-fill" %>
+                <% elsif user.subscription == "premium" %>
+                  <%= link_to "Upgrade", go_pro_path, class:"btn btn-up btn-fill" %>
+                <% end %>
+                <%= link_to "Edit", user_registration_path, method: :patch, class:"btn btn-up" %>
+                <%= link_to "Logout", destroy_user_session_path, method: :delete, class:"btn btn-up" %>
+              <% else %>
+                  <% if !rs.nil? && rs.status == 'active' %>
+                    <%= link_to "Unfollow", friend_remove_path(friend_id: user.id, origin_controller: 'profiles', origin_action: 'dash'), class:"btn btn-up" %>
+                  <% elsif !rs2.nil? && rs2.status == 'active' %>
+                    <%= link_to "Follow", friend_add_path(friend_id: user.id), class: "btn btn-up btn-fill" %>
+                    <%= link_to "Block", friend_block_path(friend_id: user.id), class: "btn btn-up", data: { confirm: "Are you sure you want to permanently block this user (you will be automatically blocked as well)?" } %>
+                  <% else %>
+                    <%= link_to "Follow", friend_add_path(friend_id: user.id), class:"btn btn-up btn-fill" %>
+                  <% end %>
+              <% end %>
+            </div>
+
+          </div>
+
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <% following = Friend.where(active_user_id: user.id, status: 'active') %>
+
+            <div style="display:flex; align-items: center">
+              <% if user == current_user %>
+                <%= link_to friends_path, style:"width: 100%" do %>
+                  <h3>Following: <%= following.count %> <i class="fas fa-eye" style="margin-left: 1rem;"></i></h3>
+                <% end %>
+              <% else %>
+                <h3>Following: <%= following.count %></h3>
+              <% end %>
+            </div>
+
+            <div class="follow-container">
+              <ul class="follow-list">
+
+                <li style="width: 100%; min-width: 100%; max-width: 100%" class="follow-row mobile">
+                  <div style="width: 13%; min-width: 40px; max-width: 13%" class="follow-row"></div>
+                  <div style="width: 45%; min-width: 45%; max-width: 45%" class="follow-row fr-name"></div>
+                  <div style="width: 10%; min-width: 10%; max-width: 10%; display: flex; align-items:center" class="follow-row mini-mobile"><i class="fas fa-poll-h fa-xs"></i></div>
+                  <div style="width: 13%; min-width: 13%; max-width: 13%; display: flex; align-items:center" class="follow-row mini-mobile"><i class="fas fa-vote-yea fa-xs"></i></div>
+                  <div style="width: 15%; min-width: 15%; max-width: 15%; display: flex; align-items:center" class="follow-row"><i class="fas fa-ticket-alt fa-xs"></i></div>
+                </li>
+
+                <% following.sort_by{|rs| User.find(rs.follow_user_id).stats[:tickets] }.reverse.each do |rs| %>
+                  <% fl = User.find(rs.follow_user_id) %>
+                  <%= link_to friend_fdash_path(friend_id: fl.id) do %>
+
+                  <li style="width: 100%; min-width: 100%; max-width: 100%" class="follow-row">
+                    <div style="width: 13%; min-width: 40px; max-width: 13%" class="follow-row">
+                      <% if fl.photo.file.nil? %>
+                        <%= image_tag "avatar/#{fl.birthdate.day}.svg", size: "32x32", class: "avatar-xl" %>
+                      <% else %>
+                        <%= cl_image_tag("#{fl.photo}", size: "32x32", crop: :thumb, gravity: :face, class: "avatar-xl") %>
+                      <% end %>
+                    </div>
+
+                    <div style="width: 45%; min-width: 45%; max-width: 45%" class="follow-row fr-name">
+                      <span><%= fl.first_name %> <strong><%= fl.last_name %></strong></span>
+                    </div>
+
+                    <% stats = fl.stats %>
+                    <div style="width: 10%; min-width: 10%; max-width: 10%; display: flex; align-items:center" class="follow-row mini-mobile" title="Polls" data-toggle="tooltip"><span><i class="fas fa-poll-h fa-xs desktop"></i> <%= stats[:polls] %></span></div>
+                    <div style="width: 13%; min-width: 13%; max-width: 13%; display: flex; align-items:center" class="follow-row mini-mobile" title="Answers" data-toggle="tooltip"><span><i class="fas fa-vote-yea fa-xs desktop"></i> <%= stats[:answers] %></span></div>
+                    <div style="width: 14%; min-width: 14%; max-width: 14%; display: flex; align-items:center" class="follow-row" title="Tickets" data-toggle="tooltip"><span><i class="fas fa-ticket-alt fa-xs desktop"></i> <%= number_with_delimiter(stats[:tickets], delimiter: '.') %></span></div>
+                  </li>
+
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <% follower = Friend.where(follow_user_id: user.id, status: 'active') %>
+
+            <h3>Followers: <%= follower.count %></h3>
+
+            <div class="follow-container">
+              <ul class="follow-list">
+
+                <li style="width: 100%; min-width: 100%; max-width: 100%" class="follow-row mobile">
+                  <div style="width: 13%; min-width: 40px; max-width: 13%" class="follow-row"></div>
+                  <div style="width: 45%; min-width: 45%; max-width: 45%" class="follow-row fr-name"></div>
+                  <div style="width: 10%; min-width: 10%; max-width: 10%; display: flex; align-items:center" class="follow-row mini-mobile"><i class="fas fa-poll-h fa-xs"></i></div>
+                  <div style="width: 13%; min-width: 13%; max-width: 13%; display: flex; align-items:center" class="follow-row mini-mobile"><i class="fas fa-vote-yea fa-xs"></i></div>
+                  <div style="width: 15%; min-width: 15%; max-width: 15%; display: flex; align-items:center" class="follow-row"><i class="fas fa-ticket-alt fa-xs"></i></div>
+                </li>
+
+                <% follower.sort_by{|rs| User.find(rs.active_user_id).stats[:tickets] }.reverse.each do |rs| %>
+                  <% fl = User.find(rs.active_user_id) %>
+                  <%= link_to friend_fdash_path(friend_id: fl.id) do %>
+
+                  <li style="width: 100%; min-width: 100%; max-width: 100%" class="follow-row">
+                    <div style="width: 13%; min-width: 40px; max-width: 13%" class="follow-row">
+                      <% if fl.photo.file.nil? %>
+                        <%= image_tag "avatar/#{fl.birthdate.day}.svg", size: "32x32", class: "avatar-xl" %>
+                      <% else %>
+                        <%= cl_image_tag("#{fl.photo}", size: "32x32", crop: :thumb, gravity: :face, class: "avatar-xl") %>
+                      <% end %>
+                    </div>
+
+                    <div style="width: 45%; min-width: 45%; max-width: 45%" class="follow-row fr-name">
+                      <span><%= fl.first_name %> <strong><%= fl.last_name %></strong></span>
+                    </div>
+
+                    <% stats = fl.stats %>
+                    <div style="width: 10%; min-width: 10%; max-width: 10%; display: flex; align-items:center" class="follow-row mini-mobile" title="Polls" data-toggle="tooltip"><span><i class="fas fa-poll-h fa-xs desktop"></i> <%= stats[:polls] %></span></div>
+                    <div style="width: 13%; min-width: 13%; max-width: 13%; display: flex; align-items:center" class="follow-row mini-mobile" title="Answers" data-toggle="tooltip"><span><i class="fas fa-vote-yea fa-xs desktop"></i> <%= stats[:answers] %></span></div>
+                    <div style="width: 15%; min-width: 15%; max-width: 15%; display: flex; align-items:center" class="follow-row" title="Tickets" data-toggle="tooltip"><span><i class="fas fa-ticket-alt fa-xs desktop"></i> <%= number_with_delimiter(stats[:tickets], delimiter: '.') %></span></div>
+                  </li>
+
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <h3>Tickets: <%= number_with_delimiter(user.stats[:tickets], delimiter: '.') %></h3>
+            <%= render 'shared/dash_components/ticketchart', object: {user_id: user.id}  %>
+          </div>
+
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <div style="display:flex; align-items: center">
+              <% if user == current_user %>
+                <%= link_to answered_polls_path, style:"width: 100%" do %>
+                  <h3>Answers: <%= user.stats[:answers] %> <i class="fas fa-eye" style="margin-left: 1rem;"></i></h3>
+                <% end %>
+              <% else %>
+                <h3>Answers: <%= user.stats[:answers] %></h3>
+              <% end %>
+            </div>
+            <%= render 'shared/dash_components/progresschart', object: {user_id: user.id, type: 'answer'}  %>
+          </div>
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <h3>Answers by Category</h3>
+            <%= render 'shared/dash_components/categorychart', object: {user_id: user.id, type: 'answer'} %>
+                      </div>
+                      <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <h3>Top Polls</h3>
+            <div class="follow-container top-poll">
+              <ul class="follow-list">
+                <% user.top_polls.each do |poll| %>
+                  <% if user == current_user %>
+                    <%= link_to poll_path(poll.id) do %>
+                      <li class="follow-row">
+                        <div style="width: 15%; max-width: 15%; min-width: 15%" class="follow-row"><%= image_tag("category_color/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %></div>
+                        <div style="width: 70%; max-width: 70%; min-width: 70%; padding: 0 0.5rem;" class="follow-row"><%= poll.question %></div>
+                        <div style="width: 15%; max-width: 15%; min-width: 15%; flex-direction: column" class="follow-row">
+                          <div title="Upvotes" data-toggle="tooltip" class="adjust-r">
+                            <small><i class="far fa-thumbs-up"></i> <%= poll.t_likes %></small>
+                          </div>
+                          <div title="Answers" data-toggle="tooltip" class="adjust-r">
+                            <small><i class="fas fa-vote-yea"></i> <%= poll.count_answers %></small>
+                          </div>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% else %>
+                    <%= link_to friend_polls_path(query: poll.question, friend_id: user.id) do %>
+                      <li class="follow-row">
+                        <div style="width: 15%; max-width: 15%; min-width: 15%" class="follow-row"><%= image_tag("category_color/#{poll.category.icon}", title: "#{poll.category.name}", data: { toggle: "tooltip-bottom", placement: "bottom" }) %></div>
+                        <div style="width: 70%; max-width: 70%; min-width: 70%; padding: 0 0.5rem;" class="follow-row"><%= poll.question %></div>
+                        <div style="width: 15%; max-width: 15%; min-width: 15%; flex-direction: column;" class="follow-row">
+                          <div title="Upvotes" data-toggle="tooltip" class="adjust-r">
+                            <small><i class="far fa-thumbs-up"></i> <%= poll.t_likes %></small>
+                          </div>
+                          <div title="Answers" data-toggle="tooltip" class="adjust-r">
+                            <small><i class="fas fa-vote-yea"></i> <%= poll.count_answers %></small>
+                          </div>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <div style="display:flex; align-items: center">
+              <% if user == current_user %>
+                <%= link_to manage_polls_path, style:"width: 100%" do %>
+                  <h3>Polls: <%= user.stats[:polls] %> <i class="fas fa-eye" style="margin-left: 1rem;"></i></h3>
+                <% end %>
+              <% else %>
+                <%= link_to friend_polls_path(friend_id: user.id), style:"width: 100%" do %>
+                  <h3>Polls: <%= user.stats[:polls] %> <i class="fas fa-eye" style="margin-left: 1rem;"></i></h3>
+                <% end %>
+              <% end %>
+            </div>
+            <%= render 'shared/dash_components/progresschart', object: {user_id: user.id, type: 'poll'}  %>
+          </div>
+          <div class="dash-comp col-12 col-md-6 col-lg-4">
+            <h3>Polls by Category</h3>
+            <%= render 'shared/dash_components/categorychart', object: {user_id: user.id, type: 'poll'} %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+
+</div>

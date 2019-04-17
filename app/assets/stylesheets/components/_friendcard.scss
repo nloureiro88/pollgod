@@ -42,6 +42,17 @@
     }
   }
 
+  .go-poll-link {
+    color: $light-gray;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    &:hover {
+      color: $gray;
+    }
+  }
+
   &:hover {
     box-shadow: 4px 4px 4px $gray;
     transition: all 0.3s ease;

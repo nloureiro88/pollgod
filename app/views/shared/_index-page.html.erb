@@ -16,24 +16,16 @@
         <% elsif controller_name == 'polls' && action_name == 'fresh' %>
           <h2><i class="fas fa-paint-roller"></i> Fresh</h2>
         <% elsif controller_name == 'polls' && action_name == 'manage' %>
-          <h2><i class="fas fa-comment-alt"></i> My Polls</h2>
+          <h2><i class="fas fa-poll-h"></i> My Polls</h2>
         <% elsif controller_name == 'polls' && action_name == 'answered' %>
           <h2><i class="fas fa-trophy"></i> My Answers</h2>
         <% elsif controller_name == 'friends' && action_name == 'index' %>
-          <h2><i class="fas fa-trophy"></i> Following</h2>
+          <h2><i class="fas fa-users"></i> Following</h2>
         <% elsif controller_name == 'polls' && action_name == 'friend' %>
           <h2><i class="fas fa-users"></i> <%= User.find(params[:friend_id]).first_name %> <%= User.find(params[:friend_id]).last_name %> </h2>
           <div class="friend-btn" style="display:flex; max-width: 400px; margin: 1rem auto;">
-            <%= link_to ' All Friends '.html_safe, friends_path, class: "btn btn-back" %>
-            <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: params[:friend_id].to_i).last %>
-            <% rs2 = Friend.where(follow_user_id: current_user.id, active_user_id: params[:friend_id].to_i).last %>
-
-            <% if rs.nil? || rs.status == 'inactive' %>
-              <%= link_to ' Follow '.html_safe, friend_add_path(params[:friend_id].to_i, origin_action: action_name, origin_controller: controller_name), class: "btn btn-back btn-follow" %>
-            <% end %>
-            <% if !rs2.nil? && rs2.status == 'active' %>
-              <%= link_to ' Block '.html_safe, friend_block_path(params[:friend_id].to_i, origin_action: action_name, origin_controller: controller_name), class: "btn btn-back btn-block" %>
-            <% end %>
+            <%= link_to ' My Follows '.html_safe, friends_path, class: "btn btn-back" %>
+            <%= link_to ' Dashboard '.html_safe, friend_fdash_path(friend_id: params[:friend_id]), class: "btn btn-back" %>
           </div>
         <% end %>
 
