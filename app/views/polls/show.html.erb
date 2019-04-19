@@ -1,2 +1,104 @@
-<h1>Polls#show</h1>
-<p>Find me in app/views/polls/show.html.erb</p>
+<% @poll.refresh_likes %>
+
+<div class="container list-page dash-page show-page">
+  <div class="column center-column">
+
+    <div class="page-header">
+      <h2><i class="fas fa-chart-area"></i> Poll Stats</h2>
+      <div class="dash-btn" style="display:flex; max-width: 400px; margin: 1rem auto;">
+        <%= link_to ' Back '.html_safe, :back, class: "btn btn-back" %>
+      </div>
+    </div>
+
+    <div class="show-container container-fluid">
+
+      <h3 class="title"><%= @poll.question %></h3>
+
+      <nav>
+        <div class="nav nav-pills" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-bi-tab" data-toggle="tab" href="#nav-bi" role="tab" aria-controls="nav-bi" aria-selected="true">Basic Info</a>
+          <a class="nav-link <%= 'disabled' if (current_user.subscription == 'free') %>" id="nav-as-tab" data-toggle="tab" href="#nav-as" role="tab" aria-controls="nav-as" aria-selected="false">Analytics</a>
+          <a class="nav-link <%= 'disabled' unless (current_user.subscription == 'pro' && current_user == @poll.user ) %>" id="nav-ad-tab" data-toggle="tab" href="#nav-ad" role="tab" aria-controls="nav-ad" aria-selected="true">Answers</a>
+        </div>
+      </nav>
+
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-bi" role="tabpanel" aria-labelledby="nav-bi-tab">
+          <%= render 'shared/show_components/basic-info' %>
+        </div>
+
+        <div class="tab-pane fade" id="nav-as" role="tabpanel" aria-labelledby="nav-as-tab">
+          <%= render 'shared/show_components/analytics' %>
+        </div>
+
+        <div class="tab-pane fade" id="nav-ad" role="tabpanel" aria-labelledby="nav-ad-tab">
+          <div class="show-row row">
+            <div class="show-comp show-comp-large col-12">
+              <!-- <h3>User Info</h3> -->
+
+              <ul class="show-users">
+                <li style="height:0"></li>
+                <% Answer.where(poll: @poll, status: 'active').order('created_at DESC').each do |ans| %>
+                  <% user = ans.user %>
+                  <% goto = user == current_user ? dash_path : friend_fdash_path(friend_id: user.id) %>
+                  <%= link_to goto do %>
+                    <li style="display: flex; align-items: center" class="desktop">
+                      <div style="width:10%;max-width:10%;min-width:10%">
+
+                        <% if user.photo.file.nil? %>
+                          <%= image_tag "avatar/#{user.birthdate.day}.svg", size: "40x40" %>
+                        <% else %>
+                          <%= cl_image_tag("#{user.photo}", size: "40x40", crop: :thumb, gravity: :face, class: "svg-icon") %>
+                        <% end %>
+
+                      </div>
+                      <div style="width:20%;max-width:20%;min-width:20%"><strong><%= user.first_name %> <%= user.last_name %></strong></div>
+                      <div style="flex-grow: 1"><em><%= @poll.options[ans.answer.to_i].sub(/\S/, &:upcase) %></em></div>
+                      <div style="width:20%;max-width:20%;min-width:20%;text-align:center"><%= ans.created_at.strftime('%d.%m.%y %H:%M') %></div>
+                      <div style="width:5%;max-width:5%;min-width:5%;text-align:center">
+                        <span title="Loved" data-toggle="tooltip-all">
+                          <i class="fas fa-heart fa-xl" style="color: <%= ans.f_love == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                      </div>
+                      <div style="width:5%;max-width:5%;min-width:5%;text-align:center">
+                        <span title="Funny" data-toggle="tooltip-all">
+                          <i class="fas fa-grin-squint fa-xl" style="color: <%= ans.f_funny == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                      </div>
+                      <div style="width:5%;max-width:5%;min-width:5%;text-align:center;margin-right:1rem">
+                        <span title="Interesting" data-toggle="tooltip-all">
+                          <i class="fas fa-graduation-cap fa-xl" style="color: <%= ans.f_interest == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                      </div>
+                    </li>
+
+                    <li style="text-align: center" class="mobile">
+                      <div><strong><%= user.first_name %> <%= user.last_name %></strong></div>
+                      <div><em><%= @poll.options[ans.answer.to_i].sub(/\S/, &:upcase) %></em></div>
+                      <div><%= ans.created_at.strftime('%d.%m.%y %H:%M') %></div>
+                      <div>
+                        <span title="Loved" data-toggle="tooltip-all" style="margin-right: 0.5rem">
+                          <i class="fas fa-heart" style="color: <%= ans.f_love == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                        <span title="Funny" data-toggle="tooltip-all" style="margin-right: 0.5rem">
+                          <i class="fas fa-grin-squint" style="color: <%= ans.f_funny == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                        <span title="Interesting" data-toggle="tooltip-all">
+                          <i class="fas fa-graduation-cap" style="color: <%= ans.f_interest == true ? 'rgb(140,140,140)' : 'rgb(230,230,230)' %>"></i>
+                        </span>
+                      </div>
+
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

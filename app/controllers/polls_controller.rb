@@ -85,6 +85,7 @@ class PollsController < ApplicationController
   # Poll detail
 
   def show
+    authorize Poll
   end
 
   # Poll answer workflow

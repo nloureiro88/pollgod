@@ -6,7 +6,7 @@
 
   <div class="dropdown-menu pull-left dropdown-card" aria-labelledby="dropdownMenuLink">
 
-    <% if poll.user == current_user || poll.qtype == 'open' %>
+    <% if poll.user == current_user || (poll.qtype == 'open' && poll.answered?(current_user)) %>
       <%= link_to '<i class="fas fa-chart-area"></i>'.html_safe, poll_path(poll, origin_action: action_name), class: "drop-option", title: "Stats", data: { toggle: "tooltip" } %>
     <% end %>
 

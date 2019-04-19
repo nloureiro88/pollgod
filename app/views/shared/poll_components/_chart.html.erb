@@ -5,7 +5,8 @@
 
   <canvas id="myChart-<%= poll.id %>" ></canvas>
 
-  <% poll_options = poll.options.map { |option| option.length > 15 ? "#{option[0,15].sub(/\S/, &:upcase)}.." : option.sub(/\S/, &:upcase) } %>
+  <% poll_options = poll.options.map { |option| option.length > 15 ? "     #{option[0,15].sub(/\S/, &:upcase)}.." : "     #{option.sub(/\S/, &:upcase)}" } %>
+  <% poll_options.each { |po| po.strip if poll.options.count > 3 } %>
 
   <% unless poll.answers.count.zero? %>
 
@@ -58,6 +59,10 @@
                       }
                   }],
                   xAxes: [{
+                      ticks: {
+                          maxRotation: 60,
+                          minRotation: 60
+                      },
                       gridLines: {
                           display:false,
                           color: 'rgba(240, 240, 240, 1)'
@@ -116,7 +121,7 @@
     <div class="poll-bottom-left">
       <p title="Answered On" data-toggle="tooltip-all">
         <i class="far fa-calendar-check"></i>
-        <%= my_answer.created_at.strftime("%d/%m %H:%M") %>
+        <%= my_answer.created_at.strftime("%d.%m.%y %H:%M") %>
       </p>
     </div>
 

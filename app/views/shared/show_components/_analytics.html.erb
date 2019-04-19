@@ -1,0 +1,408 @@
+<% poll = @poll %>
+<% cat_color = Category.find(@poll.category_id).color %>
+
+<div class="show-row row">
+
+  <div class="show-comp col-12 col-md-6">
+    <h3>Gender</h3>
+    <canvas id="analGender" class="show-chart"></canvas>
+
+    <!-- CHART -->
+      <% poll_options = poll.options.map { |option| option.length > 15 ? "     #{option[0,15].sub(/\S/, &:upcase)}.." : "    #{option.sub(/\S/, &:upcase)}" } %>
+      <% poll_data = poll.gender_stats %>
+
+      <% women_bar_colors = Array.new(poll.options.length, 'rgba(181,141,175,0.4)') %>
+      <% women_bar_line_colors = Array.new(poll.options.length, 'rgba(181,141,175,0.8)') %>
+
+      <% men_bar_colors = Array.new(poll.options.length, 'rgba(141,158,181,0.4)') %>
+      <% men_bar_line_colors = Array.new(poll.options.length, 'rgba(141,158,181,0.8)') %>
+
+      <script>
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+        Chart.defaults.global.defaultFontSize = 11;
+
+        var ctx = document.getElementById(`analGender`).getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <%= poll_options.to_json.html_safe %>,
+                fillOpacity: .8,
+                datasets: [{
+                    label: 'Women',
+                    data: <%= poll_data[:women].to_json.html_safe %>,
+                    backgroundColor: <%= women_bar_colors.to_json.html_safe %>,
+                    borderColor: <%= women_bar_line_colors.to_json.html_safe %>,
+                    borderWidth: 1
+                },
+                {
+                    label: 'Men',
+                    data: <%= poll_data[:men].to_json.html_safe %>,
+                    backgroundColor: <%= men_bar_colors.to_json.html_safe %>,
+                    borderColor: <%= men_bar_line_colors.to_json.html_safe %>,
+                    borderWidth: 1
+                }]
+            },
+            animation:{
+              duration: 1
+            },
+            options: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 10,
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true,
+                          min: 0, // it is for ignoring negative step.
+                          callback: function(value, index, values) {
+                              if (Math.floor(value) === value) {
+                                  return value;
+                              }
+                          }
+                      },
+                      gridLines: {
+                          color: 'rgba(150,150,150,0.6)',
+                          display:false
+                      }
+                  }],
+                  xAxes: [{
+                      ticks: {
+                          maxRotation: 45,
+                          minRotation: 45
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      },
+                  }]
+              }
+            }
+        });
+      </script>
+    <!-- ----- -->
+  </div>
+
+  <div class="show-comp col-12 col-md-6">
+    <h3>Age</h3>
+    <canvas id="analAge" class="show-chart"></canvas>
+
+    <!-- CHART -->
+      <% poll_options = poll.options.map { |option| option.length > 15 ? "     #{option[0,15].sub(/\S/, &:upcase)}.." : "    #{option.sub(/\S/, &:upcase)}" } %>
+      <% poll_data = poll.age_stats %>
+
+      <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'] %>
+      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+
+      <script>
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+        Chart.defaults.global.defaultFontSize = 11;
+
+        var ctx = document.getElementById(`analAge`).getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <%= poll_options.to_json.html_safe %>,
+                fillOpacity: .8,
+                datasets: [{
+                    label: '<25',
+                    data: <%= poll_data[:m25].to_json.html_safe %>,
+                    backgroundColor: <%= bar_colors[0].to_json.html_safe %>,
+                    borderColor: <%= bar_line_color.to_json.html_safe %>,
+                    borderWidth: 1
+                },
+                {
+                    label: '<35',
+                    data: <%= poll_data[:m35].to_json.html_safe %>,
+                    backgroundColor: <%= bar_colors[1].to_json.html_safe %>,
+                    borderColor: <%= bar_line_color.to_json.html_safe %>,
+                    borderWidth: 1
+                },
+                {
+                    label: '<45',
+                    data: <%= poll_data[:m45].to_json.html_safe %>,
+                    backgroundColor: <%= bar_colors[2].to_json.html_safe %>,
+                    borderColor: <%= bar_line_color.to_json.html_safe %>,
+                    borderWidth: 1
+                },
+                {
+                    label: '<55',
+                    data: <%= poll_data[:m55].to_json.html_safe %>,
+                    backgroundColor: <%= bar_colors[3].to_json.html_safe %>,
+                    borderColor: <%= bar_line_color.to_json.html_safe %>,
+                    borderWidth: 1
+                },
+                {
+                    label: '>55',
+                    data: <%= poll_data[:m65].to_json.html_safe %>,
+                    backgroundColor: <%= bar_colors[4].to_json.html_safe %>,
+                    borderColor: <%= bar_line_color.to_json.html_safe %>,
+                    borderWidth: 1
+                }]
+            },
+            animation:{
+              duration: 1
+            },
+            options: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 10,
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      stacked: true,
+                      ticks: {
+                          beginAtZero: true,
+                          min: 0, // it is for ignoring negative step.
+                          callback: function(value, index, values) {
+                              if (Math.floor(value) === value) {
+                                  return value;
+                              }
+                          }
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      }
+                  }],
+                  xAxes: [{
+                      stacked: true,
+                      ticks: {
+                          maxRotation: 45,
+                          minRotation: 45
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      },
+                  }]
+              }
+            }
+        });
+      </script>
+    <!-- ----- -->
+  </div>
+
+  <div class="show-comp col-12 col-md-6">
+    <h3>Top Professions</h3>
+    <canvas id="analProf" class="show-chart"></canvas>
+
+    <!-- CHART -->
+      <% poll_options = poll.options.map { |option| option.length > 15 ? "#{option[0,15].sub(/\S/, &:upcase)}.." : "#{option.sub(/\S/, &:upcase)}" } %>
+      <% poll_profs = poll.top_profs.map { |i| i[0] } %>
+      <% poll_data = poll.prof_stats %>
+
+      <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'].take(poll_options.size) %>
+      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+
+      <script>
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+        Chart.defaults.global.defaultFontSize = 11;
+
+        var ctx = document.getElementById(`analProf`).getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: <%= poll_profs.to_json.html_safe %>,
+                fillOpacity: .8,
+                datasets: [{
+                              label: <%= poll_options[0].to_json.html_safe %>,
+                              data: <%= poll_data[0].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[0].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[1].to_json.html_safe %>,
+                              data: <%= poll_data[1].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[1].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[2].to_json.html_safe %>,
+                              data: <%= poll_data[2].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[2].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[3].to_json.html_safe %>,
+                              data: <%= poll_data[3].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[3].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[4].to_json.html_safe %>,
+                              data: <%= poll_data[4].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[4].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          }].slice(0, <%= poll_options.size %>)
+            },
+            animation:{
+              duration: 1
+            },
+            options: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 10,
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      stacked: true,
+                      ticks: {
+                          beginAtZero: true,
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      }
+                  }],
+                  xAxes: [{
+                      stacked: true,
+                      ticks: {
+                          maxRotation: 0,
+                          minRotation: 0,
+                          beginAtZero: true,
+                          callback: function(value, index, values) {
+                              if (Math.floor(value) === value) {
+                                  return value;
+                              }
+                          }
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      },
+                  }]
+              }
+            }
+        });
+      </script>
+    <!-- ----- -->
+  </div>
+
+  <div class="show-comp col-12 col-md-6">
+    <h3>Top Countries</h3>
+    <canvas id="analCountries" class="show-chart"></canvas>
+
+    <!-- CHART -->
+      <% poll_options = poll.options.map { |option| option.length > 15 ? "#{option[0,15].sub(/\S/, &:upcase)}.." : "#{option.sub(/\S/, &:upcase)}" } %>
+      <% poll_profs = poll.top_countries.map { |i| i[0] } %>
+      <% poll_data = poll.country_stats %>
+
+      <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'].take(poll_options.size) %>
+      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+
+      <script>
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
+        Chart.defaults.global.defaultFontSize = 11;
+
+        var ctx = document.getElementById(`analCountries`).getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: <%= poll_profs.to_json.html_safe %>,
+                fillOpacity: .8,
+                datasets: [{
+                              label: <%= poll_options[0].to_json.html_safe %>,
+                              data: <%= poll_data[0].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[0].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[1].to_json.html_safe %>,
+                              data: <%= poll_data[1].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[1].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[2].to_json.html_safe %>,
+                              data: <%= poll_data[2].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[2].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[3].to_json.html_safe %>,
+                              data: <%= poll_data[3].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[3].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          },
+                          {
+                              label: <%= poll_options[4].to_json.html_safe %>,
+                              data: <%= poll_data[4].to_json.html_safe %>,
+                              backgroundColor: <%= bar_colors[4].to_json.html_safe %>,
+                              borderColor: <%= bar_line_color.to_json.html_safe %>,
+                              borderWidth: 1
+                          }].slice(0, <%= poll_options.size %>)
+            },
+            animation:{
+              duration: 1
+            },
+            options: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 10,
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      stacked: true,
+                      ticks: {
+                          beginAtZero: true,
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      }
+                  }],
+                  xAxes: [{
+                      stacked: true,
+                      ticks: {
+                          maxRotation: 0,
+                          minRotation: 0,
+                          beginAtZero: true,
+                          callback: function(value, index, values) {
+                              if (Math.floor(value) === value) {
+                                  return value;
+                              }
+                          }
+                      },
+                      gridLines: {
+                          display:false,
+                          color: 'rgba(150,150,150,0.6)'
+                      },
+                  }]
+              }
+            }
+        });
+      </script>
+    <!-- ----- -->
+  </div>
+
+</div>

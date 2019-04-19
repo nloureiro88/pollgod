@@ -74,6 +74,144 @@ class Poll < ApplicationRecord
     result_hash
   end
 
+  def gender_stats
+    result_hash = {}
+    result_hash[:men] = []
+    result_hash[:women] = []
+
+    self.options.each_with_index do |_opt, index|
+      answers = Answer.where("status != 'deleted' AND poll_id = ? AND answer = ?", self.id, index.to_s)
+      result_hash[:men] << answers.select { |a| a.user.gender == 'Male' }.count
+      result_hash[:women] << answers.select { |a| a.user.gender == 'Female' }.count
+    end
+    result_hash
+  end
+
+  def age_stats
+    result_hash = Hash.new { |h, k| h[k] = [] }
+
+    self.options.each_with_index do |_opt, index|
+      answers = Answer.where("status != 'deleted' AND poll_id = ? AND answer = ?", self.id, index.to_s)
+      result_hash[:m25] << answers.select { |a| a.user.age < 25 }.count
+      result_hash[:m35] << answers.select { |a| a.user.age >= 25 && a.user.age < 35 }.count
+      result_hash[:m45] << answers.select { |a| a.user.age >= 35 && a.user.age < 45 }.count
+      result_hash[:m55] << answers.select { |a| a.user.age >= 45 && a.user.age < 55 }.count
+      result_hash[:m55] << answers.select { |a| a.user.age >= 55 }.count
+    end
+    result_hash
+  end
+
+  def top_profs
+    answers = Answer.where(poll: self, status: 'active').order(:created_at)
+    prof_hash = Hash.new(0)
+
+    answers.each do |ans|
+      user_prof = ans.user.profession
+      prof_hash[user_prof] += 1
+    end
+
+    prof_hash.sort_by {|k, v| [-v, k] }.take(8)
+  end
+
+  def prof_stats
+    profs = top_profs
+    result_hash = Hash.new { |h, k| h[k] = [] }
+
+    profs.each do |prof, _value|
+      self.options.each_with_index do |_opt, index|
+        result_hash[index] << User.joins('INNER JOIN answers ON users.id = answers.user_id')
+                                  .where('profession = ? AND answers.poll_id = ? AND answers.status = ? AND answers.answer = ?',
+                                          prof, self, 'active', index.to_s).count
+      end
+    end
+
+    result_hash
+  end
+
+  def top_countries
+    answers = Answer.where(poll: self, status: 'active').order(:created_at)
+    country_hash = Hash.new(0)
+
+    answers.each do |ans|
+      user_country = ans.user.location
+      country_hash[user_country] += 1
+    end
+
+    country_hash.sort_by {|k, v| [-v, k] }.take(8)
+  end
+
+  def country_stats
+    countries = top_countries
+    result_hash = Hash.new { |h, k| h[k] = [] }
+
+    countries.each do |country, _value|
+      self.options.each_with_index do |_opt, index|
+        result_hash[index] << User.joins('INNER JOIN answers ON users.id = answers.user_id')
+                                  .where('location = ? AND answers.poll_id = ? AND answers.status = ? AND answers.answer = ?',
+                                          country, self, 'active', index.to_s).count
+      end
+    end
+
+    result_hash
+  end
+
+  def answers_evo
+    result_hash = Hash.new(0)
+    answers = Answer.where(poll: self, status: 'active').order(:created_at)
+
+    start_date = answers.size.zero? ? Date.parse(self.created_at.to_s) : Date.parse(answers.first.created_at.to_s)
+    end_date = answers.size.zero? ? Date.parse(self.deadline.to_s) : Date.parse(answers.last.created_at.to_s)
+    start_date -= 1 if start_date == end_date
+    date = start_date
+
+    answer_hash = Hash.new(0)
+    answer_date = answers.map { |ans| Date.parse(ans.created_at.to_s) }
+    answer_input = answer_date.each { |ad| answer_hash[ad.strftime("%d.%m.%y")] += 1 }
+    cumulative = 0
+
+    until date == end_date + 1
+      date_st = date.strftime("%d.%m.%y")
+      cumulative += answer_hash[date_st]
+      result_hash["   #{date_st}"] = cumulative
+      date += 1
+    end
+
+    result_hash
+  end
+
+  def like_evo
+    answers = Answer.where(poll: self, status: 'active').order(:created_at)
+
+    start_date = answers.size.zero? ? Date.parse(self.created_at.to_s) : Date.parse(answers.first.created_at.to_s)
+    end_date = answers.size.zero? ? Date.parse(self.deadline.to_s) : Date.parse(answers.last.created_at.to_s)
+    start_date -= 1 if start_date == end_date
+    date = start_date
+
+    a_dates = []
+    a_loved = []
+    a_funny = []
+    a_interest = []
+
+    until date == end_date + 1
+      a_dates << "   #{date.strftime("%d.%m.%y")}"
+      a_loved << { x: " #{date.strftime('%d.%m.%y')}",
+                   y: "#{ Answer.where("f_love = true AND status = 'active' AND poll_id = ? AND created_at <= ?", self.id, date + 1).count + 0.2}" }
+      a_funny << { x: " #{date.strftime('%d.%m.%y')}",
+                   y: "#{ Answer.where("f_funny = true AND status = 'active' AND poll_id = ? AND created_at <= ?", self.id, date + 1).count + 0.1}" }
+      a_interest << { x: " #{date.strftime('%d.%m.%y')}",
+                      y: "#{ Answer.where("f_interest = true AND status = 'active' AND poll_id = ? AND created_at <= ?", self.id, date + 1).count}" }
+
+      date += 1
+    end
+
+    result_hash = {}
+    result_hash[:dates] = a_dates
+    result_hash[:loved] = a_loved
+    result_hash[:funny] = a_funny
+    result_hash[:interesting] = a_interest
+    result_hash
+  end
+
   private
 
   def val_options

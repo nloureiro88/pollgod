@@ -70,10 +70,10 @@ class User < ApplicationRecord
       c_date = Date.new(c_year, c_month, 1)
 
       if type == 'poll'
-        evodata[c_date.strftime("%b %y")] = Poll.where('user_id = ? AND status != ? AND created_at >= ? AND created_at < ?',
+        evodata[c_date.strftime("%b.%y")] = Poll.where('user_id = ? AND status != ? AND created_at >= ? AND created_at < ?',
                                                  self.id, 'deleted', c_date, c_date + 1.month).count
       else
-        evodata[c_date.strftime("%b %y")] = Answer.where('user_id = ? AND status != ? AND created_at >= ? AND created_at < ?',
+        evodata[c_date.strftime("%b.%y")] = Answer.where('user_id = ? AND status != ? AND created_at >= ? AND created_at < ?',
                                                    self.id, 'deleted', c_date, c_date + 1.month).count
       end
     end
