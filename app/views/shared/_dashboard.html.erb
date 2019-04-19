@@ -1,5 +1,8 @@
 <div class="container list-page dashboard">
 
+    <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: user.id).last %>
+    <% rs2 = Friend.where(follow_user_id: current_user.id, active_user_id: user.id).last %>
+
     <div class="column center-column">
 
       <% if user == current_user %>
@@ -39,12 +42,13 @@
               <li>Location: <strong><%= user.location %></strong></li>
               <li>Profession: <strong><%= user.profession %></strong></li>
               <li>Hobbies: <strong><%= user.hobbies.split(", ").take(3).map { |hob| hob.downcase.capitalize }.join(", ") %><%="..." if user.hobbies.split(", ").length > 3 %><%="-" if user.hobbies.split(", ").length.zero? %></strong></li>
+              <% if current_user.subscription == "pro" && !rs.nil? && rs.status == 'active' %>
+                <li>Email: <strong> <%= mail_to user.email %></strong></li>
+              <% end %>
               <li>Subscription: <strong><%= user.subscription.capitalize %></strong></li>
             </ul>
 
             <div class="buttons">
-              <% rs = Friend.where(active_user_id: current_user.id, follow_user_id: user.id).last %>
-              <% rs2 = Friend.where(follow_user_id: current_user.id, active_user_id: user.id).last %>
 
               <% if user == current_user %>
                 <% if user.subscription == "free" %>
@@ -60,6 +64,7 @@
                   <% elsif !rs2.nil? && rs2.status == 'active' %>
                     <%= link_to "Follow", friend_add_path(friend_id: user.id), class: "btn btn-up btn-fill" %>
                     <%= link_to "Block", friend_block_path(friend_id: user.id), class: "btn btn-up", data: { confirm: "Are you sure you want to permanently block this user (you will be automatically blocked as well)?" } %>
+                  <% elsif (!rs.nil? && rs.status == 'blocked') || (!rs2.nil? && rs2.status == 'blocked') %>
                   <% else %>
                     <%= link_to "Follow", friend_add_path(friend_id: user.id), class:"btn btn-up btn-fill" %>
                   <% end %>

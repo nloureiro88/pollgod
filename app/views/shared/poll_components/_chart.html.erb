@@ -5,7 +5,7 @@
 
   <canvas id="myChart-<%= poll.id %>" ></canvas>
 
-  <% poll_options = poll.options.map { |option| option.length > 15 ? "     #{option[0,15].sub(/\S/, &:upcase)}.." : "     #{option.sub(/\S/, &:upcase)}" } %>
+  <% poll_options = poll.options.map { |option| option.length > 12 ? "  #{option[0,12].sub(/\S/, &:upcase)}.." : "  #{option.sub(/\S/, &:upcase)}" } %>
   <% poll_options.each { |po| po.strip if poll.options.count > 3 } %>
 
   <% unless poll.answers.count.zero? %>
@@ -26,7 +26,7 @@
 
         var ctx = document.getElementById(`myChart-<%= poll.id %>`).getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
                 labels: <%= poll_options.to_json.html_safe %>,
                 fillOpacity: .8,
@@ -48,7 +48,7 @@
               responsive: true,
               maintainAspectRatio: false,
               scales: {
-                  yAxes: [{
+                  xAxes: [{
                       ticks: {
                           beginAtZero: true,
                           display: false
@@ -58,10 +58,10 @@
                           display:false
                       }
                   }],
-                  xAxes: [{
+                  yAxes: [{
                       ticks: {
-                          maxRotation: 60,
-                          minRotation: 60
+                          maxRotation: 0,
+                          minRotation: 0
                       },
                       gridLines: {
                           display:false,

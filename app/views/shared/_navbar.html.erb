@@ -68,7 +68,7 @@
       <% end %>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarOption" aria-controls="navbarOption" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-poll" style= "<%= 'color: #9FCDD0 !important' if outer_actions.include?(action_name) %>"></i>
+        <i class="fas fa-poll" style= "<%= 'color: #9FCDD0 !important' if (outer_actions.include?(action_name) && controller_name == 'polls') %>"></i>
       </button>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarProfile" aria-controls="navbarProfile" aria-expanded="false" aria-label="Toggle navigation">
         <% if current_user.photo.file.nil? %>

@@ -6,7 +6,7 @@
   max-width: 900px;
   padding: 2rem;
   margin: 2rem auto;
-  margin-top: 3rem !important;
+  margin-top: 2rem !important;
 
   h3.title {
     background-color: $dark-blue;
@@ -225,16 +225,18 @@
 }
 
 @media screen and (max-width: 768px) {
-  .desktop {
-    display: none !important;
-  }
+  .show-container {
+    .desktop {
+      display: none !important;
+    }
 
-  .mobile {
-    display: flex !important;
-    flex-direction: column;
+    .mobile {
+      display: flex !important;
+      flex-direction: column;
 
-    div {
-      margin: 0.25rem auto;
+      div {
+        margin: 0.25rem auto;
+      }
     }
   }
 }

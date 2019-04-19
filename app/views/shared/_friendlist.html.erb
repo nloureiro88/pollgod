@@ -19,7 +19,7 @@
             <% friend_stats = friend.stats %>
             <ul class="friend-stats">
               <li title="Followers" data-toggle="tooltip"><i class="fas fa-users"></i> <%= friend_stats[:followers] %></li>
-              <li title="Polls" data-toggle="tooltip"><i class="fas fa-comment-alt"></i> <%= friend_stats[:polls] %></li>
+              <li title="Polls" data-toggle="tooltip"><i class="fas fa-poll-h"></i> <%= friend_stats[:polls] %></li>
               <li title="Answers" data-toggle="tooltip"><i class="fas fa-vote-yea"></i> <%= friend_stats[:answers] %></li>
               <li title="Tickets" data-toggle="tooltip"><i class="fas fa-ticket-alt"></i> <%= number_with_delimiter(friend_stats[:tickets], delimiter: '.') %></li>
             </ul>

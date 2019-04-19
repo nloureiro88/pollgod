@@ -41,8 +41,13 @@ class PollsController < ApplicationController
   end
 
   def answered
-    polls_answered_ids = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).order('created_at DESC').pluck(:poll_id)
-    polls_answered = Poll.where('id IN (?) AND category_id IN (?)', polls_answered_ids, @category_list)
+    # polls_answered_ids = Answer.where("status != 'deleted' AND user_id = ?", current_user.id).order('created_at DESC').pluck(:poll_id)
+    # polls_answered = Poll.where('id IN (?) AND category_id IN (?)', polls_answered_ids, @category_list)
+
+    polls_answered = Poll.joins('INNER JOIN answers ON polls.id = answers.poll_id')
+                         .where('category_id IN (?) AND answers.status != ? AND answers.user_id = ?',
+                          @category_list, 'deleted', current_user.id)
+                         .order('answers.created_at DESC')
     @polls = params[:query].present? ? polls_answered.poll_search(params[:query]) : polls_answered
   end
 
