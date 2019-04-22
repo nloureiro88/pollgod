@@ -8,7 +8,7 @@
 <canvas id="progressChart-<%= type %>" class="dash-chart"></canvas>
 
 <script>
-  Chart.defaults.global.defaultFontColor = 'rgba(141,179,181,0.6)';
+  Chart.defaults.global.defaultFontColor = 'rgba(141,179,181,0.8)';
   Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
   Chart.defaults.global.defaultFontSize = 11;
 
@@ -17,12 +17,12 @@
       type: 'line',
       data: {
           labels: <%= data.keys.to_json.html_safe %>,
-          fillOpacity: .8,
+          fillOpacity: 1,
           datasets: [{
               label: '',
               data: <%= data.values.to_json.html_safe %>,
-              backgroundColor: 'rgba(141,179,181,0.6)',
-              borderColor: 'rgba(141,179,181,0.6)',
+              backgroundColor: 'rgba(141,179,181,0.8)',
+              borderColor: 'rgba(141,179,181,0.8)',
               borderWidth: 1
           }]
       },
@@ -48,7 +48,7 @@
                 },
                 gridLines: {
                     display:false,
-                    color: 'rgba(141,179,181,0.6)'
+                    color: 'rgba(141,179,181,0.8)'
                 }
             }],
             xAxes: [{
@@ -58,7 +58,7 @@
                 },
                 gridLines: {
                     display: false,
-                    color: 'rgba(141,179,181,0.6)'
+                    color: 'rgba(141,179,181,0.8)'
                 },
             }]
         }

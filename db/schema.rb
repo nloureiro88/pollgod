@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2019_04_12_174106) do
   create_table "friends", force: :cascade do |t|
     t.integer "active_user_id"
     t.integer "follow_user_id"
-    t.string "status"
+    t.string "status", default: "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

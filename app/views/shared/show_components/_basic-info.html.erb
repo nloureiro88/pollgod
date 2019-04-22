@@ -11,14 +11,14 @@
       <% poll_options = poll.options.map { |option| option.length > 15 ? "    #{option[0,15].sub(/\S/, &:upcase)}.." : "    #{option.sub(/\S/, &:upcase)}" } %>
       <% poll_options.each{ |po| po.strip } if poll.options.count <= 3 %>
 
-      <% bar_colors = Array.new(poll.options.length, 'rgba(141,179,181,0.4)') %>
+      <% bar_colors = Array.new(poll.options.length, 'rgba(141,179,181,0.5)') %>
       <% bar_line_colors = Array.new(poll.options.length, 'rgba(141,179,181,0.8)') %>
 
       <% if poll.options.count > 3 %>
 
         <!-- Bar Chart -->
           <script>
-            Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+            Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
             Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
             Chart.defaults.global.defaultFontSize = 11;
 
@@ -27,7 +27,7 @@
                 type: 'bar',
                 data: {
                     labels: <%= poll_options.to_json.html_safe %>,
-                    fillOpacity: .8,
+                    fillOpacity: 1,
                     datasets: [{
                         label: '',
                         data: <%= poll.results.values.to_json.html_safe %>,
@@ -58,7 +58,7 @@
                           },
                           gridLines: {
                               display:false,
-                              color: 'rgba(150,150,150,0.6)'
+                              color: 'rgba(150,150,150,0.8)'
                           }
                       }],
                       xAxes: [{
@@ -68,7 +68,7 @@
                           },
                           gridLines: {
                               display:false,
-                              color: 'rgba(150,150,150,0.6)'
+                              color: 'rgba(150,150,150,0.8)'
                           },
                       }]
                   }
@@ -81,7 +81,7 @@
 
         <!-- Pie Chart -->
           <script>
-            Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+            Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
             Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
             Chart.defaults.global.defaultFontSize = 11;
 
@@ -128,7 +128,7 @@
       <% result_hash = poll.answers_evo %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(183,183,183,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -137,7 +137,7 @@
             type: 'line',
             data: {
                 labels: <%= result_hash.keys.to_json.html_safe %>,
-                fillOpacity: .8,
+                fillOpacity: 1,
                 datasets: [{
                     label: '',
                     data: <%= result_hash.values.to_json.html_safe %>,
@@ -173,7 +173,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(141,179,181,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       }
                   }],
                   xAxes: [{
@@ -183,7 +183,7 @@
                       },
                       gridLines: {
                           display: false,
-                          color: 'rgba(141,179,181,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
@@ -205,7 +205,7 @@
       <% interesting_arr = poll.like_evo[:interesting] %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(141,179,181,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -214,7 +214,7 @@
             type: 'line',
             data: {
                 labels: <%= dates_arr.to_json.html_safe %>,
-                fillOpacity: .8,
+                fillOpacity: 1,
                 datasets: [{
                     label: 'Loved',
                     fill: false,
@@ -270,7 +270,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(141,179,181,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       }
                   }],
                   xAxes: [{
@@ -280,7 +280,7 @@
                       },
                       gridLines: {
                           display: false,
-                          color: 'rgba(141,179,181,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
@@ -301,7 +301,7 @@
       <% label_data = ['Loved', 'Funny', 'Interesting'] %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 

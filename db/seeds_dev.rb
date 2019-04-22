@@ -79,11 +79,10 @@ Category.destroy_all
 Friend.destroy_all
 User.destroy_all
 
-# puts 'Cleaning up Cloudinary via API...'
-# Cloudinary::Api.delete_all_resources
+puts 'Cleaning up Cloudinary via API...'
+Cloudinary::Api.delete_all_resources
 
-filepath_users = './db/files/users_2.csv'
-filepath_polls = './db/files/polls.csv'
+filepath_users = './db/files/users.csv'
 
 puts "Creating categories..."
 
@@ -111,19 +110,19 @@ HOBBIES = ['cinema', 'music', 'books', 'travel', 'gaming',
 
 csv_options = { col_sep: ';' }
 CSV.foreach(filepath_users, csv_options) do |row|
-  new_user_email = "#{row[0].downcase}.#{row[1].downcase}@pollgod.org"
+  new_user_email = "#{row[0].downcase}.#{row[1].downcase}@lewagon.org"
   new_user_hobbies = rand(0..4)
-  new_user = User.new(password: 'pg54321',
+  new_user = User.new(password: '123456',
                       email: new_user_email,
                       first_name: row[0],
                       last_name: row[1],
-                      gender: row[2].capitalize,
-                      birthdate: Faker::Date.birthday(row[3].to_i, row[3].to_i + 1),
-                      location: row[4],
+                      gender: row[4].capitalize,
+                      birthdate: Faker::Date.birthday(21, 50),
+                      location: row[2],
                       profession: JOBS.sample,
                       hobbies: HOBBIES.sample(new_user_hobbies).join(", "),
-                      subscription: 'free')
-  new_user.remote_photo_url = row[5]
+                      subscription: ['free', 'premium', 'pro'].sample)
+  new_user.remote_photo_url = row[3]
   new_user.save!
 end
 
@@ -139,26 +138,35 @@ end
 
 puts "Creating polls..."
 
-csv_options = { col_sep: ';' }
-CSV.foreach(filepath_polls, csv_options) do |row|
+ANSWERS = [['yes', 'no'],
+           ['yes', 'no', 'maybe'],
+           ['yesterday', 'tomorrow', 'next week', 'next month'],
+           ['very low', 'low', 'moderate', 'high', 'very high']]
 
-  new_poll = Poll.new(user: User.all.sample,
-                      category: Category.find_by(name: row[0]),
-                      points: row[2],
-                      qtype: row[1].downcase,
-                      question: row[3],
-                      optype: 'SCP', # Add other options in the future
-                      options: row[4].split(", "),
-                      tags: row[5].split(", "),
-                      deadline: row[6] == "Random" ? Faker::Time.between(5.months.from_now, 10.months.from_now) : DateTime.strptime(row[6], "%d-%m-%Y"))
+User.all.each do |user|
+  nr_polls = rand(1..5)
+
+  nr_polls.times do
+    new_poll_tags = rand(0..4)
+    random_date = user.subscription == 'free' ? 7 : 30
+    new_poll = Poll.new(user: user,
+                        category: Category.all.sample,
+                        points: user.subscription == 'free' ? 1 : rand(5..100),
+                        qtype: user.subscription == 'free' ? 'open' : ['closed', 'sponsored'].sample, # To test with private in the future
+                        question: Faker::GreekPhilosophers.quote.tr(".", "") + "?",
+                        optype: 'SCP', # Add other options in the future
+                        options: ANSWERS.sample,
+                        tags: HOBBIES.sample(new_poll_tags),
+                        image: Faker::Placeholdit.image('280x280', 'jpeg', :random),
+                        deadline: Faker::Time.between(Date.today + 1, Date.today + random_date, :all))
   new_poll.created_at = Faker::Time.between(12.months.ago, Date.today - 1, :all)
-  p new_poll.question
   new_poll.save!
+  end
 end
 
 puts "Creating friendships... :)"
 
-(User.count * 5).times do
+200.times do
   friends = User.all.sample(2)
   rs = Friend.new(active_user_id: friends[0].id, follow_user_id: friends[1].id, status: 'active')
   rs.save! if rs.valid?
@@ -167,7 +175,7 @@ end
 puts "Creating answers..."
 
 Poll.all.each do |poll|
-  answer_count = rand(5..15)
+  answer_count = rand(4..12)
   answer_users = []
   counter = 0
 

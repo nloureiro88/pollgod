@@ -18,7 +18,7 @@
       <% men_bar_line_colors = Array.new(poll.options.length, 'rgba(141,158,181,0.8)') %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -27,7 +27,7 @@
             type: 'bar',
             data: {
                 labels: <%= poll_options.to_json.html_safe %>,
-                fillOpacity: .8,
+                fillOpacity: 1,
                 datasets: [{
                     label: 'Women',
                     data: <%= poll_data[:women].to_json.html_safe %>,
@@ -67,7 +67,7 @@
                           }
                       },
                       gridLines: {
-                          color: 'rgba(150,150,150,0.6)',
+                          color: 'rgba(150,150,150,0.8)',
                           display:false
                       }
                   }],
@@ -78,7 +78,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
@@ -97,10 +97,10 @@
       <% poll_data = poll.age_stats %>
 
       <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'] %>
-      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+      <% bar_line_color = 'rgba(150,150,150,0.8)' %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -109,7 +109,7 @@
             type: 'bar',
             data: {
                 labels: <%= poll_options.to_json.html_safe %>,
-                fillOpacity: .8,
+                fillOpacity: 1,
                 datasets: [{
                     label: '<25',
                     data: <%= poll_data[:m25].to_json.html_safe %>,
@@ -172,7 +172,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       }
                   }],
                   xAxes: [{
@@ -183,7 +183,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
@@ -203,10 +203,10 @@
       <% poll_data = poll.prof_stats %>
 
       <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'].take(poll_options.size) %>
-      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+      <% bar_line_color = 'rgba(150,150,150,0.8)' %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -215,7 +215,7 @@
             type: 'horizontalBar',
             data: {
                 labels: <%= poll_profs.to_json.html_safe %>,
-                fillOpacity: .8,
+                fillOpacity: 1,
                 datasets: [{
                               label: <%= poll_options[0].to_json.html_safe %>,
                               data: <%= poll_data[0].to_json.html_safe %>,
@@ -272,7 +272,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       }
                   }],
                   xAxes: [{
@@ -289,7 +289,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
@@ -309,10 +309,10 @@
       <% poll_data = poll.country_stats %>
 
       <% bar_colors = ['rgba(181,141,175,0.4)', 'rgba(181,160,141,0.4)', 'rgba(183,183,183,0.4)', 'rgba(141,179,181,0.4)', 'rgba(141,158,181,0.4)'].take(poll_options.size) %>
-      <% bar_line_color = 'rgba(150,150,150,0.6)' %>
+      <% bar_line_color = 'rgba(150,150,150,0.8)' %>
 
       <script>
-        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.6)';
+        Chart.defaults.global.defaultFontColor = 'rgba(150,150,150,0.8)';
         Chart.defaults.global.defaultFontFamily = 'Quicksand', "Helvetica", "sans-serif";
         Chart.defaults.global.defaultFontSize = 11;
 
@@ -378,7 +378,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       }
                   }],
                   xAxes: [{
@@ -395,7 +395,7 @@
                       },
                       gridLines: {
                           display:false,
-                          color: 'rgba(150,150,150,0.6)'
+                          color: 'rgba(150,150,150,0.8)'
                       },
                   }]
               }
