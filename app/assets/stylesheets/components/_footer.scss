@@ -37,7 +37,10 @@ footer {
   }
 
   .modal {
-    p { color: $dark-gray !important; }
+    p {
+      color: $dark-gray !important;
+      text-align: left;
+    }
 
     button, a {
       border: none;
@@ -73,6 +76,25 @@ footer {
 
       &:hover {
         color: $dark-gray;
+      }
+    }
+
+    .modal {
+      p {
+        font-size: 0.75rem;
+      }
+
+      h5 {
+        color: $gray;
+      }
+
+      button, a {
+        border: none;
+        color: $gray;
+      }
+
+      .btn-secondary {
+        color: white !important;
       }
     }
   }

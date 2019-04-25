@@ -1,1 +1,346 @@
-// Specific CSS for your home-page
+.homepage {
+
+  #particles-js {
+    height: 100%;
+    background-color: $light-blue;
+  }
+
+  .banner {
+    background-image: linear-gradient(rgba(20,20,20,0.5), rgba(20,20,20,0.7)), asset_url('banner.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-color: $dark-gray;
+    margin-top: -8rem !important;
+    width: 100%;
+    height: 95vh;
+    max-height: 95vh;
+
+    .banner-info {
+      width: 80%;
+      max-width: 80%;
+      margin: 0 auto;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    img {
+      max-width: 250px;
+      margin-top: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      margin: 0 auto;
+      margin-top: 1rem;
+
+      .btn {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    h2 {
+      color: $light-gray;
+      text-shadow: 0 0 1px #555555;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      margin-top: 0 !important;
+      font-weight: lighter;
+    }
+  }
+
+  .more-container {
+    background-color: $dark-gray;
+    display: table;
+    justify-content: center;
+    height: 5vh;
+    width: 100%;
+    color: $dark-blue;
+
+    .more {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+
+  .steps, .step {
+    letter-spacing: 2px;
+    line-height: 2rem;
+
+    h3 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h4 {
+      margin: 1.5rem 0;
+      font-weight: bolder;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .steps-det {
+    max-width: 30% !important;
+    padding: 1.5rem;
+    margin: 1rem auto;
+    text-align: center;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px $light-gray;
+    color: $dark-gray;
+
+    &:hover {
+      filter: brightness(85%);
+      transition: all 0.3s ease-in-out;
+    }
+
+    img {
+      max-width: 100%;
+      height: 150px;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .text-cont {
+    padding: 2rem;
+    max-width: 500px;
+    // text-align: justify;
+    // text-justify: inter-word;
+
+    h3 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .image-cont {
+    padding: 2rem;
+    max-width: 800px;
+
+    img {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+  }
+
+  .step {
+    justify-content: space-around;
+  }
+
+  .w-steps {
+    background-color: $dark-blue;
+
+    h3 {
+      color: $light-blue;
+    }
+  }
+
+  // #w-step-1 {
+  //   background-color: $dark-gray;
+  //   color: rgb(220,220,220);
+  // }
+
+  #w-step-2 {
+    background-color: rgb(220,220,220);
+    color: $dark-gray;
+  }
+
+
+  #w-step-3, #w-step-1 {
+    background-color: white;
+    color: $dark-blue;
+  }
+
+  #w-step-cta {background-color: $light-blue}
+
+
+  .wraps {
+    padding: 4rem 2rem;
+    min-height: 50vh;
+  }
+
+  #w-step-cta {
+    color: #F87666;
+    background-color: $dark-gray;
+    margin-bottom: -2rem;
+
+    .call-to-act {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+      margin: 0 auto;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+      text-align: center;
+      font-weight: bolder;
+      margin: 1rem 0 !important;
+      line-height: auto;
+    }
+  }
+
+  .btn {
+    padding: 0.5rem 2rem;
+    width: 120px;
+    height: auto;
+    border: none;
+    box-shadow: 0 0 2px #555555;
+    margin: 0 2rem;
+    font-size: 1.2rem;
+  }
+
+  .btn-login {
+    background-color: $light-blue;
+    color: $light-gray;
+    // border: 1px solid $light-gray;
+  }
+
+  .btn-register {
+    background-color: #F87666;
+    color: $light-gray;
+    // border: 1px solid $light-gray;
+  }
+
+  .btn-more {
+    background-color: transparent;
+    color: $light-gray;
+    // border: 1px solid $light-gray;
+  }
+}
+
+.footer-home {
+  font-size: 1rem;
+  min-height: 120px;
+  padding: 0 2rem;
+  width: 100vw;
+
+  background-color: $light-blue;
+  color: white;
+
+  a {
+    color: white;
+
+    &:visited {
+      color: white;
+    }
+
+    &:hover {
+      color: $dark-gray;
+    }
+  }
+
+  .modal {
+    p {
+      font-size: 0.75rem;
+    }
+
+    h5 {
+      color: $gray;
+    }
+
+    button, a {
+      border: none;
+      color: $gray;
+    }
+
+    .btn-secondary {
+      color: white !important;
+    }
+  }
+}
+
+.sm-desk, .mobile {
+  display: none;
+}
+
+@media screen and (max-width: 1300px) {
+  .footer-home {
+    justify-content: center !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .homepage {
+    text-align: center;
+
+    .banner {
+      img {
+        margin-top: 4rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .btn {
+      width: 100px;
+      font-size: 1rem;
+      margin: 0 1rem;
+    }
+
+    .lg-desk {display: none}
+    .sm-desk {
+      display: flex;
+    }
+
+    #w-step-cta h4 {
+      font-size: 1rem;
+    }
+  }
+
+  .footer-home {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .banner {
+    img {
+      max-width: 200px !important;
+    }
+  }
+
+  .homepage {
+    .steps {
+      flex-direction: column;
+    }
+
+    .steps-det {
+      width: 80%;
+      max-width:80% !important;
+    }
+  }
+
+  .footer-home {
+    font-size: 0.8rem;
+  }
+}

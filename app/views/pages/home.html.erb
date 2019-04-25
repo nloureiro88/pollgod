@@ -1,2 +1,136 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="homepage">
+
+  <div id="particles-js"></div>
+
+  <div class="banner">
+    <div class="banner-info">
+      <div class="logo">
+        <%= image_tag "logo-home-xl-white.png" %>
+      </div>
+      <h2>Ask anything. Have fun. Win prizes.</h2>
+      <div class="buttons">
+        <%= link_to "Login", new_user_session_path, class: "btn btn-login" %>
+        <%= link_to "Register", new_user_registration_path, class: "btn btn-register" %>
+        <%#= link_to "More...", "#w-steps", class: "btn btn-more" %>
+      </div>
+    </div>
+
+  </div>
+
+    <div class="home-info">
+
+    <div class="more-container">
+      <i class="fas fa-angle-down fa-2x more"></i>
+    </div>
+    <div class="wraps w-steps" id="w-steps">
+
+      <div class="container">
+      <div class="row steps">
+        <div class="steps-det">
+          <%= link_to "#w-step-1" do %>
+            <%= image_tag "step1.svg" %>
+            <h3>Step 1</h3>
+            <p>Answer the polls created by the community...</p>
+          <% end %>
+        </div>
+        <div class="steps-det">
+          <%= link_to "#w-step-2" do %>
+            <%= image_tag "step2.svg" %>
+            <h3>Step 2</h3>
+            <p>Create your own polls and check their results...</p>
+          <% end %>
+        </div>
+        <div class="steps-det">
+          <%= link_to "#w-step-3" do %>
+            <%= image_tag "step3.svg" %>
+            <h3>Step 3</h3>
+            <p>Win tickets to our incredible prize lotery!</p>
+          <% end %>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+  <div class="wraps" id="w-step-1">
+
+    <div class="container">
+    <div class="row step step-1">
+
+      <div class="text-cont col-12 col-lg-6">
+        <h3>Step 1</h3>
+        <h4>Answer the polls created by the community...</h4>
+        <p>Have fun with questions from 8 different categories, from <strong style="color: <%= Category.find_by(name: "Love & Friends").color %>">Love & Friends</strong> and <strong style="color: <%= Category.find_by(name: "Lifestyle").color %>">Lifestyle</strong> to <strong style="color: <%= Category.find_by(name: "Sports").color %>">Sports</strong> or <strong style="color: <%= Category.find_by(name: "Entertainment").color %>">Entertainment</strong>.</p>
+        <p>Whenever you give your answer, you will win tickets to the lottery and gain access to its results, so that you can see how your opinion compares to the other members!</p>
+      </div>
+
+      <div class="image-cont col-12 col-lg-6">
+        <%= image_tag "web-step-1.svg" %>
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+
+  <div class="wraps" id="w-step-2">
+
+    <div class="container">
+    <div class="row step step-2">
+
+      <div class="image-cont col-12 col-lg-6 lg-desk">
+        <%= image_tag "web-step-2.svg" %>
+      </div>
+
+      <div class="text-cont col-12 col-lg-6">
+        <h3>Step 2</h3>
+        <h4>Create your own polls and check their results...</h4>
+        <p>Measure how your friends and the world feel about your favorite topics and questions and get access to <strong>advanced stats</strong> about them.</p>
+        <p>Whenever another member answers your poll, <strong>loves</strong> it or finds it <strong>funny</strong> or <strong>interesting</strong> you will win extra tickets for the lottery.</p>
+      </div>
+
+      <div class="image-cont col-12 col-lg-6 sm-desk">
+        <%= image_tag "web-step-2.svg" %>
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+
+  <div class="wraps" id="w-step-3">
+
+    <div class="container">
+    <div class="row step step-3">
+
+      <div class="text-cont col-12 col-lg-6">
+        <h3>Step 3</h3>
+        <h4>Win tickets to our incredible prize lotery!</h4>
+        <p>Check how many tickets you have gathered in your <strong>dashboard</strong> and <strong>compete with friends and rivals</strong> for the title of PollGod!</p>
+        <p>Participate in our unique prize lotteries and <strong>win the latest and trendiest gadgets</strong> and technology products in the market.</p>
+        <p><em><small>Lotteries will start once the 100.000 user mark is reached!</small></em></p>
+      </div>
+
+      <div class="image-cont col-12 col-lg-6">
+        <%= image_tag "web-step-3.svg" %>
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+
+  <div id="w-step-cta">
+
+    <div class="container">
+    <div class="row call-to-act">
+      <h4>Join NOW the <%= User.count %> members in our community!</h4>
+      <%= link_to "Register", new_user_registration_path, class: "btn btn-register" %>
+    </div>
+    </div>
+
+  </div>
+
+  </div>
+  </div>
+</div>
